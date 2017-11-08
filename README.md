@@ -1,23 +1,32 @@
 # 1base
 1base is the working title for a customer management and content delivery system.
 
-Success! Created frontend at /1base/frontend
-Inside that directory, you can run several commands:
+Installation
+========
+`cd frontend; npm install;`
+`cd ../backend; npm install`
 
-  npm start
+Running the frontend
+========
+`cd frontend`
+
+... then any of the following
+
+  `npm start`
     Starts the development server.
 
-  npm run build
+  `npm run build`
     Bundles the app into static files for production.
 
-  npm test
+  `npm test`
     Starts the test runner.
 
-  npm run eject
-    Removes this tool and copies build dependencies, configuration files
-    and scripts into the app directory. If you do this, you can’t go back!
+Running the backend
+===================
+`cd backend`
 
-We suggest that you begin by typing:
+then
+`make run-local`
 
-  cd frontend
-  npm start
+Testing the backend
+`make test-local`
