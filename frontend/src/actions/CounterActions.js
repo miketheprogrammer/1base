@@ -1,4 +1,4 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../constants/ActionTypes';
+import { INCREMENT_COUNTER, DECREMENT_COUNTER, REFRESH_COUNTER } from '../constants/ActionTypes';
 
 export function increment() {
     return {
@@ -10,6 +10,12 @@ export function decrement() {
     return {
         type: DECREMENT_COUNTER
     };
+}
+
+export function refresh() {
+  return {
+    type: REFRESH_COUNTER
+  }
 }
 
 export function incrementIfOdd() {

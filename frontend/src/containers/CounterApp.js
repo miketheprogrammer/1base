@@ -1,3 +1,4 @@
+import Rx from 'rxjs';
 import React, { Component } from 'react';
 import { bindActionCreators } from '../lib/rx-redux';
 import { connect } from 'react-redux';
@@ -7,6 +8,19 @@ import './CounterApp.css';
 import logo from '../logo.svg';
 
 class CounterApp extends Component {
+  constructor(props){
+    super(props);
+    this.destroy$ = new Rx.Subject();
+  }
+  componentDidMount() {
+    CounterActions.refresh()
+    Rx.Observable
+      .interval(1000)
+      .takeUntil(this.destroy$)
+      .subscribe(() => {
+        CounterActions.refresh()
+      });
+  }
   render() {
     const { counter, dispatch } = this.props;
     return (<div className="App">
