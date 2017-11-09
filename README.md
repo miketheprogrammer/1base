@@ -4,6 +4,8 @@
 First Join our Waffle.io board to support this repo.
 https://waffle.io/miketheprogrammer/1base/join
 
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/eb2dc0acfd16179c0ccfaa4e323bdb5f388994d50b37361e321092035b9ea4e8.svg?columns=all)](https://waffle.io/miketheprogrammer/1base)
+
 Installation
 ========
 `cd frontend; npm install;`
