@@ -4,9 +4,8 @@ import { combineEpics } from 'redux-observable';
 import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../constants/ActionTypes';
 
 export const incrementEpic = action$ => {
-  console.log(action$);
   return action$.filter(action => action.type === INCREMENT_COUNTER)
-    .mapTo({ type: DECREMENT_COUNTER });
+    .mapTo({ type: "replace with decrement for example" });
 }
 
 

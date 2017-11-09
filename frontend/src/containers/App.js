@@ -11,11 +11,10 @@ import { rootEpic } from '../epics';
 // We should think of refactoring apply middleware to be an argument of createStore
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
-const createStoreWithMiddleware = applyMiddleware(thunk, epicMiddleware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(epicMiddleware)(createStore);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 
-console.log(CounterApp, Component)
 export default class App extends Component {
   render() {
     return (
