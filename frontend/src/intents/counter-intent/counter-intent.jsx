@@ -9,7 +9,9 @@ const subjects = {
 export default {
   subjects,
   incrementCounter: () => {
+    // Increment on server
     Request.get('/counter/increment').subscribe(() => {});
+    // Emit that we incremented
     subjects.incrementCounterSubject.next()
   },
   decreaseCounter: () => {

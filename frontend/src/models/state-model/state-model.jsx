@@ -11,6 +11,8 @@ let state = {
 };
 
 IntentCounter.subjects.incrementCounterSubject.subscribe(()=> {
+  // eagerly increment state, even though we will refresh from server.
+  // this is so the user will always see an immediate change.
   state = {
     postResult: state.postResult,
     results: state.results,
