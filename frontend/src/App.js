@@ -6,13 +6,14 @@ import { default as Model } from './models/state-model/state-model';
 
 const handleIncrement = () => { Intent.incrementCounter(); };
 const handleDecrease = () => { Intent.decreaseCounter(); };
+const handleRefresh = () => { Intent.refreshFromServer(); };
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
   componentDidMount() {
-    this.setState({})
+    this.setState({});
     this.state$ = Model.subject.subscribe(appState => {
       this.setState({ ...appState });
     });
@@ -32,8 +33,10 @@ class App extends Component {
         <div className="center-block text-center">
           <h1>counter: {this.state.counter}</h1>
           <button className="btn btn-lg btn-primary" onClick={handleDecrease}>decrease</button>
-             {'  '}
+            {'  '}
           <button className="btn btn-lg btn-primary" onClick={handleIncrement}>increment</button>
+            {'  '}
+          <button className="btn btn-lg btn-primary" onClick={handleRefresh}>refresh from server</button>
         </div>
       </div>
     );

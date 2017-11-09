@@ -5,8 +5,6 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import NavBar from './components/navbar/navbar';
-import Home from './routes/home';
-import About from './routes/about';
 import { default as Model } from './models/state-model/state-model';
 
 class Root extends Component {
@@ -39,9 +37,9 @@ ReactDOM.render((
       <Root/>
       <Switch>
         <div>
-          <Route exact path="/" component={App}/>
+         <Route exact path="/" component={App}/>
         </div>
-        <Route component={Home}/>
+       {/*<Route component={Home}/>*/}
       </Switch>
     </div>
   </BrowserRouter>

@@ -27,6 +27,15 @@ IntentCounter.subjects.decreaseCounterSubject.subscribe(()=> {
   subject.next(state);
 });
 
+IntentCounter.subjects.refreshFromServerCounterSubject.subscribe((serverState) => {
+  state = {
+    postResult: state.postResult,
+    results: state.results,
+    counter: serverState.counter,
+  }
+  subject.next(state);
+})
+
 subject.next(state);
 
 export default {

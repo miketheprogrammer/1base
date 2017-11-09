@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Link, Route } from 'react-router-dom';
-import Home from '../../routes/home';
-import About from '../../routes/about';
 const NavBar = ({ counter }) => (
   <nav className="navbar navbar-default">
     <div className="container">
