@@ -24,11 +24,12 @@ export const refreshEpic = action$ =>
   action$
     .filter(action => action.type === REFRESH_COUNTER)
     .mergeMap(action =>
-      Request.get('/counter/decrement')
+      Request.get('/counter')
       .map((result) => { return {type: COUNTER_REFRESHED, payload: result} })
     )
 
 export const rootEpic = combineEpics(
   incrementEpic,
   decrementEpic,
+  refreshEpic,
 );

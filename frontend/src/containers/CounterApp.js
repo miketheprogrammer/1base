@@ -10,16 +10,21 @@ import logo from '../logo.svg';
 class CounterApp extends Component {
   constructor(props){
     super(props);
+    this.setState({});
     this.destroy$ = new Rx.Subject();
   }
   componentDidMount() {
-    CounterActions.refresh()
     Rx.Observable
       .interval(1000)
       .takeUntil(this.destroy$)
       .subscribe(() => {
-        CounterActions.refresh()
+        if (this.props.dispatch) {
+         this.props.dispatch(CounterActions.refresh())
+       } else console.warn('we dont have dispatch')
       });
+  }
+  componentWillUnmount() {
+    this.destroy$.next(null);
   }
   render() {
     const { counter, dispatch } = this.props;
@@ -32,17 +37,8 @@ class CounterApp extends Component {
         To get started, edit <code>src/App.js</code> and save to reload.
       </p>
       <div className="center-block text-center">
-      <Counter counter={counter}
-        {...bindActionCreators(CounterActions, dispatch)} />
-
-        {/*<h1>counter: {this.state.counter}</h1>
-        <button className="btn btn-lg btn-primary" onClick={handleDecrease}>decrease</button>
-          {'  '}
-        <button className="btn btn-lg btn-primary" onClick={handleIncrement}>increment</button>
-          {'  '}
-        <button className="btn btn-lg btn-primary" onClick={this.destroy$.next.bind(this.destroy$)}>unsubscribe from updates</button>
-        <button className="btn btn-lg btn-primary" onClick={handleRefresh}>refresh from server</button>
-        */}
+        <Counter counter={counter}
+          {...bindActionCreators(CounterActions, dispatch)} />
       </div>
     </div>)
   }
