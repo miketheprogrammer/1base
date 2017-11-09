@@ -10,5 +10,5 @@ export default {
   subjects,
   incrementCounter: () => subjects.incrementCounterSubject.next(),
   decreaseCounter: () => subjects.decreaseCounterSubject.next(),
-  refreshFromServer: () => Request.get('').subscribe(subjects.refreshFromServerCounterSubject.next.bind(subjects.refreshFromServerCounterSubject)),
+  refreshFromServer: () => Request.get('/counter').subscribe(subjects.refreshFromServerCounterSubject.next.bind(subjects.refreshFromServerCounterSubject)),
 };
