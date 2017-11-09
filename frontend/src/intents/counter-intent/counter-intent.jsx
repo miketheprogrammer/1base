@@ -14,6 +14,7 @@ export default {
     // Emit that we incremented
     subjects.incrementCounterSubject.next()
   },
+  // should rename to decrement
   decreaseCounter: () => {
     Request.get('/counter/decrement').subscribe(() => {});
     subjects.decreaseCounterSubject.next()
