@@ -8,7 +8,13 @@ const subjects = {
 
 export default {
   subjects,
-  incrementCounter: () => subjects.incrementCounterSubject.next(),
-  decreaseCounter: () => subjects.decreaseCounterSubject.next(),
+  incrementCounter: () => {
+    Request.get('/counter/increment').subscribe(() => {});
+    subjects.incrementCounterSubject.next()
+  },
+  decreaseCounter: () => {
+    Request.get('/counter/decrement').subscribe(() => {});
+    subjects.decreaseCounterSubject.next()
+  },
   refreshFromServer: () => Request.get('/counter').subscribe(subjects.refreshFromServerCounterSubject.next.bind(subjects.refreshFromServerCounterSubject)),
 };

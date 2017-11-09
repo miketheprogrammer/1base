@@ -19,11 +19,6 @@ IntentCounter.subjects.incrementCounterSubject.subscribe(()=> {
   subject.next(state);
 });
 
-// This doesnt really belong here maybe move to function and componentDidMount
-IntentCounter.subjects.incrementCounterSubject.subscribe(() => {
-  Request.get('/counter/increment').subscribe(IntentCounter.refreshFromServer);
-});
-
 IntentCounter.subjects.decreaseCounterSubject.subscribe(()=> {
   state = {
     postResult: state.postResult,
@@ -31,11 +26,6 @@ IntentCounter.subjects.decreaseCounterSubject.subscribe(()=> {
     counter: state.counter - 1,
   }
   subject.next(state);
-});
-
-// This doesnt really belong here maybe move to function and componentDidMount
-IntentCounter.subjects.decreaseCounterSubject.subscribe(() => {
-  Request.get('/counter/decrement').subscribe(IntentCounter.refreshFromServer);
 });
 
 IntentCounter.subjects.refreshFromServerCounterSubject.subscribe((serverState) => {
