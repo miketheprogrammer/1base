@@ -1,6 +1,9 @@
 # 1base
 1base is the working title for a customer management and content delivery system.
 
+First Join our Waffle.io board to support this repo.
+https://waffle.io/miketheprogrammer/1base/join
+
 Installation
 ========
 `cd frontend; npm install;`
