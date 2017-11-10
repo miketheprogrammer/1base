@@ -8,30 +8,23 @@ var routes      = require('./routes');
 var schemas     = require('./schemas');
 var middleware  = require('./middleware');
 
+// Boiler plate setup of databases
 const influx = new Influx.InfluxDB({
   host: 'localhost',
 })
 
 mongoose.connect('mongodb://localhost/1base');
 
-Rx.Observable.of('Starting Server')
-  .subscribe(function(x) { console.log(x); });
-
-mongoose.connect('mongodb://localhost/1base');
-
-var requestTime = function (req, res, next) {
-  req.requestTime = Date.now()
-  next()
-}
-
-app.use(requestTime)
-
+// Top-Level Middleware
 app.use(middleware.influxExpressResponseTimes)
 
+// Routes using sub routers
 app.use('/api/counter/', routes.counter);
 
+// ServerStarted observable
 let serverStarted$ = new Rx.Subject();
 
+// Start Influx and maybe mongo and do ensureIndexes and ensure influx databases
 influx.getDatabaseNames()
   .then(names => {
     if (!names.includes('express_response_db')) {
@@ -39,13 +32,14 @@ influx.getDatabaseNames()
     }
   })
   .then(() => {
+    // trigger the server start
     app.listen(3001, serverStarted$.next.bind(serverStarted$));
   })
   .catch(err => {
     console.error(`Error creating Influx database!`);
   })
 
-
+// server has started callback
 serverStarted$.subscribe(() => {
   console.log('Server Started');
   var Counter = mongoose.model('Counter', schemas.mongoose.Counter);
