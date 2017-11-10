@@ -9,8 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@reactivex/rxjs": "^5.5.2",
+    "eventstore": "^1.12.8",
     "express": "^4.16.2",
     "helmet": "^3.9.0",
+    "influx": "^5.0.0-alpha.4",
     "lodash": "^4.17.4",
     "mocha": "^4.0.1",
     "mongodb": "^2.2.33",

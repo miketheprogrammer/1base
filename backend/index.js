@@ -1,7 +1,23 @@
-var express = require('express')
-var app = express()
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/my_database');
+var express     = require('express');
+var app         = express();
+var mongoose    = require('mongoose');
+var Rx          = require('@reactivex/rxjs');
+var Influx      = require('influx');
+var os          = require('os')
+var routes      = require('./routes');
+var schemas     = require('./schemas');
+var middleware  = require('./middleware');
+
+const influx = new Influx.InfluxDB({
+  host: 'localhost',
+})
+
+mongoose.connect('mongodb://localhost/1base');
+
+Rx.Observable.of('Starting Server')
+  .subscribe(function(x) { console.log(x); });
+
+mongoose.connect('mongodb://localhost/1base');
 
 var requestTime = function (req, res, next) {
   req.requestTime = Date.now()
@@ -10,58 +26,35 @@ var requestTime = function (req, res, next) {
 
 app.use(requestTime)
 
-app.get('/api/counter', function (req, res) {
-  let name = req.params.name || 'global'
-  Counter
-    .findOne({ name })
-    .select('counter')
-    .exec((err, doc) => {
-      let counter = 0;
-      if (!err) {
-        counter = doc.counter;
-      }
-      return res.status(200).send({counter});
-    });
-})
+app.use(middleware.influxExpressResponseTimes)
 
-app.get('/api/counter/increment/:name?', function (req, res) {
-  let name = req.params.name || 'global'
-  Counter.findOneAndUpdate({name}, {$inc: { counter: 1 }}, {upsert:true}, function(err, doc){
-      if (err) {
-        console.log('could not save global counter');
-      }
-      console.log('successfully saved global counter');
-      res.status(200).send({ok: true})
-  });
-})
+app.use('/api/counter/', routes.counter);
 
-app.get('/api/counter/decrement/:name?', function (req, res) {
-  let name = req.params.name || 'global'
-  Counter.findOneAndUpdate({name}, {$inc: { counter: -1 }}, {upsert:true}, function(err, doc){
-      if (err) {
-        console.log('could not save global counter');
-      }
-      console.log('successfully saved global counter');
-      res.status(200).send({ok: true})
-  });
-})
+let serverStarted$ = new Rx.Subject();
 
-app.listen(3001)
-
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-var counterSchema = new Schema({
-  name: String,
-  counter:  Number,
-});
-
-var Counter = mongoose.model('Counter', counterSchema);
-
-// Ensure the global counter is created
-Counter.findOneAndUpdate({name: 'global'}, {name: 'global', counter: 2}, {upsert:true}, function(err, doc){
-    if (err) {
-      console.log('could not save global counter');
+influx.getDatabaseNames()
+  .then(names => {
+    if (!names.includes('express_response_db')) {
+      return influx.createDatabase('express_response_db');
     }
-    return console.log('successfully saved global counter');
+  })
+  .then(() => {
+    app.listen(3001, serverStarted$.next.bind(serverStarted$));
+  })
+  .catch(err => {
+    console.error(`Error creating Influx database!`);
+  })
+
+
+serverStarted$.subscribe(() => {
+  console.log('Server Started');
+  var Counter = mongoose.model('Counter', schemas.mongoose.Counter);
+
+  // Ensure the global counter is created
+  Counter.findOneAndUpdate({name: 'global'}, {name: 'global', counter: 2}, {upsert:true}, function(err, doc){
+      if (err) {
+        console.log('could not save global counter');
+      }
+      return console.log('successfully saved global counter');
+  });
 });
