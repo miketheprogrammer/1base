@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CounterApp from './CounterApp';
-import { createStore, applyMiddleware, combineReducers } from '../lib/rx-redux';
+// import { createStore, applyMiddleware, combineReducers } from '../lib/rx-redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import * as reducers from '../reducers';

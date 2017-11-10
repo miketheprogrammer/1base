@@ -17,7 +17,8 @@ export default function createStore(reducer, initState) {
     listeners.forEach(listener => listener());
   }
 
-  function dispatch(action) {
+  function dispatch(action, confirm) {
+    // console.log('dispatch', action, confirm);
     dispatcher$.next(action);
     return action;
   }

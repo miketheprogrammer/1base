@@ -1,4 +1,4 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER, REFRESH_COUNTER } from '../constants/ActionTypes';
+import { INCREMENT_COUNTER, DECREMENT_COUNTER, REFRESH_COUNTER, INCREMENT_COUNTER_IF_ODD } from '../constants/ActionTypes';
 
 export function increment() {
     return {
@@ -19,21 +19,7 @@ export function refresh() {
 }
 
 export function incrementIfOdd() {
-    return (dispatch, getState) => {
-        const { counter } = getState();
-
-        if (counter % 2 === 0) {
-            return;
-        }
-
-        dispatch(increment());
-    };
-}
-
-export function incrementAsync() {
-    return dispatch => {
-        setTimeout(() => {
-            dispatch(increment());
-        }, 1000);
-    };
+  return {
+    type: INCREMENT_COUNTER_IF_ODD
+  }
 }
