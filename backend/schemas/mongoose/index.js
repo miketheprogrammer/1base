@@ -41,7 +41,7 @@ Game.index({name: 1, organization: 1});
 
 const Image = exports.Image = new Schema({
     url: String
-})
+});
 
 const Item = exports.Item = new Schema({
   game: ObjectId,
@@ -61,7 +61,7 @@ const Folder = exports.folder = new Schema({
 const Character = exports.Character = new Schema({
   name: String,
   inventory: String,
-})
+});
 
 const Player = exports.Player = new Schema({
   game: ObjectId,

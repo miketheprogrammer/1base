@@ -3,6 +3,7 @@ const Rx          = require('@reactivex/rxjs');
 const express     = require('express');
 const app         = express.Router();
 const schemas     = require('../schemas').mongoose;
+const md5         = require(md5);
 
 mongoose.connect('mongodb://localhost/1base');
 
@@ -24,7 +25,7 @@ app.get('/:username', function (req, res) {
 app.post('/', function (req,res){
   const User = mongoose.model('User', schemas.User);
   const username = req.body.username;
-  const password = req.body.password;
+  const password = md5(req.body.password);
   User.findOneAndUpdate({username}, {username, password}, {upsert:true}, function(err, doc){
     if(err){
       res.status(500).send(err);

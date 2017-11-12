@@ -7,7 +7,8 @@ var os          = require('os');
 var routes      = require('./routes');
 var schemas     = require('./schemas');
 var middleware  = require('./middleware');
-var bodyParser = require('body-parser');
+var bodyParser  = require('body-parser');
+const md5       = require(md5);
 
 
 
@@ -55,7 +56,7 @@ serverStarted$.subscribe(() => {
   var Counter = mongoose.model('Counter', schemas.mongoose.Counter);
   const User= mongoose.model('User', schemas.mongoose.User);
   // Ensure the global counter is created
-  User.findOneAndUpdate({username:'dingle@aol.com'}, {username:'dingle@aol.com', password:'jingles', created: new Date()}, {upsert:true}, function(err, doc){
+  User.findOneAndUpdate({username:'dingle@aol.com'}, {username:'dingle@aol.com', password:md5('jingles'), created: new Date()}, {upsert:true}, function(err, doc){
     console.log("nipples", err, doc);
   });
 
