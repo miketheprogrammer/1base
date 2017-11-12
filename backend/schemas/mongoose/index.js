@@ -3,12 +3,20 @@ var Schema      = mongoose.Schema;
 
 
 var Counter = exports.Counter = new Schema({
-  name: String,
+  name: {
+    type: String,
+    index: true,
+    unique: true,
+  },
   counter:  Number,
 });
 
 var User = exports.User = new Schema({
-  username: String,
+  username: {
+    type: String,
+    index: true,
+    unique: true,
+  },
   password:  String,
   created: Date
 });

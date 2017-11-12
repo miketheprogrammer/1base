@@ -6,7 +6,6 @@ import Request from '../api/json/api-json'
 
 export const incrementEpic = action$ =>
   action$
-    .map(action => { console.log(action); return action; })
     .filter(action => action.type === INCREMENT_COUNTER)
     .mergeMap(action =>
       Request.get('/counter/increment')
