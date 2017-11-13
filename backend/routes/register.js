@@ -3,7 +3,7 @@ const Rx          = require('@reactivex/rxjs');
 const express     = require('express');
 const app         = express.Router();
 const schemas     = require('../schemas').mongoose;
-const md5         = require(md5);
+const md5         = require('md5');
 
 mongoose.connect('mongodb://localhost/1base');
 

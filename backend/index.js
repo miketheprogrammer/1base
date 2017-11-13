@@ -8,7 +8,7 @@ var routes      = require('./routes');
 var schemas     = require('./schemas');
 var middleware  = require('./middleware');
 var bodyParser  = require('body-parser');
-const md5       = require(md5);
+const md5       = require('md5');
 
 
 
