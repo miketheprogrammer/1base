@@ -1,13 +1,13 @@
-var express     = require('express');
-var app         = express();
-var mongoose    = require('mongoose');
-var Rx          = require('@reactivex/rxjs');
-var Influx      = require('influx');
-var os          = require('os');
-var routes      = require('./routes');
-var schemas     = require('./schemas');
-var middleware  = require('./middleware');
-var bodyParser  = require('body-parser');
+const express     = require('express');
+const app         = express();
+const mongoose    = require('mongoose');
+const Rx          = require('@reactivex/rxjs');
+const Influx      = require('influx');
+const os          = require('os');
+const routes      = require('./routes');
+const schemas     = require('./schemas');
+const middleware  = require('./middleware');
+const bodyParser  = require('body-parser');
 const md5       = require('md5');
 
 
@@ -56,7 +56,7 @@ serverStarted$.subscribe(() => {
   var Counter = mongoose.model('Counter', schemas.mongoose.Counter);
   const User= mongoose.model('User', schemas.mongoose.User);
   // Ensure the global counter is created
-  let user = new User({username:'dingle@aol.com', password:md5('jingles')})
+  let user = new User({username:'dingle@aol.com', password:md5('jingles'), admin: true})
 
   User.create(user, (_) => {});
   let counter = new Counter({name: 'global', counter: 2});

@@ -44,6 +44,10 @@ const User = exports.User = new Schema({
   },
   firstname: String,
   lastname: String,
+  admin: {
+    type: Boolean,
+    default: false,
+  },
   password:  {
     type: String,
     required: true,
@@ -167,7 +171,7 @@ const Player = exports.Player = new Schema({
   },
   userId: {
     type: ObjectId,
-    required: true
+    required: true,
   },
   characters: {
     type: [ObjectId],
