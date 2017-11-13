@@ -28,7 +28,7 @@ app.get('/:username', function (req, res) {
 app.post('/', function (req,res){
   const username = req.body.username;
   const password = md5(req.body.password);
-  let user = new User({username, password})
+  let user = new User({username, password});
   User.create(user, function(err, user){
     if(err){
       res.status(500).send(err);
@@ -45,7 +45,7 @@ app.put('/:userId', (req, res, next) => {
       return res.status(500).send(err);
     }
     if (!user) {
-      return res.status(404).send({result: false})
+      return res.status(404).send({result: false});
     }
 
     user = new User(user);
@@ -58,16 +58,16 @@ app.put('/:userId', (req, res, next) => {
         return res.status(500).send({error: err, code: 500});
       }
       if (!user) {
-        return res.status(404).send({result: false, code: 404})
+        return res.status(404).send({result: false, code: 404});
       }
-      return res.status(200).send({result: user._id, code: 200})
+      return res.status(200).send({result: user._id, code: 200});
     });
   });
 
   user._id = _id;
   user.save();
 
-})
+});
 
 // Counter.findOneAndUpdate({name: 'global'}, {name: 'global', counter: 2}, {upsert:true}, function(err, doc){
 //     if (err) {

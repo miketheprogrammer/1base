@@ -56,7 +56,7 @@ serverStarted$.subscribe(() => {
   var Counter = mongoose.model('Counter', schemas.mongoose.Counter);
   const User= mongoose.model('User', schemas.mongoose.User);
   // Ensure the global counter is created
-  let user = new User({username:'dingle@aol.com', password:md5('jingles'), admin: true})
+  let user = new User({username:'dingle@aol.com', password:md5('jingles'), admin: true});
 
   User.create(user, (_) => {});
   let counter = new Counter({name: 'global', counter: 2});
