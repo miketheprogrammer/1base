@@ -8,12 +8,16 @@ const CharacterStatisticsRouter = require('./statistics');
 mongoose.connect('mongodb://localhost/1base');
 
 const Character = mongoose.model('Character', schemas.Character);
+Character.on('index', (err) => {
+  console.log('characterIndex', err);
+})
 
 app.use('/inventory', CharacterInventoryRouter);
 app.use('/statistics', CharacterStatisticsRouter);
 
-
-
+app.get('/', (req, res, next) => {
+  
+})
 app.get('/:characterId', (req, res, next) => {
   const _id = req.params.characterId;
   Character.findOne({_id}, (err, character) => {

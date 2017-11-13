@@ -56,14 +56,9 @@ serverStarted$.subscribe(() => {
   var Counter = mongoose.model('Counter', schemas.mongoose.Counter);
   const User= mongoose.model('User', schemas.mongoose.User);
   // Ensure the global counter is created
-  User.findOneAndUpdate({username:'dingle@aol.com'}, {username:'dingle@aol.com', password:md5('jingles'), created: new Date()}, {upsert:true}, function(err, doc){
-    console.log("Saved default user", err, doc);
-  });
+  let user = new User({username:'dingle@aol.com', password:md5('jingles')})
 
-  Counter.findOneAndUpdate({name: 'global'}, {name: 'global', counter: 2}, {upsert:true}, function(err, doc){
-      if (err) {
-        console.log('could not save global counter');
-      }
-      return console.log('successfully saved global counter');
-  });
+  User.create(user, (_) => {});
+  let counter = new Counter({name: 'global', counter: 2});
+  Counter.create(counter, (_) => {});
 });
