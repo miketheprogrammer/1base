@@ -8,15 +8,21 @@ const CharacterStatisticsRouter = require('./statistics');
 mongoose.connect('mongodb://localhost/1base');
 
 const Character = mongoose.model('Character', schemas.Character);
-Character.on('index', (err) => {
-  console.log('characterIndex', err);
-})
 
 app.use('/inventory', CharacterInventoryRouter);
 app.use('/statistics', CharacterStatisticsRouter);
 
 app.get('/', (req, res, next) => {
-  
+  let query = {}
+  query.game = req.query.game ? req.query.game : undefined;
+  query.player = req.query.player ? req.query.player : undefined;
+  // also ensure game belongs to authenticated user
+  if (!(query.game || query.player)) {
+    return res.status(403).send({error: "Forbidden from accessing unfiltered data", code: 403});
+  }
+  Character.find(query, (err, characters) => {
+
+  });
 })
 app.get('/:characterId', (req, res, next) => {
   const _id = req.params.characterId;
