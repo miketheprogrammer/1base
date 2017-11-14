@@ -22,7 +22,7 @@ const MakeUser = (admin) => {
   user.firstname = faker.name.firstName();
   user.lastname = faker.name.lastName();
   user.admin = !!admin;
-  let password = faker.internet.password;
+  let password = faker.internet.password();
   user.password = md5(password);
   user.save(console.log);
   return [user, password];
@@ -54,18 +54,26 @@ const MakeItem = (game) => {
     item.name = name;
     item.externalId = faker.helpers.slugify(item.name);
     item.type = faker.commerce.productAdjective();
-    let tags = (new Array(10)).map((_) => faker.commerce.productAdjective());
+    let tags = [];
+    for (var i = 0; i <= 10; i += 1){
+      tags.push(faker.commerce.productAdjective());
+    }
     item.tags = tags;
     item.meta = {
       price: faker.commerce.price()
-    };
+    }
+    console.log('Making Item', item);
     item.save(console.log);
     return item;
 };
 
 const MakeNItems = (n, game) => {
-  return (new Array(n)).map((_) => MakeItem(game));
-};
+  let items = []
+  for (var i = 0; i < n; i += 1) {
+    items.push(MakeItem(game));
+  }
+  return items;
+}
 
 const MakeCharacter = (game, player, npc, items) => {
   let character = new Character();
@@ -73,7 +81,7 @@ const MakeCharacter = (game, player, npc, items) => {
   character.game = game._id;
   character.npc = !!npc;
   character.name = faker.name.findName();
-  character.inventory = items;
+  character.inventory = items.map((item) => item._id);
   character.save(console.log);
   return character;
 };
@@ -83,11 +91,11 @@ const MakePlayer = (game, organization, characters) => {
   let player = new Player();
   player.game = game._id;
   player.organization = organization._id;
-  let characterItems = MakeNItems(10);
+  let characterItems = MakeNItems(10, game);
   let character = MakeCharacter(game, player, false, characterItems);
   player.characters = [character._id];
-  let playerItems = MakeNItems(10);
-  player.inventory = playerItems;
+  let playerItems = MakeNItems(10, game);
+  player.inventory = playerItems.map((item) => item._id);
   player.save(console.log);
   return [player, playerItems, character, characterItems];
 };
