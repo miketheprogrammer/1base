@@ -16,13 +16,13 @@ class CounterApp extends Component {
   }
   componentDidMount() {
     if (this.props.dispatch)
-      this.props.dispatch(CounterActions.refresh())
+      this.props.dispatch(CounterActions.refresh());
     Rx.Observable
       .interval(1000)
       .takeUntil(this.destroy$)
       .subscribe(() => {
         if (this.props.dispatch) {
-         this.props.dispatch(CounterActions.refresh())
+         this.props.dispatch(CounterActions.refresh());
        } else {
          console.warn('we dont have dispatch');
        }
@@ -45,7 +45,7 @@ class CounterApp extends Component {
         <Counter counter={counter}
           {...bindActionCreators(CounterActions, dispatch)} />
       </div>
-    </div>)
+    </div>);
   }
 
 }

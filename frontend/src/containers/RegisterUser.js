@@ -34,6 +34,7 @@ export default class Register extends Component {
   }
 
   render () {
+    return (
     <form onSubmit= {this.handleSubmit}>
         <div className="form-group">
             <label>USERNAME (email address)*</label>
@@ -45,13 +46,14 @@ export default class Register extends Component {
         </div>
         <div className="form-group">
             <label>First Name</label>
-            <textarea value={this.state.firstname} onChange={this.handleChange} id="firstname-field" name="firstname" />
+            <input type="text" value={this.state.firstname} onChange={this.handleChange} id="firstname-field" name="firstname" />
         </div>
         <div className="form-group">
             <label>Last Name</label>
-            <textarea value={this.state.lastname} onChange={this.handleChange} id="lastname-field" name="lastname" />
+            <input type="text" value={this.state.lastname} onChange={this.handleChange} id="lastname-field" name="lastname" />
         </div>
         <button type="submit">REGISTER!</button>
-    </form>;
+    </form>
+  );
   }
 }

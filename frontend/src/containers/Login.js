@@ -1,8 +1,9 @@
 import React, { Component} from 'react';
 import {loginUser} from '../actions/UserActions';
+import { connect } from 'react-redux';
 
 
-export default class Login extends Component {
+class Login extends Component {
 
   constructor (props) {
     super(props);
@@ -23,11 +24,13 @@ export default class Login extends Component {
   }
 
   handleSubmit (evt) {
+    console.log("butt nuggets");
       evt.preventDefault();
       this.props.dispatch(loginUser(this.state));
     }
 
   render () {
+    return (
     <form onSubmit= {this.handleSubmit}>
         <div className="form-group">
             <label>USERNAME</label>
@@ -38,6 +41,11 @@ export default class Login extends Component {
             <input type="text" value={this.state.password} onChange={this.handleChange} id="password-field" name="password" />
         </div>
         <button type="submit">LOGIN</button>
-    </form>;
+    </form>
+  );
   }
 }
+
+
+export default connect(state => ({
+}))(Login);

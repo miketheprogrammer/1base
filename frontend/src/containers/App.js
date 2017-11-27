@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import * as reducers from '../reducers';
 import { createEpicMiddleware } from 'redux-observable';
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootEpic } from '../epics';
 // We should think of refactoring apply middleware to be an argument of createStore
 
@@ -18,9 +18,7 @@ const store = createStoreWithMiddleware(reducer);
 export default class App extends Component {
   render() {
     return (
-      <Provider store={store}>
         <CounterApp />
-      </Provider>
     );
     // return (
     //   <Provider store={store}>
