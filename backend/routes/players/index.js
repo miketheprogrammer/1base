@@ -12,6 +12,47 @@ const Player = mongoose.model('Player', schemas.Player);
 app.use('/inventory', PlayerInventoryRouter);
 app.use('/statistics', PlayerStatisticsRouter);
 
+app.get('/', (req, res, next) => {
+  const organization = req.query.organization;
+  const game = req.query.game;
+
+  if (!game) {
+    return res.status(403).send({error: "You are not allowed to execute broad queries.", code: 403});
+  }
+  if (!game && !organization) {
+    return res.status(403).send({error: "You are not allowed to execute broad queries.", code: 403});
+  }
+
+  let query = {};
+  if (game) query.game = game;
+  if (organization) query.organization = organization;
+
+
+  console.log(query)
+  Player
+    .find(query)
+    .populate('organization')
+    .populate('inventory')
+    .populate('characters')
+    .populate('characters.inventory')
+    .exec()
+    .then((players) => {
+      if (!players.length) {
+        return res.status(404).send({result: null, code: 404})
+      }
+      return res.status(200).send({result: players, code: 200});
+    }, (err) => {
+      if (err) {
+        return res.status(500).send({error: err, code: 500})
+      }
+    })
+  Player.find(query, (err, players) => {
+
+
+  })
+
+})
+
 app.get('/:playerId', (req, res, next) => {
   const _id = req.params.playerId;
   Player.findOne({_id}, (err, player) => {

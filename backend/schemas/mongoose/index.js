@@ -123,7 +123,7 @@ const Item = exports.Item = new Schema({
   },
 });
 
-Item.index({"name": "text", tags: "text", meta: "text", externalId: "text"}, {name: "Items Full Text Search Index"});
+Item.index({"name": "text", tags: "text", externalId: "text"}, {name: "Items Full Text Search Index"});
 Item.index({game: 1, slug: 1});
 
 
@@ -146,10 +146,9 @@ const Character = exports.Character = new Schema({
     default: false,
   },
   name: String,
-  inventory: {
-    type: [String],
-    ref: "Item",
-  },
+  inventory: [
+    { type: String, ref: "Item"}
+  ]
 });
 
 Character.index({"name": "text"}, {name: "Character Full Text Search Index"});
@@ -161,24 +160,40 @@ Character.index({"game": 1, "name":1, "npc": 1},
 
 const Player = exports.Player = new Schema({
   _id: {type: String, default: uuid.v1},
-  game: ObjectId,
-  organization: ObjectId,
+  game: {
+    type: ObjectId,
+    ref: "Game",
+  },
+  organization: {
+    type: ObjectId,
+    ref: "Organization",
+  },
   username: {
     type: String,
   },
   password: {
     type: String,
   },
-  userId: {
-    type: ObjectId,
-    required: true,
+  externalId: {
+    type: String,
   },
-  characters: {
-    type: [ObjectId],
-    ref: "Character"
-  },
-  inventory: [String],
+  characters: [
+    { type: String, ref: "Character"}
+  ],
+  inventory: [
+    { type: String, ref: "Item"}
+  ],
 });
 Player.index({"name": "text"}, {name: "Player Full Text Search Index"});
 Player.index({"username": 1, "game": 1});
 Player.index({"game": 1, "characters.name": 1});
+
+
+mongoose.connect('mongodb://localhost/1base');
+let _ = mongoose.model('Counter', Counter);
+_ = mongoose.model('User', User);
+_ = mongoose.model('Player', Player);
+_ = mongoose.model('Character', Character);
+_ = mongoose.model('Game', Game);
+_ = mongoose.model('Organization', Organization);
+_ = mongoose.model('Item', Item);

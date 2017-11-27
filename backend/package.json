@@ -11,6 +11,7 @@
   "dependencies": {
     "@reactivex/rxjs": "^5.5.2",
     "body-parser": "^1.18.2",
+    "cookie-session": "^2.0.0-beta.3",
     "eventstore": "^1.12.8",
     "express": "^4.16.2",
     "faker": "^4.1.0",

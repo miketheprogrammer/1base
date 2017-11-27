@@ -8,9 +8,8 @@ const routes      = require('./routes');
 const schemas     = require('./schemas');
 const middleware  = require('./middleware');
 const bodyParser  = require('body-parser');
-const md5       = require('md5');
-
-
+const md5         = require('md5');
+var cookieSession = require('cookie-session')
 
 // Boiler plate setup of databases
 const influx = new Influx.InfluxDB({
@@ -28,9 +27,18 @@ app.use(bodyParser.json());
 // Top-Level Middleware
 app.use(middleware.influxExpressResponseTimes);
 
+app.use(cookieSession({
+  name: 'justinsdirtysecret',
+  keys: [/* secret keys */],
+
+  // Cookie Options
+  maxAge: 1 * 60 * 60 * 1000 // 24 hours
+}))
+
 // Routes using sub routers
 app.use('/api/counter/', routes.counter);
 app.use('/api/register/', routes.register);
+app.use('/api/players', routes.players);
 
 // ServerStarted observable
 let serverStarted$ = new Rx.Subject();
