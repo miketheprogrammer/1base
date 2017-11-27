@@ -14,6 +14,7 @@ import registerServiceWorker from './registerServiceWorker';
 import NavBar from './components/navbar/navbar';
 import Login from './containers/Login';
 import RegisterUser from './containers/RegisterUser';
+import Players from './containers/Players';
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 const createStoreWithMiddleware = applyMiddleware(thunk, epicMiddleware)(createStore);
@@ -27,6 +28,7 @@ ReactDOM.render((
         <Switch>
             <Route exact path="/login" component={Login}/>
             <Route exact path="/registeruser" component={RegisterUser}/>
+            <Route exact path="/players" component={Players}/>
             <Route exact path="/" component={App}/>
          {/*<Route component={Home}/>*/}
         </Switch>

@@ -1,7 +1,7 @@
 import Rx from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { combineEpics } from 'redux-observable';
-import { INCREMENT_COUNTER, DECREMENT_COUNTER, REFRESH_COUNTER, COUNTER_REFRESHED, INCREMENT_COUNTER_IF_ODD, REGISTER_USER, USER_REGISTERED, REMOVE_USER, USER_REMOVED, LOGIN_USER, USER_LOGGEDIN, LOGOUT_USER, USER_LOGGEDOUT} from '../constants/ActionTypes';
+import { PLAYERS_FETCHED, FETCH_PLAYERS, INCREMENT_COUNTER, DECREMENT_COUNTER, REFRESH_COUNTER, COUNTER_REFRESHED, INCREMENT_COUNTER_IF_ODD, REGISTER_USER, USER_REGISTERED, REMOVE_USER, USER_REMOVED, LOGIN_USER, USER_LOGGEDIN, LOGOUT_USER, USER_LOGGEDOUT} from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 
 export const incrementEpic = action$ =>
@@ -49,6 +49,13 @@ action$
     .map((result) => { return {type: USER_LOGGEDIN, payload: result}; })
 );
 
+export const fetchPlayers = action$ =>
+  action$
+    .filter(action => action.type === FETCH_PLAYERS)
+    .mergeMap(action =>
+      Request.get('/players?game=f9ef1480-d3a1-11e7-b26a-4d1bc4da0aad')
+        .map((result)=>{return {type: PLAYERS_FETCHED, payload: result.result};})
+      );
 
 export const rootEpic = combineEpics(
   incrementEpic,
@@ -57,4 +64,5 @@ export const rootEpic = combineEpics(
   incrementIfOdd,
   registerUser,
   loginUser,
+  fetchPlayers
 );
