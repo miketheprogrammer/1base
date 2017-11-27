@@ -34,7 +34,6 @@ app.get('/', (req, res, next) => {
     .populate('organization')
     .populate('inventory')
     .populate('characters')
-    .populate('characters.inventory')
     .exec()
     .then((players) => {
       if (!players.length) {

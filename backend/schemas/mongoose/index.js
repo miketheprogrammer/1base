@@ -83,6 +83,7 @@ const Game = exports.Game = new Schema({
   organization: {
     type: ObjectId,
     required: true,
+    ref: "Organization"
   },
   name: {
     type: String,

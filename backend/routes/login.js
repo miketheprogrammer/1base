@@ -20,10 +20,10 @@ app.post('/', function (req, res) {
       if(!user){
         return res.status(404).send({result:false, code:404});
       }
-      console.log(password, md5(password), user.password);
       if(password === user.password) {
         req.session.loggedIn = true;
         req.session.username = username;
+        req.session.id = user._id;
         return res.status(200).send({result:true, code:200});
       }
       return res.status(401).send({result:false, code:401});

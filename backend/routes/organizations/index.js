@@ -8,8 +8,8 @@ mongoose.connect('mongodb://localhost/1base');
 const Organization = mongoose.model('Organization', schemas.Organization);
 
 app.get('/', (req, res, next) => {
-  const owner = req.user.email;
-  Organization.find({owner}, (err, organizations)) => {
+  const userId = req.session.id;
+  Organization.find({$or: [{owner: userId}, {members: userId}]}, (err, organizations) => {
     if (err) {
       return res.status(500).send({error: err, code: 500})
     }

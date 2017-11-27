@@ -47,6 +47,8 @@ app.use('/api/counter/', routes.counter);
 app.use('/api/register/', routes.register);
 app.use('/api/login', routes.login);
 app.use('/api/players', routes.players);
+app.use('/api/organizations', routes.organizations)
+app.use('/api/games', routes.games)
 
 // ServerStarted observable
 let serverStarted$ = new Rx.Subject();
