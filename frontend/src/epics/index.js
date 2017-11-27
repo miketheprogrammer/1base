@@ -40,6 +40,7 @@ action$
     Request.post('/register', action.payload)
     .map((result) => { return {type: USER_REGISTERED, payload: result}; })
   );
+
 export const loginUser = action$ =>
 action$
   .filter(action => action.type === LOGIN_USER)
@@ -53,5 +54,7 @@ export const rootEpic = combineEpics(
   incrementEpic,
   decrementEpic,
   refreshEpic,
-  incrementIfOdd
+  incrementIfOdd,
+  registerUser,
+  loginUser,
 );

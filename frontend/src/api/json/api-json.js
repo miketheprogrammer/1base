@@ -8,6 +8,7 @@ const HEADERS = {
 const buildRxRequest = (httpMethod, apiMethod, params) => {
   httpMethod = httpMethod.toUpperCase();
   const request = {
+    method: httpMethod,
     url: API_URL + apiMethod,
     body: params,
     headers: HEADERS,

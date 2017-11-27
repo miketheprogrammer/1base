@@ -28,16 +28,24 @@ app.use(bodyParser.json());
 app.use(middleware.influxExpressResponseTimes);
 
 app.use(cookieSession({
-  name: 'justinsdirtysecret',
-  keys: [/* secret keys */],
+  name: 'stuff',
+  keys: ['justinsdirtysecret'],
 
   // Cookie Options
   maxAge: 1 * 60 * 60 * 1000 // 24 hours
 }))
 
+app.get('/session', (req, res) => {
+  res.status(200).send(req.session);
+})
+app.get('/logout', (req, res) => {
+  req.session = null
+  res.status(200).send()
+})
 // Routes using sub routers
 app.use('/api/counter/', routes.counter);
 app.use('/api/register/', routes.register);
+app.use('/api/login', routes.login);
 app.use('/api/players', routes.players);
 
 // ServerStarted observable
