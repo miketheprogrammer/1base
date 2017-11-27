@@ -26,7 +26,7 @@ const MakeUser = (admin) => {
   let password = faker.internet.password();
   user.password = md5(password);
   user.save(console.log);
-  return [user, password, user.password];
+  return [user, password];
 };
 
 const MakeAdmin = MakeUser.bind(Object.create(null), true);
@@ -104,7 +104,7 @@ const MakePlayer = (game, organization, cb) => {
   player.game = game._id;
   player.organization = organization._id;
   player.externalId = uuid.v4();
-  player.username = faker
+  player.username = faker.internet.email();
   MakeNItems(10, game, (err, characterItems) => {
     let character = MakeCharacter(game, player, false, characterItems);
     player.characters = [character._id];

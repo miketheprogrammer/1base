@@ -35,17 +35,19 @@ class Players extends Component {
 
   render () {
     const players = this.props.players;
+    console.log('we have what players', players);
     return (
       <div>
-        {PlayerList(players)}
+        <PlayerList players={players}/>
       </div>
   );
   }
 }
 
 const mapStateToProps = state => {
+  console.log('map players', state);
   return {
-    players: state.players || []
+    players: state.player.players || []
   };
 };
 
