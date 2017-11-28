@@ -40,7 +40,7 @@ export class NavigationBar extends React.Component {
     	verticalAlign: 'top'
     };
     return (
-      <div class='toolbar-raised'>
+      <div>
         <Toolbar theme={['primary-dark-bg', 'text-primary-on-dark']} fixed>
           <ToolbarRow>
             <ToolbarSection alignStart>

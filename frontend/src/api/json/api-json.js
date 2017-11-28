@@ -28,7 +28,9 @@ const buildRxRequest = (httpMethod, apiMethod, params) => {
 *   - resultSelector: a function to use to alter the output value type of
 *   the Observable. Gets {@link AjaxResponse} as an argument.
   */
-  return Rx.Observable.ajax(request).map(({response}) => response);
+  return Rx.Observable
+          .ajax(request).map(({response}) => response)
+          .catch((err) => Rx.Observable.of(err.response))
 }
 
 export default {

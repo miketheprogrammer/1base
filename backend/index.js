@@ -49,6 +49,12 @@ app.use('/api/login', routes.login);
 app.use('/api/players', routes.players);
 app.use('/api/organizations', routes.organizations)
 app.use('/api/games', routes.games)
+app.use('/api/whoami', (req, res) => {
+  if (req.session.loggedIn) {
+    return res.status(200).send({result: true});
+  }
+  return res.status(401).send({result: false});
+})
 
 // ServerStarted observable
 let serverStarted$ = new Rx.Subject();

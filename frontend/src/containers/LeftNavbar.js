@@ -36,6 +36,7 @@ export class LeftNavigationBar extends React.Component {
     	height: '96px',
     	verticalAlign: 'top'
     };
+    console.log('Rendering NavBar');
     return (
       <div>
         <PermanentDrawer>

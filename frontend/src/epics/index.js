@@ -1,7 +1,26 @@
 import Rx from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { combineEpics } from 'redux-observable';
-import { PLAYERS_FETCHED, FETCH_PLAYERS, INCREMENT_COUNTER, DECREMENT_COUNTER, REFRESH_COUNTER, COUNTER_REFRESHED, INCREMENT_COUNTER_IF_ODD, REGISTER_USER, USER_REGISTERED, REMOVE_USER, USER_REMOVED, LOGIN_USER, USER_LOGGEDIN, LOGOUT_USER, USER_LOGGEDOUT} from '../constants/ActionTypes';
+import {
+  PLAYERS_FETCHED,
+  FETCH_PLAYERS,
+  INCREMENT_COUNTER,
+  DECREMENT_COUNTER,
+  REFRESH_COUNTER,
+  COUNTER_REFRESHED,
+  INCREMENT_COUNTER_IF_ODD,
+  REGISTER_USER,
+  USER_REGISTERED,
+  REMOVE_USER,
+  USER_REMOVED,
+  LOGIN_USER,
+  USER_LOGGEDIN,
+  LOGOUT_USER,
+  USER_LOGGEDOUT,
+  CHECK_USER_AUTHENTICATED,
+  USER_AUTHENTICATED,
+  AUTHENTICATION_FAILED,
+} from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 
 export const incrementEpic = action$ =>
@@ -25,7 +44,8 @@ export const refreshEpic = action$ =>
     .filter(action => action.type === REFRESH_COUNTER)
     .mergeMap(action =>
       Request.get('/counter')
-      .map((result) => { return {type: COUNTER_REFRESHED, payload: result}; })
+      .map((result) => { return {type: COUNTER_REFRESHED,
+        payload: result}; })
     );
 
 export const incrementIfOdd = action$ =>
@@ -49,6 +69,11 @@ action$
     .map((result) => { return {type: USER_LOGGEDIN, payload: result}; })
 );
 
+export const userLoggedIn = action$ =>
+  action$
+    .filter(action => action.type === USER_LOGGEDIN)
+    .map((action) => { return {type: USER_AUTHENTICATED}; });
+
 export const fetchPlayers = action$ =>
   action$
     .filter(action => action.type === FETCH_PLAYERS)
@@ -57,6 +82,14 @@ export const fetchPlayers = action$ =>
         .map((result)=>{return {type: PLAYERS_FETCHED, payload: result.result};})
       );
 
+export const checkUserAuthenticated = action$ =>
+action$
+  .filter(action => action.type === CHECK_USER_AUTHENTICATED)
+  .mergeMap(action =>
+    Request.get('/whoami')
+    .map((result) => { if (result.result) return {type: USER_AUTHENTICATED}; else return {type: AUTHENTICATION_FAILED} })
+);
+
 export const rootEpic = combineEpics(
   incrementEpic,
   decrementEpic,
@@ -64,5 +97,7 @@ export const rootEpic = combineEpics(
   incrementIfOdd,
   registerUser,
   loginUser,
-  fetchPlayers
+  fetchPlayers,
+  userLoggedIn,
+  checkUserAuthenticated,
 );

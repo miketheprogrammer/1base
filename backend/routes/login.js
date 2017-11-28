@@ -9,7 +9,7 @@ mongoose.connect('mongodb://localhost/1base');
 
 app.post('/', function (req, res) {
     const User = mongoose.model('User', schemas.User);
-    const username = req.body.username;
+    const username = { $regex : new RegExp(req.body.username, 'i') };
     const password = md5(req.body.password);
     console.log(username);
 

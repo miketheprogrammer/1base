@@ -14,7 +14,7 @@ import { Ripple,
 const PlayerList = ({players}) => {
     const renderCard = (player) => {
       return (
-        <Card >
+        <Card>
         	<CardMedia style={{
         		backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
         		height: '12.313rem',
@@ -37,7 +37,7 @@ const PlayerList = ({players}) => {
       <Grid>
       {
         players.map((player) =>
-          <GridCell span="3" phone="1" tablet="2" desktop="3">{renderCard(player)}</GridCell>
+          <GridCell span="3" phone="1" tablet="2" desktop="3" key={player.username}>{renderCard(player)}</GridCell>
         )
       }
       </Grid>

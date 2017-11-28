@@ -35,7 +35,6 @@ class Players extends Component {
 
   render () {
     const players = this.props.players;
-    console.log('we have what players', players);
     return (
       <div style={{float: 'left'}}>
         <PlayerList players={players}/>
@@ -45,7 +44,6 @@ class Players extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('map players', state);
   return {
     players: state.player.players || []
   };
