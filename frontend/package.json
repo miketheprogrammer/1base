@@ -10,6 +10,7 @@
     "babel-loader": "7.1.2",
     "babel-preset-react-app": "^3.1.0",
     "babel-runtime": "6.26.0",
+    "bootstrap": "^4.0.0-beta.2",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
     "chalk": "1.1.3",
     "css-loader": "0.28.7",
@@ -24,9 +25,13 @@
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
+    "history": "^4.7.2",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
     "lodash": "^4.17.4",
+    "material-components-web": "^0.25.0",
+    "material-ui": "^0.19.4",
+    "node-sass-chokidar": "0.0.3",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
@@ -38,9 +43,11 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.8",
+    "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.7.2",
     "redux-observable": "^0.17.0",
     "redux-thunk": "^2.2.0",
+    "rmwc": "0.0.1-rc9",
     "rxjs": "^5.5.2",
     "style-loader": "0.19.0",
     "superagent": "^3.8.1",
@@ -58,7 +65,9 @@
   },
   "proxy": "http://localhost:3001",
   "devDependencies": {
-    "redux-devtools-extension": "^2.13.2"
+    "node-sass": "^4.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "sass-loader": "^6.0.6"
   },
   "jest": {
     "collectCoverageFrom": [

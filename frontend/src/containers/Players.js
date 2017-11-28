@@ -37,7 +37,7 @@ class Players extends Component {
     const players = this.props.players;
     console.log('we have what players', players);
     return (
-      <div>
+      <div style={{float: 'left'}}>
         <PlayerList players={players}/>
       </div>
   );

@@ -53,7 +53,7 @@ export const fetchPlayers = action$ =>
   action$
     .filter(action => action.type === FETCH_PLAYERS)
     .mergeMap(action =>
-      Request.get('/players?game=f9ef1480-d3a1-11e7-b26a-4d1bc4da0aad')
+      Request.get('/players?game=82256d20-d3bd-11e7-860f-1f59d7818213')
         .map((result)=>{return {type: PLAYERS_FETCHED, payload: result.result};})
       );
 
