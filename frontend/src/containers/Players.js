@@ -17,13 +17,13 @@ class Players extends Component {
   }
   componentDidMount() {
     if (this.props.dispatch)
-      this.props.dispatch(PlayersActions.fetchPlayers());
+      this.props.dispatch(PlayersActions.fetchPlayers({game_id: this.props.selectedGame}));
     Rx.Observable
       .interval(1000)
       .takeUntil(this.destroy$)
       .subscribe(() => {
         if (this.props.dispatch) {
-         this.props.dispatch(PlayersActions.fetchPlayers());
+         this.props.dispatch(PlayersActions.fetchPlayers({game_id: this.props.selectedGame}));
        } else {
          console.warn('we dont have dispatch');
        }
@@ -45,7 +45,9 @@ class Players extends Component {
 
 const mapStateToProps = state => {
   return {
-    players: state.player.players || []
+    players: state.player.players || [],
+    selectedGame: state.game.selected,
+    selectedOrganization: state.organization.selected,
   };
 };
 

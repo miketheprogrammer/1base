@@ -1,8 +1,8 @@
 import Rx from 'rxjs';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import OrganizationList from '../components/OrganizationList';
-import * as OrganizationActions from '../actions/OrganizationActions';
+import GameList from '../components/GameList';
+import * as GameActions from '../actions/GameActions';
 import './CounterApp.css';
 import logo from '../logo.svg';
 
@@ -14,13 +14,13 @@ class CounterApp extends Component {
   }
   componentDidMount() {
     if (this.props.dispatch)
-      this.props.dispatch(OrganizationActions.fetchOrganizations());
+      this.props.dispatch(GameActions.fetchGames({organization_id: this.props.organization_id}));
     Rx.Observable
       .interval(1000)
       .takeUntil(this.destroy$)
       .subscribe(() => {
         if (this.props.dispatch) {
-         this.props.dispatch(OrganizationActions.fetchOrganizations());
+         this.props.dispatch(GameActions.fetchGames({organization_id: this.props.organization_id}));
        } else {
          console.warn('we dont have dispatch');
        }
@@ -30,14 +30,13 @@ class CounterApp extends Component {
     this.destroy$.next(null);
   }
   render() {
-    const { organizations, dispatch } = this.props;
-    console.log('orgs', organizations)
+    const { games, dispatch } = this.props;
     return (
       <div style={{float: 'left'}}>
-        <OrganizationList
-          organizations={organizations}
+        <GameList
+          games={games}
           onSelected={(_id) => {
-            dispatch(OrganizationActions.selectOrganization({_id}))
+            dispatch(GameActions.selectGame({_id}))
           }}/>
       </div>
     )
@@ -46,5 +45,6 @@ class CounterApp extends Component {
 
 }
 export default connect(state => ({
-  organizations: state.organization.organizations || []
+  games: state.game.games || [],
+  organization_id: state.organization.selected
 }))(CounterApp);

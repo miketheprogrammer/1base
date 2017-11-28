@@ -36,6 +36,8 @@ import LeftNavbar from './containers/LeftNavbar';
 import Login from './containers/Login';
 import RegisterUser from './containers/RegisterUser';
 import Players from './containers/Players';
+import Organizations from './containers/Organizations';
+import Games from './containers/Games';
 import './styles/theme.scss'
 import {
   Grid,
@@ -82,6 +84,21 @@ class PrivateRouteContainer extends React.Component {
     )
   }
 
+  redirectToOrganizationSelect(props) {
+    return (
+      <Redirect to={{
+        pathname: '/organizations',
+        state: { from: props.location }
+      }} />
+    )
+  }
+
+  displayOrganizationSelect(props) {
+    return (
+      <Organizations {...props}/>
+    )
+  }
+
   wait() {
     return (<div></div>)
   }
@@ -90,12 +107,14 @@ class PrivateRouteContainer extends React.Component {
     const {
       authenticated,
       authenticating,
+      organizationSelected,
       component: Component,
       ...props
     } = this.props
     console.log({
       authenticated,
       authenticating,
+      organizationSelected,
       ...props
     })
     if (authenticating) {
@@ -107,9 +126,16 @@ class PrivateRouteContainer extends React.Component {
       )
     }
     if (authenticated) {
-      if (window.location.pathname === '/login') {
-        return this.redirectToPlayers(props);
+      if (window.location.pathname !== '/' && window.location.pathname != '/organizations' && !organizationSelected) {
+        return this.redirectToOrganizationSelect(props);
       }
+      // if (window.location.pathname === '/organizations' && organizationSelected) {
+      //   console.log('redirecting to players');
+      //   return this.redirectToPlayers(props);
+      // }
+      // if (window.location.pathname === '/' && !organizationSelected) {
+      //   return this.displayOrganizationSelect(props)
+      // }
       return (
         <Route
           {...props}
@@ -129,7 +155,8 @@ const PrivateRoute = connect(state => ({
   authenticated: Boolean(state.user.authenticated),
   authenticating: state.user.authenticating === undefined
                     ? true
-                    : state.user.authenticating
+                    : state.user.authenticating,
+  organizationSelected: state.organization.selected || false,
 }))(PrivateRouteContainer)
 
 class SmartRouterContainer extends React.Component {
@@ -148,25 +175,27 @@ class SmartRouterContainer extends React.Component {
 
     return (
       <ConnectedRouter history={history}>
-        <div>
+        <body>
           <Route path="/" component={Navbar}/>
-          <div style={{marginTop: "25px"}}>
-            <Grid>
-              <GridCell span="1">
-                <PrivateRoute path="/" component={LeftNavbar}/>
-              </GridCell>
-              <GridCell span="11">
-                <Switch>
-                    <Route exact path="/login" component={Login}/>
-                    <PrivateRoute exact path="/registeruser" component={RegisterUser}/>
-                    <PrivateRoute exact path="/players" component={Players}/>
-                    <PrivateRoute exact path="/" component={App}/>
-                 {/*<Route component={Home}/>*/}
-                </Switch>
-              </GridCell>
-            </Grid>
+          <div class="content mdc-toolbar-fixed-adjust" style={{marginTop: "48px"}}>
+            <PrivateRoute path="/" component={LeftNavbar}/>
+            <main>
+              <Grid>
+                <GridCell span="12">
+                  <Switch>
+                      <Route exact path="/login" component={Login}/>
+                      <PrivateRoute exact path="/registeruser" component={RegisterUser}/>
+                      <PrivateRoute exact path="/players" component={Players}/>
+                      <PrivateRoute exact path="/organizations/:id" component={Games}/>
+                      <PrivateRoute exact path="/organizations" component={Organizations}/>
+                      <PrivateRoute exact path="/" component={Organizations}/>
+                   {/*<Route component={Home}/>*/}
+                  </Switch>
+                </GridCell>
+              </Grid>
+            </main>
           </div>
-        </div>
+        </body>
       </ConnectedRouter>
     )
   }
@@ -178,30 +207,5 @@ ReactDOM.render((
     <SmartRouter></SmartRouter>
   </Provider>
 ), document.getElementById('root'))
-// ReactDOM.render((
-//   <Provider store={store}>
-//     <BrowserRouter>
-//       <div>
-//         <Route path="/" component={Navbar}/>
-//         <div style={{marginTop: "25px"}}>
-//           <Grid>
-//             <GridCell span="1">
-//               <Route path="/" component={LeftNavbar}/>
-//             </GridCell>
-//             <GridCell span="11">
-//               <Switch>
-//                   <Route exact path="/login" component={Login}/>
-//                   <Route exact path="/registeruser" component={RegisterUser}/>
-//                   <Route exact path="/players" component={Players}/>
-//                   <Route exact path="/" component={App}/>
-//                {/*<Route component={Home}/>*/}
-//               </Switch>
-//             </GridCell>
-//           </Grid>
-//         </div>
-//       </div>
-//     </BrowserRouter>
-// </Provider>
-// ), document.getElementById('root'));
 
 registerServiceWorker();

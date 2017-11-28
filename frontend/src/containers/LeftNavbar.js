@@ -28,18 +28,9 @@ export class LeftNavigationBar extends React.Component {
     };
   }
   render() {
-    const themeStyle = {
-    	padding: '16px',
-    	margin: '16px',
-    	display: 'inline-block',
-    	width: '96px',
-    	height: '96px',
-    	verticalAlign: 'top'
-    };
-    console.log('Rendering NavBar');
     return (
-      <div>
-        <PermanentDrawer>
+
+        <PermanentDrawer theme={['secondary-dark-bg', 'text-secondary-on-dark']}>
         	<PermanentDrawerContent>
         		<List>
         			<ListItem>
@@ -51,7 +42,7 @@ export class LeftNavigationBar extends React.Component {
         		</List>
         	</PermanentDrawerContent>
         </PermanentDrawer>
-      </div>
+
     )
     // return (
     //   <div>

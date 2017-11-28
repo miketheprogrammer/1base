@@ -2,6 +2,22 @@ $mdc-theme-primary: #03a9f4;
 $mdc-theme-secondary: #4dd0e1;
 $mdc-theme-background: #fff; // White
 
+.content {
+    display: flex;
+    flex: 1 1 auto;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    min-height: 100%;
+}
+
 @import "material-components-web/material-components-web.scss";
 
 // need to import all individually for sass loader

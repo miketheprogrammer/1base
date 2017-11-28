@@ -20,8 +20,17 @@ import {
   CHECK_USER_AUTHENTICATED,
   USER_AUTHENTICATED,
   AUTHENTICATION_FAILED,
+  ORGANIZATIONS_FETCHED,
+  FETCH_ORGANIZATIONS,
+  SELECT_ORGANIZATION,
+  ORGANIZATION_SELECTED,
+  GAMES_FETCHED,
+  FETCH_GAMES,
+  SELECT_GAME,
+  GAME_SELECTED,
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
+import { push } from 'react-router-redux';
 
 export const incrementEpic = action$ =>
   action$
@@ -78,7 +87,7 @@ export const fetchPlayers = action$ =>
   action$
     .filter(action => action.type === FETCH_PLAYERS)
     .mergeMap(action =>
-      Request.get('/players?game=82256d20-d3bd-11e7-860f-1f59d7818213')
+      Request.get('/players?game='+action.payload.game_id)
         .map((result)=>{return {type: PLAYERS_FETCHED, payload: result.result};})
       );
 
@@ -90,6 +99,43 @@ action$
     .map((result) => { if (result.result) return {type: USER_AUTHENTICATED}; else return {type: AUTHENTICATION_FAILED} })
 );
 
+export const fetchOrganizations = action$ =>
+action$
+  .filter(action => action.type === FETCH_ORGANIZATIONS)
+  .mergeMap(action =>
+    Request.get('/organizations')
+    .map((result) => { return {type: ORGANIZATIONS_FETCHED, payload: result.result} })
+);
+
+export const selectOrganization = action$ =>
+  action$
+    .filter(action => action.type === SELECT_ORGANIZATION)
+    .map((action) => { return {type: ORGANIZATION_SELECTED, payload: action.payload}; });
+
+export const organizationSelected = action$ =>
+  action$
+    .filter(action => action.type === ORGANIZATION_SELECTED)
+    .map((action) => {console.log('selected org xxxx'); return push({url: '/organizations/'+action.payload._id, pathname:'/organizations/'+action.payload._id}) });
+
+export const fetchGames = action$ =>
+action$
+  .filter(action => action.type === FETCH_GAMES)
+  .mergeMap(action =>
+    Request.get('/games?organization=' + action.payload.organization_id)
+    .map((result) => { return {type: GAMES_FETCHED, payload: result.result} })
+);
+
+export const selectGame = action$ =>
+  action$
+    .filter(action => action.type === SELECT_GAME)
+    .map((action) => { return {type: GAME_SELECTED, payload: action.payload}; });
+
+export const gameSelected = action$ =>
+  action$
+    .filter(action => action.type === GAME_SELECTED)
+    .map((action) => {console.log('selected org xxxx'); return push({url: '/players', pathname:'/players'}) });
+
+
 export const rootEpic = combineEpics(
   incrementEpic,
   decrementEpic,
@@ -100,4 +146,10 @@ export const rootEpic = combineEpics(
   fetchPlayers,
   userLoggedIn,
   checkUserAuthenticated,
+  fetchOrganizations,
+  selectOrganization,
+  organizationSelected,
+  fetchGames,
+  selectGame,
+  gameSelected,
 );

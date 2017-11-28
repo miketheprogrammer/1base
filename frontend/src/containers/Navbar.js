@@ -31,14 +31,6 @@ export class NavigationBar extends React.Component {
     });
   }
   render() {
-    const themeStyle = {
-    	padding: '16px',
-    	margin: '16px',
-    	display: 'inline-block',
-    	width: '96px',
-    	height: '96px',
-    	verticalAlign: 'top'
-    };
     return (
       <div>
         <Toolbar theme={['primary-dark-bg', 'text-primary-on-dark']} fixed>

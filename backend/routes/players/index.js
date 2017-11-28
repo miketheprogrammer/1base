@@ -34,6 +34,7 @@ app.get('/', (req, res, next) => {
     .populate('organization')
     .populate('inventory')
     .populate('characters')
+    .populate('game')
     .exec()
     .then((players) => {
       if (!players.length) {
