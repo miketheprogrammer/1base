@@ -5,6 +5,9 @@ import {
   GAME_SELECTED,
   GOTO_GAME_SELECT,
   GOTO_ORGANIZATION_SELECT,
+  CREATE_NEW_GAME,
+  CANCEL_CREATE_NEW_GAME,
+  NEW_GAME_SAVED,
 } from '../constants/ActionTypes';
 
 export default function game(state = {players:[]}, action = {}) {
@@ -23,6 +26,12 @@ export default function game(state = {players:[]}, action = {}) {
       return {...state, selected: undefined}
     case GOTO_ORGANIZATION_SELECT:
       return {...state, selected: undefined}
+    case CREATE_NEW_GAME:
+      return {...state, creating: true}
+    case CANCEL_CREATE_NEW_GAME:
+      return {...state, creating: false}
+    case NEW_GAME_SAVED:
+      return {...state, creating: false}
     default:
       return state;
   }

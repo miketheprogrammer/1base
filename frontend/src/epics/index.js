@@ -30,40 +30,20 @@ import {
   GAME_SELECTED,
   GOTO_ORGANIZATION_SELECT,
   GOTO_GAME_SELECT,
+  CREATE_NEW_ORGANIZATION,
+  CREATING_NEW_ORGANIZATION,
+  NEW_ORGANIZATION_SAVED,
+  SAVE_NEW_ORGANIZATION,
+  CREATE_NEW_GAME,
+  CREATING_NEW_GAME,
+  NEW_GAME_SAVED,
+  SAVE_NEW_GAME,
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 import { push } from 'react-router-redux';
 const localStorage = window.localStorage;
-export const incrementEpic = action$ =>
-  action$
-    .filter(action => action.type === INCREMENT_COUNTER)
-    .mergeMap(action =>
-      Request.get('/counter/increment')
-      .map(() => { return {type: 'NOOP'};})
-    );
 
-export const decrementEpic = action$ =>
-  action$
-    .filter(action => action.type === DECREMENT_COUNTER)
-    .mergeMap(action =>
-        Request.get('/counter/decrement')
-        .map(() => {return {type: 'NOOP'};})
-    );
-
-export const refreshEpic = action$ =>
-  action$
-    .filter(action => action.type === REFRESH_COUNTER)
-    .mergeMap(action =>
-      Request.get('/counter')
-      .map((result) => { return {type: COUNTER_REFRESHED,
-        payload: result}; })
-    );
-
-export const incrementIfOdd = action$ =>
-  action$
-    .filter(action => action.type === INCREMENT_COUNTER_IF_ODD)
-    .map(() => { return {type: INCREMENT_COUNTER}; });
-
+// USER EPICS
 export const registerUser = action$ =>
 action$
   .filter(action => action.type === REGISTER_USER)
@@ -85,6 +65,7 @@ export const userLoggedIn = action$ =>
     .filter(action => action.type === USER_LOGGEDIN)
     .map((action) => { return {type: USER_AUTHENTICATED}; });
 
+// PLAYER EPICS
 export const fetchPlayers = action$ =>
   action$
     .filter(action => action.type === FETCH_PLAYERS)
@@ -93,6 +74,7 @@ export const fetchPlayers = action$ =>
         .map((result)=>{return {type: PLAYERS_FETCHED, payload: result.result};})
       );
 
+// AUTHENTICATION EPICS
 export const checkUserAuthenticated = action$ =>
 action$
   .filter(action => action.type === CHECK_USER_AUTHENTICATED)
@@ -101,6 +83,7 @@ action$
     .map((result) => { if (result.result) return {type: USER_AUTHENTICATED}; else return {type: AUTHENTICATION_FAILED} })
 );
 
+// ORGANIZATION EPICS
 export const fetchOrganizations = action$ =>
 action$
   .filter(action => action.type === FETCH_ORGANIZATIONS)
@@ -119,6 +102,23 @@ export const organizationSelected = action$ =>
     .filter(action => action.type === ORGANIZATION_SELECTED)
     .map((action) => {localStorage.setItem('1base.organization_id', action.payload._id); return push({url: '/games', pathname:'/games'}) });
 
+export const saveNewOrganization = action$ =>
+  action$
+    .filter(action => action.type === SAVE_NEW_ORGANIZATION)
+    .mergeMap(action =>
+      Request.post('/organizations', action.payload)
+      .map((result) => { return {type: NEW_ORGANIZATION_SAVED, payload: result.result}; })
+  );
+
+export const fetchOrganizationsOnNewOrganiationSave = action$ =>
+  action$
+    .filter(action => action.type === NEW_ORGANIZATION_SAVED)
+    .mergeMap(action =>
+      Request.get('/organizations')
+      .map((result) => { return {type: ORGANIZATIONS_FETCHED, payload: result.result} })
+  );
+
+// GAMES EPICS
 export const fetchGames = action$ =>
 action$
   .filter(action => action.type === FETCH_GAMES)
@@ -135,32 +135,79 @@ export const selectGame = action$ =>
 export const gameSelected = action$ =>
   action$
     .filter(action => action.type === GAME_SELECTED)
-    .map((action) => {localStorage.setItem('1base.game_id', action.payload._id); return push({url: '/players', pathname:'/players'}) });
+    .map((action) => {
+      localStorage.setItem('1base.game_id', action.payload._id);
+      return push({url: '/players', pathname:'/players'})
+    });
 
+export const saveNewGame = action$ =>
+  action$
+    .filter(action => action.type === SAVE_NEW_GAME)
+    .mergeMap(action =>
+      Request.post('/games', action.payload)
+      .map((result) => { return {type: NEW_GAME_SAVED, payload: result.result}; })
+  );
+
+export const fetchGamesOnNewGameSave = action$ =>
+  action$
+    .filter(action => action.type === NEW_GAME_SAVED)
+    .mergeMap(action =>
+      Request.get('/games')
+      .map((result) => { return {type: GAMES_FETCHED, payload: result.result} })
+  );
+// NAVIGATION EPICS
 export const gotoGameSelect = action$ =>
   action$
     .filter(action => action.type === GOTO_GAME_SELECT)
-    .map((action) => {localStorage.removeItem('1base.game_id'); return push({url: '/games', pathname:'/games'}) });
+    .map((action) => {
+      return push({url: '/games', pathname:'/games'})
+    });
 
 export const gotoOrganizationSelect = action$ =>
   action$
     .filter(action => action.type === GOTO_ORGANIZATION_SELECT)
-    .map((action) => {localStorage.removeItem('1base.organization_id'); return push({url: '/organizations', pathname:'/organizations'}) });
+    .map((action) => {
+      return push({url: '/organizations', pathname:'/organizations'})
+    });
 
+// ROUTER EPICS
 export const setOrganizationIdIfUrlId = action$ =>
   action$
     .filter(action => action.type === '@@router/LOCATION_CHANGE')
+    .filter(action => action.payload.pathname.search('/organizations/') > -1)
     .map((action) => {
-      if (action.payload.pathname.search('/organizations/') > -1) {
-        return {type: SELECT_ORGANIZATION, payload: {_id: action.payload.pathname.split('/organizations/')[1]}}
-      }
-      return {type: 'NOOP'};
+      return {type: SELECT_ORGANIZATION, payload: {_id: action.payload.pathname.split('/organizations/')[1]}}
     });
+
+export const setGameIdIfUrlId = action$ =>
+  action$
+    .filter(action => action.type === '@@router/LOCATION_CHANGE')
+    .filter(action => action.payload.pathname.search('/games/') > -1)
+    .map((action) => {
+      return {type: SELECT_GAME, payload: {_id: action.payload.pathname.split('/games/')[1]}}
+    });
+
+export const clearStateOnOrganizationsPageLoad = action$ =>
+    action$
+      .filter(action => action.type === '@@router/LOCATION_CHANGE')
+      .filter(action => action.payload.pathname.search('/organizations') > -1)
+      .map((action) => {
+        localStorage.removeItem('1base.organization_id');
+        localStorage.removeItem('1base.game_id');
+        return {type: 'NOOP'}
+      });
+
+export const clearStateOnGamesPageLoad = action$ =>
+    action$
+      .filter(action => action.type === '@@router/LOCATION_CHANGE')
+      .filter(action => action.payload.pathname.search('/games') > -1)
+      .map((action) => {
+        localStorage.removeItem('1base.game_id');
+        return {type: 'NOOP'}
+      });
+
+// COMBINE EPICS
 export const rootEpic = combineEpics(
-  incrementEpic,
-  decrementEpic,
-  refreshEpic,
-  incrementIfOdd,
   registerUser,
   loginUser,
   fetchPlayers,
@@ -172,7 +219,13 @@ export const rootEpic = combineEpics(
   fetchGames,
   selectGame,
   gameSelected,
+  saveNewGame,
+  fetchGamesOnNewGameSave,
   gotoOrganizationSelect,
   gotoGameSelect,
   setOrganizationIdIfUrlId,
+  saveNewOrganization,
+  fetchOrganizationsOnNewOrganiationSave,
+  clearStateOnOrganizationsPageLoad,
+  clearStateOnGamesPageLoad,
 );

@@ -19,4 +19,13 @@ app.get('/', (req, res, next) => {
     return res.status(200).send({result: organizations, code: 200});
   })
 })
+
+app.post('/', (req, res) => {
+  org = new Organization(req.body);
+  org.owner = req.session.id;
+  org.save(() => {
+    res.status(201).send({result: true});
+  })
+
+})
 module.exports = app;

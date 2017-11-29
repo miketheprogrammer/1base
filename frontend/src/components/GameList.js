@@ -1,18 +1,20 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
-import { Ripple,
-         Card,
-         CardMedia,
-         CardPrimary,
-         CardTitle,
-         CardSubtitle,
-         CardSupportingText,
-         CardActions,
-         CardAction,
-         Grid,
-         GridCell,
-       } from 'rmwc';
-const GameList = ({games, onSelected}) => {
+import {
+  Ripple,
+  Card,
+  CardMedia,
+  CardPrimary,
+  CardTitle,
+  CardSubtitle,
+  CardSupportingText,
+  CardActions,
+  CardAction,
+  Grid,
+  GridCell,
+  Fab,
+} from 'rmwc';
+const GameList = ({games, onSelected, onCreateNew}) => {
     const renderCard = (game, onSelected) => {
       return (
         <Card onClick={() => {onSelected(game._id)}}>
@@ -32,11 +34,14 @@ const GameList = ({games, onSelected}) => {
     }
     return(
       <Grid>
-      {
-        games.map((game) =>
-          <GridCell span="3" phone="1" tablet="2" desktop="3" key={game.name}>{renderCard(game, onSelected)}</GridCell>
-        )
-      }
+        {
+          games.map((game) =>
+            <GridCell span="3" phone="1" tablet="2" desktop="3" key={game.name}>{renderCard(game, onSelected)}</GridCell>
+          )
+        }
+        <GridCell span="3" phone="2" tablet="2" desktop="3" key={"add-new"}>
+          <Fab onClick={() => onCreateNew()}>add</Fab>
+        </GridCell>
       </Grid>
     );
 };

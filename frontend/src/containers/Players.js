@@ -19,9 +19,6 @@ class Players extends Component {
 
   constructor (props) {
     super(props);
-    this.state = {
-      selectedPlayer:{}
-    };
     this.destroy$ = new Rx.Subject();
   }
   componentDidMount() {
@@ -45,7 +42,7 @@ class Players extends Component {
   render () {
     const players = this.props.players;
     return (
-      <main class="xmdc-theme--secondary-dark-bg" style={{marginTop: "12px"}}>
+      <main class="xmdc-theme--secondary-dark-bg" style={{marginTop: "16px"}}>
 
         <Toolbar class="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
           <ToolbarRow>

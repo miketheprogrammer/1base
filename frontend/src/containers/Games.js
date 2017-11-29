@@ -2,6 +2,7 @@ import Rx from 'rxjs';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameList from '../components/GameList';
+import GameCreate from '../components/GameCreate';
 import * as GameActions from '../actions/GameActions';
 import './CounterApp.css';
 import logo from '../logo.svg';
@@ -39,23 +40,63 @@ class CounterApp extends Component {
   componentWillUnmount() {
     this.destroy$.next(null);
   }
-  render() {
+
+  createGame(values) {
+    console.log('creating GAMEwith ', values, this.props);
+    values.organization = this.props.organization_id;
+    this.props.dispatch(GameActions.saveNewGame(values));
+  }
+
+  renderToolbar(title) {
+    return (
+      <Toolbar class="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
+        <ToolbarRow>
+          <ToolbarSection alignStart>
+            <ToolbarTitle>{title}</ToolbarTitle>
+          </ToolbarSection>
+        </ToolbarRow>
+      </Toolbar>
+    )
+  }
+
+  renderGameList() {
     const { games, dispatch } = this.props;
     return (
-      <main class="xmdc-theme--secondary-dark-bg" style={{marginTop: "12px"}}>
+      <GameList
+        games={games}
+        onSelected={(_id) => {
+          dispatch(GameActions.selectGame({_id}))
+        }}
+        onCreateNew={() => {
+          dispatch(GameActions.createNewGame())
+        }}
+        />
+    )
+  }
 
-        <Toolbar class="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
-          <ToolbarRow>
-            <ToolbarSection alignStart>
-              <ToolbarTitle>Your Games</ToolbarTitle>
-            </ToolbarSection>
-          </ToolbarRow>
-        </Toolbar>
-        <GameList
-          games={games}
-          onSelected={(_id) => {
-            dispatch(GameActions.selectGame({_id}))
-          }}/>
+  renderCreateNewGame() {
+    const { organizations, dispatch } = this.props;
+    return (
+      <GameCreate
+        onCreate={(values) => this.createGame(values)}
+        onCancel={() => {dispatch(GameActions.cancelCreateNewGame())}}
+      />
+    )
+  }
+  render() {
+    const { games, creating, dispatch } = this.props;
+    let toolbar, content;
+    if (!creating) {
+      toolbar = this.renderToolbar("Your Games");
+      content = this.renderGameList();
+    } else {
+      toolbar = this.renderToolbar("Create A New Game");
+      content = this.renderCreateNewGame()
+    }
+    return (
+      <main style={{marginTop: "12px"}}>
+        {toolbar}
+        {content}
       </main>
     )
 
@@ -64,5 +105,6 @@ class CounterApp extends Component {
 }
 export default connect(state => ({
   games: state.game.games || [],
-  organization_id: state.organization.selected
+  organization_id: state.organization.selected,
+  creating: Boolean(state.game.creating),
 }))(CounterApp);

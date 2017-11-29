@@ -4,6 +4,9 @@ import {
   SELECT_ORGANIZATION,
   ORGANIZATION_SELECTED,
   GOTO_ORGANIZATION_SELECT,
+  CREATE_NEW_ORGANIZATION,
+  CANCEL_CREATE_NEW_ORGANIZATION,
+  NEW_ORGANIZATION_SAVED,
 } from '../constants/ActionTypes';
 
 export default function organization(state = {players:[]}, action = {}) {
@@ -20,6 +23,12 @@ export default function organization(state = {players:[]}, action = {}) {
       return {...state, selected: action.payload._id }
     case GOTO_ORGANIZATION_SELECT:
       return {...state, selected: undefined}
+    case CREATE_NEW_ORGANIZATION:
+      return {...state, creating: true}
+    case CANCEL_CREATE_NEW_ORGANIZATION:
+      return {...state, creating: false}
+    case NEW_ORGANIZATION_SAVED:
+      return {...state, creating: false}
     default:
       return state;
   }

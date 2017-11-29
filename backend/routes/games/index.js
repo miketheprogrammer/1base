@@ -20,6 +20,11 @@ app.get('/', (req, res, next) => {
     return res.status(200).send({result: organizations, code: 200});
   })
 })
-module.exports = app;
 
+app.post('/', (req, res, next) => {
+  let game = new Game(req.body);
+  game.save(() => {
+    res.status(201).send({result: true});
+  })
+})
 module.exports = app;
