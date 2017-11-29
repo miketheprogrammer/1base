@@ -31,7 +31,7 @@ import {
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 import { push } from 'react-router-redux';
-
+const localStorage = window.localStorage;
 export const incrementEpic = action$ =>
   action$
     .filter(action => action.type === INCREMENT_COUNTER)
@@ -115,7 +115,7 @@ export const selectOrganization = action$ =>
 export const organizationSelected = action$ =>
   action$
     .filter(action => action.type === ORGANIZATION_SELECTED)
-    .map((action) => {console.log('selected org xxxx'); return push({url: '/organizations/'+action.payload._id, pathname:'/organizations/'+action.payload._id}) });
+    .map((action) => {localStorage.setItem('1base.organization_id', action.payload._id); return push({url: '/organizations/'+action.payload._id, pathname:'/organizations/'+action.payload._id}) });
 
 export const fetchGames = action$ =>
 action$
@@ -133,7 +133,7 @@ export const selectGame = action$ =>
 export const gameSelected = action$ =>
   action$
     .filter(action => action.type === GAME_SELECTED)
-    .map((action) => {console.log('selected org xxxx'); return push({url: '/players', pathname:'/players'}) });
+    .map((action) => {localStorage.setItem('1base.game_id', action.payload._id); return push({url: '/players', pathname:'/players'}) });
 
 
 export const rootEpic = combineEpics(

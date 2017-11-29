@@ -8,6 +8,8 @@ import {
 export default function organization(state = {players:[]}, action = {}) {
   console.log('Org Actions', action.type, action.payload)
   switch (action.type) {
+    case '@@redux/INIT':
+      return {...state, selected: window.localStorage.getItem('1base.organization_id')}
     case ORGANIZATIONS_FETCHED:
       console.log({...state, organizations: action.payload, fetchingOrganizations:false})
       return {...state, organizations: action.payload, fetchingOrganizations:false}
