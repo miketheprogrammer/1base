@@ -19,7 +19,7 @@ class Players extends Component {
     if (this.props.dispatch)
       this.props.dispatch(PlayersActions.fetchPlayers({game_id: this.props.selectedGame}));
     Rx.Observable
-      .interval(1000)
+      .interval(1000 * 10)
       .takeUntil(this.destroy$)
       .subscribe(() => {
         if (this.props.dispatch) {

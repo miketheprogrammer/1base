@@ -6,7 +6,6 @@ import {
 } from '../constants/ActionTypes';
 
 export default function game(state = {players:[]}, action = {}) {
-  console.log('Org Actions', action.type, action.payload)
   switch (action.type) {
     case '@@redux/INIT':
       console.log({...state, selected: window.localStorage.getItem('1base.game_id')})
