@@ -3,6 +3,7 @@ import {
   ORGANIZATIONS_FETCHED,
   SELECT_ORGANIZATION,
   ORGANIZATION_SELECTED,
+  GOTO_ORGANIZATION_SELECT,
 } from '../constants/ActionTypes';
 
 export default function organization(state = {players:[]}, action = {}) {
@@ -17,6 +18,8 @@ export default function organization(state = {players:[]}, action = {}) {
       return {...state, fetchingOrganizations: true}
     case SELECT_ORGANIZATION:
       return {...state, selected: action.payload._id }
+    case GOTO_ORGANIZATION_SELECT:
+      return {...state, selected: undefined}
     default:
       return state;
   }

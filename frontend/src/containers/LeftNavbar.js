@@ -2,6 +2,9 @@ import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import * as OrganizationActions from '../actions/OrganizationActions';
+import * as GameActions from '../actions/GameActions';
+
 import {
   Button,
   Toolbar,
@@ -28,8 +31,8 @@ export class LeftNavigationBar extends React.Component {
     };
   }
   render() {
-    return (
 
+    return (
         <PermanentDrawer theme={['secondary-dark-bg', 'text-secondary-on-dark']}>
         	<PermanentDrawerContent>
         		<List>
@@ -39,6 +42,15 @@ export class LeftNavigationBar extends React.Component {
         			<ListItem>
         				<ListItemText>Players</ListItemText>
         			</ListItem>
+              <ListItem>
+                <ListItemText>DEBUG LINKS BELOW - </ListItemText>
+              </ListItem>
+              <ListItem onClick={() => this.props.dispatch(OrganizationActions.gotoOrganizationSelect())}>
+                <ListItemText>Organizations</ListItemText>
+              </ListItem>
+              <ListItem onClick={() => this.props.dispatch(GameActions.gotoGameSelect())}>
+                <ListItemText>Games</ListItemText>
+              </ListItem>
         		</List>
         	</PermanentDrawerContent>
         </PermanentDrawer>

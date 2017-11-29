@@ -28,6 +28,8 @@ import {
   FETCH_GAMES,
   SELECT_GAME,
   GAME_SELECTED,
+  GOTO_ORGANIZATION_SELECT,
+  GOTO_GAME_SELECT,
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 import { push } from 'react-router-redux';
@@ -115,7 +117,7 @@ export const selectOrganization = action$ =>
 export const organizationSelected = action$ =>
   action$
     .filter(action => action.type === ORGANIZATION_SELECTED)
-    .map((action) => {localStorage.setItem('1base.organization_id', action.payload._id); return push({url: '/organizations/'+action.payload._id, pathname:'/organizations/'+action.payload._id}) });
+    .map((action) => {localStorage.setItem('1base.organization_id', action.payload._id); return push({url: '/games', pathname:'/games'}) });
 
 export const fetchGames = action$ =>
 action$
@@ -135,6 +137,15 @@ export const gameSelected = action$ =>
     .filter(action => action.type === GAME_SELECTED)
     .map((action) => {localStorage.setItem('1base.game_id', action.payload._id); return push({url: '/players', pathname:'/players'}) });
 
+export const gotoGameSelect = action$ =>
+  action$
+    .filter(action => action.type === GOTO_GAME_SELECT)
+    .map((action) => {localStorage.removeItem('1base.game_id'); return push({url: '/games', pathname:'/games'}) });
+
+export const gotoOrganizationSelect = action$ =>
+  action$
+    .filter(action => action.type === GOTO_ORGANIZATION_SELECT)
+    .map((action) => {localStorage.removeItem('1base.organization_id'); return push({url: '/organizations', pathname:'/organizations'}) });
 
 export const rootEpic = combineEpics(
   incrementEpic,
@@ -152,4 +163,6 @@ export const rootEpic = combineEpics(
   fetchGames,
   selectGame,
   gameSelected,
+  gotoOrganizationSelect,
+  gotoGameSelect,
 );

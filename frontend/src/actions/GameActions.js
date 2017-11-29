@@ -1,4 +1,4 @@
-import { FETCH_GAMES, GAMES_FETCHED, SELECT_GAME, GAME_SELECTED } from '../constants/ActionTypes';
+import { FETCH_GAMES, GAMES_FETCHED, GOTO_GAME_SELECT, SELECT_GAME, GAME_SELECTED } from '../constants/ActionTypes';
 
 export function fetchGames(payload) {
     return {
@@ -25,4 +25,10 @@ export function gameSelected() {
   return {
     type: GAME_SELECTED
   };
+}
+
+export function gotoGameSelect() {
+  return {
+    type: GOTO_GAME_SELECT
+  }
 }

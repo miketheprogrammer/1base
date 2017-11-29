@@ -1,4 +1,4 @@
-import { FETCH_ORGANIZATIONS, ORGANIZATIONS_FETCHED, SELECT_ORGANIZATION, ORGANIZATION_SELECTED } from '../constants/ActionTypes';
+import { FETCH_ORGANIZATIONS, GOTO_ORGANIZATION_SELECT, ORGANIZATIONS_FETCHED, SELECT_ORGANIZATION, ORGANIZATION_SELECTED } from '../constants/ActionTypes';
 
 export function fetchOrganizations(payload) {
     return {
@@ -25,4 +25,10 @@ export function organizationSelected() {
   return {
     type: ORGANIZATION_SELECTED
   };
+}
+
+export function gotoOrganizationSelect() {
+  return {
+    type: GOTO_ORGANIZATION_SELECT
+  }
 }
