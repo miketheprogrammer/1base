@@ -184,7 +184,7 @@ class SmartRouterContainer extends React.Component {
                 return (<PrivateRoute path="/" component={LeftNavbar}/>)
             })()}
 
-            <main>
+            <main class="xmdc-theme--secondary-dark-bg">
               <Grid>
                 <GridCell span="12">
                   <Switch>

@@ -6,7 +6,7 @@ $mdc-theme-background: #fff; // White
     display: flex;
     flex: 1 1 auto;
     height: 100%;
-    min-height: 100%;
+    min-height: 90vh;
     box-sizing: border-box;
 }
 
@@ -16,10 +16,15 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    height: 100vh;
+    height: 100%;
     min-height: 100%;
 }
 
+.floating-drawer {
+  // float: left;
+  height: 100vh;
+  min-height: 100%;
+}
 @import "material-components-web/material-components-web.scss";
 
 // need to import all individually for sass loader
