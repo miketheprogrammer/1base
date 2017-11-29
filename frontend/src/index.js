@@ -168,7 +168,8 @@ class SmartRouterContainer extends React.Component {
 
   render() {
     const {
-      isAuthenticated,
+      gameSelected,
+      organizationSelected,
       component: Component,
       ...props
     } = this.props
@@ -178,7 +179,11 @@ class SmartRouterContainer extends React.Component {
         <body>
           <Route path="/" component={Navbar}/>
           <div class="content mdc-toolbar-fixed-adjust" style={{marginTop: "48px"}}>
-            <PrivateRoute path="/" component={LeftNavbar}/>
+            {(() => {
+              if (gameSelected && organizationSelected)
+                return (<PrivateRoute path="/" component={LeftNavbar}/>)
+            })()}
+
             <main>
               <Grid>
                 <GridCell span="12">
@@ -200,7 +205,10 @@ class SmartRouterContainer extends React.Component {
     )
   }
 }
-const SmartRouter = connect()(SmartRouterContainer)
+const SmartRouter = connect((state) => ({
+  organizationSelected: state.organization.selected || false,
+  gameSelected: state.game.selected || false,
+}))(SmartRouterContainer)
 
 ReactDOM.render((
   <Provider store={store}>

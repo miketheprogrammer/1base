@@ -32,7 +32,7 @@ app.use(cookieSession({
   keys: ['justinsdirtysecret'],
 
   // Cookie Options
-  maxAge: 1 * 60 * 60 * 1000 // 24 hours
+  maxAge: 2 * 24 * 60 * 60 * 1000 // 24 hours
 }))
 
 app.get('/session', (req, res) => {
