@@ -147,6 +147,15 @@ export const gotoOrganizationSelect = action$ =>
     .filter(action => action.type === GOTO_ORGANIZATION_SELECT)
     .map((action) => {localStorage.removeItem('1base.organization_id'); return push({url: '/organizations', pathname:'/organizations'}) });
 
+export const setOrganizationIdIfUrlId = action$ =>
+  action$
+    .filter(action => action.type === '@@router/LOCATION_CHANGE')
+    .map((action) => {
+      if (action.payload.pathname.search('/organizations/') > -1) {
+        return {type: SELECT_ORGANIZATION, payload: {_id: action.payload.pathname.split('/organizations/')[1]}}
+      }
+      return {type: 'NOOP'};
+    });
 export const rootEpic = combineEpics(
   incrementEpic,
   decrementEpic,
@@ -165,4 +174,5 @@ export const rootEpic = combineEpics(
   gameSelected,
   gotoOrganizationSelect,
   gotoGameSelect,
+  setOrganizationIdIfUrlId,
 );

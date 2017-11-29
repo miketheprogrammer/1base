@@ -4,7 +4,16 @@ import Rx from 'rxjs';
 import PlayerInfo from '../components/PlayerInfo';
 import PlayerList from '../components/PlayerList';
 import * as PlayersActions from '../actions/PlayersActions';
-
+import {
+  Button,
+  Toolbar,
+  ToolbarRow,
+  ToolbarSection,
+  ToolbarMenuIcon,
+  ToolbarTitle,
+  ToolbarIcon,
+  Theme
+} from 'rmwc';
 
 class Players extends Component {
 
@@ -36,9 +45,17 @@ class Players extends Component {
   render () {
     const players = this.props.players;
     return (
-      <div style={{float: 'left'}}>
+      <main class="xmdc-theme--secondary-dark-bg" style={{marginTop: "12px"}}>
+
+        <Toolbar class="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
+          <ToolbarRow>
+            <ToolbarSection alignStart>
+              <ToolbarTitle>Search and Manage Players</ToolbarTitle>
+            </ToolbarSection>
+          </ToolbarRow>
+        </Toolbar>
         <PlayerList players={players}/>
-      </div>
+      </main>
   );
   }
 }

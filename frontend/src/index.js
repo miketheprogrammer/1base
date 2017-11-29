@@ -99,6 +99,24 @@ class PrivateRouteContainer extends React.Component {
     )
   }
 
+  redirectToGameSelect(props) {
+    return (
+      <Redirect to={{
+        pathname: '/games',
+        state: { from: props.location }
+      }} />
+    )
+  }
+
+  redirectToOrganizationSelect(props) {
+    return (
+      <Redirect to={{
+        pathname: '/organizations',
+        state: { from: props.location }
+      }} />
+    )
+  }
+
   wait() {
     return (<div></div>)
   }
@@ -108,6 +126,7 @@ class PrivateRouteContainer extends React.Component {
       authenticated,
       authenticating,
       organizationSelected,
+      gameSelected,
       component: Component,
       ...props
     } = this.props
@@ -129,13 +148,13 @@ class PrivateRouteContainer extends React.Component {
       if (window.location.pathname !== '/' && window.location.pathname != '/organizations' && !organizationSelected) {
         return this.redirectToOrganizationSelect(props);
       }
-      // if (window.location.pathname === '/organizations' && organizationSelected) {
-      //   console.log('redirecting to players');
-      //   return this.redirectToPlayers(props);
-      // }
-      // if (window.location.pathname === '/' && !organizationSelected) {
-      //   return this.displayOrganizationSelect(props)
-      // }
+
+      if (!organizationSelected && window.location.pathname !== '/organizations') {
+        return this.redirectToOrganizationSelect(props)
+      }
+      if (!gameSelected && ['/games', '/organizations'].indexOf(window.location.pathname) === -1) {
+        return this.redirectToGameSelect(props)
+      }
       return (
         <Route
           {...props}
@@ -143,7 +162,6 @@ class PrivateRouteContainer extends React.Component {
         />
       )
     }
-
     return this.redirectToLogin(props);
   }
 
@@ -157,6 +175,7 @@ const PrivateRoute = connect(state => ({
                     ? true
                     : state.user.authenticating,
   organizationSelected: state.organization.selected || false,
+  gameSelected: state.game.selected || false,
 }))(PrivateRouteContainer)
 
 class SmartRouterContainer extends React.Component {
@@ -183,22 +202,15 @@ class SmartRouterContainer extends React.Component {
               if (gameSelected && organizationSelected)
                 return (<PrivateRoute path="/" component={LeftNavbar}/>)
             })()}
-
-            <main class="xmdc-theme--secondary-dark-bg">
-              <Grid>
-                <GridCell span="12">
-                  <Switch>
-                      <Route exact path="/login" component={Login}/>
-                      <PrivateRoute exact path="/registeruser" component={RegisterUser}/>
-                      <PrivateRoute exact path="/players" component={Players}/>
-                      <PrivateRoute exact path="/games" component={Games}/>
-                      <PrivateRoute exact path="/organizations" component={Organizations}/>
-                      <PrivateRoute exact path="/" component={Organizations}/>
-                   {/*<Route component={Home}/>*/}
-                  </Switch>
-                </GridCell>
-              </Grid>
-            </main>
+            <Switch>
+                <Route exact path="/login" component={Login}/>
+                <PrivateRoute exact path="/registeruser" component={RegisterUser}/>
+                <PrivateRoute exact path="/players" component={Players}/>
+                <PrivateRoute exact path="/games" component={Games}/>
+                <PrivateRoute exact path="/organizations" component={Organizations}/>
+                <PrivateRoute exact path="/" component={Organizations}/>
+             {/*<Route component={Home}/>*/}
+            </Switch>
           </div>
         </body>
       </ConnectedRouter>

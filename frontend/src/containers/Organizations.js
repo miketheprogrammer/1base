@@ -5,6 +5,16 @@ import OrganizationList from '../components/OrganizationList';
 import * as OrganizationActions from '../actions/OrganizationActions';
 import './CounterApp.css';
 import logo from '../logo.svg';
+import {
+  Button,
+  Toolbar,
+  ToolbarRow,
+  ToolbarSection,
+  ToolbarMenuIcon,
+  ToolbarTitle,
+  ToolbarIcon,
+  Theme
+} from 'rmwc';
 
 class CounterApp extends Component {
   constructor(props){
@@ -33,13 +43,22 @@ class CounterApp extends Component {
     const { organizations, dispatch } = this.props;
     console.log('orgs', organizations)
     return (
-      <div style={{float: 'left'}}>
+      <main class="xmdc-theme--secondary-dark-bg" style={{marginTop: "12px"}}>
+
+        <Toolbar class="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
+          <ToolbarRow>
+            <ToolbarSection alignStart>
+              <ToolbarTitle>Your Organizations</ToolbarTitle>
+            </ToolbarSection>
+          </ToolbarRow>
+        </Toolbar>
+
         <OrganizationList
           organizations={organizations}
           onSelected={(_id) => {
             dispatch(OrganizationActions.selectOrganization({_id}))
           }}/>
-      </div>
+      </main>
     )
 
   }
