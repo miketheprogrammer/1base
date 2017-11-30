@@ -88,6 +88,7 @@ class Players extends Component {
     return (
       <PlayerList
         players={players}
+        onPlayerClick={(playerId)=>dispatch(PlayerActions.selectPlayer(playerId))}
       />
     )
   }
@@ -102,13 +103,26 @@ class Players extends Component {
     )
   }
 
+  renderViewPlayer(){
+    const {players, dispatch, selection}=this.props;
+    const player= players.filter((player)=> player._id===selection)[0]
+    return (
+      <PlayerInfo
+        player={player}/>
+    )
+  }
+
   render () {
-    const {players, creating, dispatch} = this.props;
+    const {players, creating, dispatch, selection} = this.props;
     let toolbar, content;
     if (!creating) {
       toolbar = this.renderToolbar("View and Manage your Players", true);
       content = this.renderPlayerList();
     } else {
+      if(selection){
+        toolbar= this.renderToolbar("Player View")
+        content = this.renderViewPlayer();
+      }
       toolbar = this.renderToolbar("Create Your Player");
       content = this.renderCreateNewPlayer();
     }
@@ -127,6 +141,7 @@ const mapStateToProps = state => {
     selectedGame: state.game.selected,
     selectedOrganization: state.organization.selected,
     creating: state.player.creating,
+    selection: state.player.selection,
   };
 };
 

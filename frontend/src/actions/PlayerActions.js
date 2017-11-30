@@ -3,6 +3,7 @@ import {
   CREATE_NEW_PLAYER,
   CANCEL_CREATE_NEW_PLAYER,
   SAVE_NEW_PLAYER,
+  SELECT_PLAYER
 } from '../constants/ActionTypes';
 
 export function fetchPlayers(payload) {
@@ -27,5 +28,12 @@ export function saveNewPlayer(payload) {
   return {
     type: SAVE_NEW_PLAYER,
     payload
+  }
+}
+
+export function selectPlayer(_id){
+  return {
+    type: SELECT_PLAYER,
+    payload: {_id}
   }
 }

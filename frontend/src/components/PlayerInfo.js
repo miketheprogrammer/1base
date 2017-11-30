@@ -19,13 +19,23 @@ import {
   GridTileSecondary,
   GridTileTitle,
   Fab,
+  List,
+  ListItem,
+  ListItemStartDetail,
+  ListItemText,
+  Icon
 } from 'rmwc';
 
 const PlayerInfo = (player) => {
     return(
-      <div>
-
-      </div>
+  <List>
+	   <ListItem ripple>
+		     <ListItemStartDetail>
+			        <Icon>mood</Icon>
+		     </ListItemStartDetail>
+		   <ListItemText>{player.username}</ListItemText>
+	  </ListItem>
+</List>
     );
 };
 

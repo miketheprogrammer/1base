@@ -13,14 +13,14 @@ import {
   GridCell,
 } from 'rmwc';
 
-const PlayerList = ({players}) => {
+const PlayerList = ({players, onPlayerClick}) => {
     const renderCard = (player) => {
       return (
         <Card>
         	<CardMedia style={{
         		backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
         		height: '12.313rem',
-        	}}>
+        	}} onClick={(evt)=> onPlayerClick(player._id)}>
         	</CardMedia>
         	<CardPrimary>
         		<CardTitle large><p>{player.username.toLowerCase()}</p></CardTitle>
