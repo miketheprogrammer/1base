@@ -43,11 +43,6 @@ app.get('/', (req, res, next) => {
         return res.status(500).send({error: err, code: 500})
       }
     })
-  Player.find(query, (err, players) => {
-
-
-  })
-
 })
 
 app.get('/:playerId', (req, res, next) => {
