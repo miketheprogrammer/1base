@@ -192,8 +192,10 @@ const Player = exports.Player = new Schema({
   ],
 });
 Player.index({"name": "text"}, {name: "Player Full Text Search Index"});
-Player.index({"username": 1, "game": 1});
-Player.index({"game": 1, "characters.name": 1});
+Player.index({"username": 1, "game": 1},
+             {unique: true});
+Player.index({"externalId": 1, "game": 1},
+             {unique: true, sparse: true});
 
 
 mongoose.connect('mongodb://localhost/1base');
