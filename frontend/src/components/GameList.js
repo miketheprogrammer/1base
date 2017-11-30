@@ -13,6 +13,12 @@ import {
   Elevation,
   Grid,
   GridCell,
+  GridList,
+  GridTile,
+  GridTilePrimary,
+  GridTilePrimaryContent,
+  GridTileSecondary,
+  GridTileTitle,
   Fab,
 } from 'rmwc';
 
@@ -33,20 +39,27 @@ class CreateNewCard extends React.Component {
       	onMouseOver={() => this.setState({elevation: 24})}
       	onMouseOut={() => this.setState({elevation: 0})}
       >
-        <Card onClick={() => {onCreateNew()}}>
-          <CardMedia className="card-fab-center" style={{
-            backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
+        <GridTile onClick={() => {onCreateNew()}}>
+          <GridTilePrimary className="card-fab-center" style={{
+            // backgroundImage: 'url(https://lh3.googleusercontent.com/Yo-_PCJf56s0nR32KrNJHMAt5kXfB_FgSRChgFhZ5zoyIUO5RbJ_DD31RxNIXl2M9ksSlyjwfwMqTC6ZYsV_AO7o4ku8192XTpRBj81f0Y9_MRKK1YwZXjZ6MPdRv4bgha2ecOT_8ROhwHRQaLwK0ohzdviu6rTN5mdZEgRcS7KAeOaUon5YSSGa8MdZfXLNGSZ7SFIMwXnar_dhEwWnOkVjM2NFzP3o4eOVfq_GRAxJz0fHV-nEYsnwTJO6lpM8Om2WdNwKB5P6-mkl6plDYvC-JncT0CGMN2oygnY6rtx2H7BujlbnyTJTqZHZJUj78gfkD0GgP_mToVa8Grhk8LdMXg_Ot8vW3N4bC5CKa71GfvEVhnLEAeX9MDt4RJ5tvh_FQzYsS1E6g-PEL5xrKHu20Ep2pM9yPxGpB4ovJe-fgoRWi_YlK9gLVqa-VhfHrcv3Ju0B-4A2P6i8Z1pEtH7_QvfEPIj308XKybCLgp6cCv2kDjEoqJMvqBmpnOUsXCWByceMDcnUcFQyyCyqAMvxBv6bwQC7z0O8fjyW5UcXdZISOrBKMhykR0spOaXa=w2880-h1386)',
             height: '12.313rem',
           }}>
-          <Fab onClick={() => onCreateNew()}>add</Fab>
-          </CardMedia>
-          <CardPrimary style={{
-            height: '6.45rem',
+            <GridTilePrimaryContent>
+              <img
+                style={{
+                  height: "80%"
+                }}
+                src="https://lh3.googleusercontent.com/Yo-_PCJf56s0nR32KrNJHMAt5kXfB_FgSRChgFhZ5zoyIUO5RbJ_DD31RxNIXl2M9ksSlyjwfwMqTC6ZYsV_AO7o4ku8192XTpRBj81f0Y9_MRKK1YwZXjZ6MPdRv4bgha2ecOT_8ROhwHRQaLwK0ohzdviu6rTN5mdZEgRcS7KAeOaUon5YSSGa8MdZfXLNGSZ7SFIMwXnar_dhEwWnOkVjM2NFzP3o4eOVfq_GRAxJz0fHV-nEYsnwTJO6lpM8Om2WdNwKB5P6-mkl6plDYvC-JncT0CGMN2oygnY6rtx2H7BujlbnyTJTqZHZJUj78gfkD0GgP_mToVa8Grhk8LdMXg_Ot8vW3N4bC5CKa71GfvEVhnLEAeX9MDt4RJ5tvh_FQzYsS1E6g-PEL5xrKHu20Ep2pM9yPxGpB4ovJe-fgoRWi_YlK9gLVqa-VhfHrcv3Ju0B-4A2P6i8Z1pEtH7_QvfEPIj308XKybCLgp6cCv2kDjEoqJMvqBmpnOUsXCWByceMDcnUcFQyyCyqAMvxBv6bwQC7z0O8fjyW5UcXdZISOrBKMhykR0spOaXa=w2880-h1386"/>
+            </GridTilePrimaryContent>
+          </GridTilePrimary>
+          <GridTileSecondary style={{
+            // height: '6.45rem',
+
           }}>
-            <CardTitle large><p></p></CardTitle>
-            <CardSubtitle></CardSubtitle>
-          </CardPrimary>
-        </Card>
+            <GridTileTitle><p>Add New</p></GridTileTitle>
+
+          </GridTileSecondary>
+        </GridTile>
       </Elevation>
     )
   }
@@ -68,38 +81,34 @@ class GameCard extends React.Component {
       	onMouseOver={() => this.setState({elevation: 24})}
       	onMouseOut={() => this.setState({elevation: 0})}
       >
-        <Card onClick={() => {onSelected(game._id)}}>
-          <CardMedia style={{
-            backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
-            height: '12.313rem',
-          }}>
-          </CardMedia>
-          <CardPrimary>
-            <CardTitle large><p>{game.name}</p></CardTitle>
-            <CardSubtitle></CardSubtitle>
-          </CardPrimary>
-          <CardSupportingText>
-          </CardSupportingText>
-        </Card>
+        <GridTile onClick={() => {onSelected(game._id)}}>
+        <GridTilePrimary style={{
+          backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
+          height: '12.313rem',
+        }}>
+            <GridTilePrimaryContent >
+            </GridTilePrimaryContent>
+          </GridTilePrimary>
+          <GridTileSecondary>
+            <GridTileTitle large><p>{game.name}</p></GridTileTitle>
+          </GridTileSecondary>
+
+        </GridTile>
       </Elevation>
     )
   }
 }
 const GameList = ({games, onSelected, onCreateNew}) => {
     return(
-      <Grid>
-        <GridCell span="3" phone="2" tablet="2" desktop="3" key={"add-new"}>
+      <GridList>
           <CreateNewCard onCreateNew={onCreateNew}/>
-        </GridCell>
         {
           games.map((game) =>
-            <GridCell span="3" phone="1" tablet="2" desktop="3" key={game.name}>
             <GameCard game={game} onSelected={onSelected}/>
-            </GridCell>
           )
         }
 
-      </Grid>
+      </GridList>
     );
 };
 

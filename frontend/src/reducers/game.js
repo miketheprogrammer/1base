@@ -16,8 +16,8 @@ export default function game(state = {players:[]}, action = {}) {
       console.log({...state, selected: window.localStorage.getItem('1base.game_id')})
       return {...state, selected: window.localStorage.getItem('1base.game_id')}
     case GAMES_FETCHED:
-      console.log({...state, games: action.payload, fetchingGames:false})
-      return {...state, games: action.payload, fetchingGames:false}
+      console.log({...state, games: action.payload.result, fetchingGames:false})
+      return {...state, games: action.payload.result, fetchingGames:false}
     case FETCH_GAMES:
       return {...state, fetchingGames: true}
     case SELECT_GAME:

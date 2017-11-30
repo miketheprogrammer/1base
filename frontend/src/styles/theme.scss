@@ -35,12 +35,26 @@ main {
   min-height: 100%;
 }
 
+// if using cards with fab
 .card-fab-center {
   &.mdc-card__media {
     justify-content: center;
     align-items: center;
   }
+  &.mdc-grid-tile__primary {
+    justify-content: center;
+    align-items: center;
+  }
 }
+
+// Create Page Buttons
+.create-page-actions {
+  > button {
+    margin-right: 10px;
+  }
+
+}
+// END Create Page Buttons
 @import "material-components-web/material-components-web.scss";
 
 // need to import all individually for sass loader

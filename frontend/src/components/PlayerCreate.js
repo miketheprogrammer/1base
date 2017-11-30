@@ -20,7 +20,7 @@ import {
 
 } from 'rmwc';
 
-class OrganizationCreate extends React.Component {
+class PlayerCreate extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -39,7 +39,7 @@ class OrganizationCreate extends React.Component {
         </GridCell>
         <GridCell tablet="5" desktop="7">
           <FormField>
-            <TextField withLeadingIcon={<TextFieldIcon use="edit"/>}  label="Krytoniks Inc." id="name-field" onChange={(e) => this.setName(e.target.value)} />
+            <TextField withLeadingIcon={<TextFieldIcon use="edit"/>}  label="Justin Pinero" id="name-field" onChange={(e) => this.setName(e.target.value)} />
           </FormField>
         </GridCell>
         <GridCell tablet="5" desktop="5">
@@ -53,4 +53,4 @@ class OrganizationCreate extends React.Component {
   }
 }
 
-export default OrganizationCreate;
+export default PlayerCreate;

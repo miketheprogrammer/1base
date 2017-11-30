@@ -35,5 +35,6 @@ const buildRxRequest = (httpMethod, apiMethod, params) => {
 
 export default {
   get: apiMethod => buildRxRequest('get', apiMethod),
-  post: (apiMethod, params) => buildRxRequest('post', apiMethod, params)
+  post: (apiMethod, params) => buildRxRequest('post', apiMethod, params),
+  put: (apiMethod, params) => buildRxRequest('put', apiMethod, params),
 };

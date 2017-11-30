@@ -30,7 +30,6 @@ const PlayerList = ({players}) => {
         	</CardSupportingText>
         	<CardActions>
         		<CardAction>Edit</CardAction>
-        		<CardAction>Contact</CardAction>
         	</CardActions>
         </Card>
       )

@@ -35,19 +35,17 @@ class GameCreate extends React.Component {
     const {onCreate, onCancel} = this.props;
     return (
       <Grid>
-        <GridCell span="0" desktop="5">
+        <GridCell tablet="5" desktop="5">
         </GridCell>
-        <GridCell span="4" desktop="7">
+        <GridCell tablet="5" desktop="7">
           <FormField>
             <TextField withLeadingIcon={<TextFieldIcon use="edit"/>}  label="3 Days To Die" id="name-field" onChange={(e) => this.setName(e.target.value)} />
           </FormField>
         </GridCell>
-        <GridCell span="0" desktop="5">
+        <GridCell tablet="5" desktop="5">
         </GridCell>
-        <GridCell span="2" desktop="2">
+        <GridCell className="create-page-actions" tablet="5" desktop="2">
           <Button theme={['secondary-dark-bg', 'text-secondary-on-light']} raised onClick={() => onCreate(this.state)}>create</Button>
-        </GridCell>
-        <GridCell span="2" desktop="2">
           <Button theme={['primary-dark-bg', 'text-primary-on-primary']} raised onClick={() => onCancel()}>cancel</Button>
         </GridCell>
       </Grid>

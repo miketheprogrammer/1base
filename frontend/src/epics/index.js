@@ -38,6 +38,10 @@ import {
   CREATING_NEW_GAME,
   NEW_GAME_SAVED,
   SAVE_NEW_GAME,
+  CREATE_NEW_PLAYER,
+  CREATING_NEW_PLAYER,
+  NEW_PLAYER_SAVED,
+  SAVE_NEW_PLAYER,
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 import { push } from 'react-router-redux';
@@ -71,8 +75,23 @@ export const fetchPlayers = action$ =>
     .filter(action => action.type === FETCH_PLAYERS)
     .mergeMap(action =>
       Request.get('/players?game='+action.payload.game_id)
-        .map((result)=>{return {type: PLAYERS_FETCHED, payload: result.result};})
+        .map((result)=>{return {type: PLAYERS_FETCHED, payload: result};})
       );
+
+  export const saveNewPlayer = action$ =>
+    action$
+      .filter(action => action.type === SAVE_NEW_PLAYER)
+      .mergeMap(action =>
+        Request.post('/players', action.payload)
+        .map((result) => { return {type: NEW_PLAYER_SAVED, payload: result}; })
+    );
+
+  export const fetchPlayersOnNewPlayerSave = action$ =>
+    action$
+      .filter(action => action.type === NEW_PLAYER_SAVED)
+      .map((result) => {
+        return {type: FETCH_PLAYERS, payload: {game_id: localStorage.getItem('1base.game_id')}}
+      });
 
 // AUTHENTICATION EPICS
 export const checkUserAuthenticated = action$ =>
@@ -80,7 +99,7 @@ action$
   .filter(action => action.type === CHECK_USER_AUTHENTICATED)
   .mergeMap(action =>
     Request.get('/whoami')
-    .map((result) => { if (result.result) return {type: USER_AUTHENTICATED}; else return {type: AUTHENTICATION_FAILED} })
+    .map((result) => { if (result && result.result) return {type: USER_AUTHENTICATED}; else return {type: AUTHENTICATION_FAILED} })
 );
 
 // ORGANIZATION EPICS
@@ -89,7 +108,7 @@ action$
   .filter(action => action.type === FETCH_ORGANIZATIONS)
   .mergeMap(action =>
     Request.get('/organizations')
-    .map((result) => { return {type: ORGANIZATIONS_FETCHED, payload: result.result} })
+    .map((result) => { return {type: ORGANIZATIONS_FETCHED, payload: result} })
 );
 
 export const selectOrganization = action$ =>
@@ -107,16 +126,15 @@ export const saveNewOrganization = action$ =>
     .filter(action => action.type === SAVE_NEW_ORGANIZATION)
     .mergeMap(action =>
       Request.post('/organizations', action.payload)
-      .map((result) => { return {type: NEW_ORGANIZATION_SAVED, payload: result.result}; })
+      .map((result) => { return {type: NEW_ORGANIZATION_SAVED, payload: result}; })
   );
 
-export const fetchOrganizationsOnNewOrganiationSave = action$ =>
+export const fetchOrganizationsOnNewOrganizationSave = action$ =>
   action$
     .filter(action => action.type === NEW_ORGANIZATION_SAVED)
-    .mergeMap(action =>
-      Request.get('/organizations')
-      .map((result) => { return {type: ORGANIZATIONS_FETCHED, payload: result.result} })
-  );
+    .map(action => {
+      return {type: FETCH_ORGANIZATIONS}
+    });
 
 // GAMES EPICS
 export const fetchGames = action$ =>
@@ -124,7 +142,7 @@ action$
   .filter(action => action.type === FETCH_GAMES)
   .mergeMap(action =>
     Request.get('/games?organization=' + action.payload.organization_id)
-    .map((result) => { return {type: GAMES_FETCHED, payload: result.result} })
+    .map((result) => { return {type: GAMES_FETCHED, payload: result} })
 );
 
 export const selectGame = action$ =>
@@ -145,16 +163,15 @@ export const saveNewGame = action$ =>
     .filter(action => action.type === SAVE_NEW_GAME)
     .mergeMap(action =>
       Request.post('/games', action.payload)
-      .map((result) => { return {type: NEW_GAME_SAVED, payload: result.result}; })
+      .map((result) => { return {type: NEW_GAME_SAVED, payload: result}; })
   );
 
 export const fetchGamesOnNewGameSave = action$ =>
   action$
     .filter(action => action.type === NEW_GAME_SAVED)
-    .mergeMap(action =>
-      Request.get('/games')
-      .map((result) => { return {type: GAMES_FETCHED, payload: result.result} })
-  );
+    .map((result) => {
+      return {type: FETCH_GAMES, payload: {organization_id: localStorage.getItem('1base.organization_id')}}
+    });
 // NAVIGATION EPICS
 export const gotoGameSelect = action$ =>
   action$
@@ -225,7 +242,7 @@ export const rootEpic = combineEpics(
   gotoGameSelect,
   setOrganizationIdIfUrlId,
   saveNewOrganization,
-  fetchOrganizationsOnNewOrganiationSave,
+  fetchOrganizationsOnNewOrganizationSave,
   clearStateOnOrganizationsPageLoad,
   clearStateOnGamesPageLoad,
 );

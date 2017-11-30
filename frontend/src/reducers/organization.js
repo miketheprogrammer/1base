@@ -15,8 +15,8 @@ export default function organization(state = {players:[]}, action = {}) {
     case '@@redux/INIT':
       return {...state, selected: window.localStorage.getItem('1base.organization_id')}
     case ORGANIZATIONS_FETCHED:
-      console.log({...state, organizations: action.payload, fetchingOrganizations:false})
-      return {...state, organizations: action.payload, fetchingOrganizations:false}
+      console.log({...state, organizations: action.payload.result, fetchingOrganizations:false})
+      return {...state, organizations: action.payload.result, fetchingOrganizations:false}
     case FETCH_ORGANIZATIONS:
       return {...state, fetchingOrganizations: true}
     case SELECT_ORGANIZATION:

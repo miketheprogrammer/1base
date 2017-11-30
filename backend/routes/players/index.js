@@ -37,9 +37,6 @@ app.get('/', (req, res, next) => {
     .populate('game')
     .exec()
     .then((players) => {
-      if (!players.length) {
-        return res.status(404).send({result: null, code: 404})
-      }
       return res.status(200).send({result: players, code: 200});
     }, (err) => {
       if (err) {
@@ -97,8 +94,29 @@ app.put('/:playerId', (req, res, next) => {
     for (key in req.body) {
       player.set(key, req.body.key);
     }
-    player.save();
+    player.save((err, doc, numAffected) => {
+      if (err) {
+        return res.status(500).send({error: err, code: 500})
+      }
+      if (numAffected <= 0) {
+        // check this maybe its not 409
+        return res.status(409).send({error: "Could not post player", code: 409});
+      }
+      return res.status(201).send({result: doc._id});
 
+    });
+
+  })
+})
+
+app.delete('/:playerId', (req, res, next) => {
+  const _id = req.params.playerId;
+
+  Player.findOneAndRemove({_id}, (err) => {
+    if (err) {
+      return res.status(500).send({error: err, code: 500})
+    }
+    return res.status(201).send({result: true});
   })
 })
 
