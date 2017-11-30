@@ -245,4 +245,7 @@ export const rootEpic = combineEpics(
   fetchOrganizationsOnNewOrganizationSave,
   clearStateOnOrganizationsPageLoad,
   clearStateOnGamesPageLoad,
+  saveNewPlayer,
+  fetchPlayersOnNewPlayerSave,
+  
 );

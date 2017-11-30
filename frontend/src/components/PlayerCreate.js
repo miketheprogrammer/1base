@@ -24,11 +24,11 @@ class PlayerCreate extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      name: '',
+      username: '',
     }
   }
-  setName(name) {
-    this.setState({name});
+  setName(username) {
+    this.setState({username});
   }
 
   render() {
