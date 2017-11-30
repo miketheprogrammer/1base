@@ -26,14 +26,15 @@ import {
   Icon
 } from 'rmwc';
 
-const PlayerInfo = (player) => {
+const PlayerInfo = ({player}) => {
+  console.log('viewing', player);
     return(
   <List>
 	   <ListItem ripple>
 		     <ListItemStartDetail>
 			        <Icon>mood</Icon>
 		     </ListItemStartDetail>
-		   <ListItemText>{player.username}</ListItemText>
+		       <ListItemText>{player.username}</ListItemText>
 	  </ListItem>
 </List>
     );

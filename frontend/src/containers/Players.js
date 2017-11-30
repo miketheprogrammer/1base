@@ -105,7 +105,10 @@ class Players extends Component {
 
   renderViewPlayer(){
     const {players, dispatch, selection}=this.props;
-    const player= players.filter((player)=> player._id===selection)[0]
+    const player = players.filter((player)=> player._id===selection)[0]
+    if (!player) {
+      return (<div>Player is missing for some reason from the data</div>)
+    }
     return (
       <PlayerInfo
         player={player}/>
@@ -115,14 +118,16 @@ class Players extends Component {
   render () {
     const {players, creating, dispatch, selection} = this.props;
     let toolbar, content;
+    console.log('Player Props', this.props)
     if (!creating) {
-      toolbar = this.renderToolbar("View and Manage your Players", true);
-      content = this.renderPlayerList();
-    } else {
       if(selection){
         toolbar= this.renderToolbar("Player View")
         content = this.renderViewPlayer();
+      } else {
+        toolbar = this.renderToolbar("View and Manage your Players", true);
+        content = this.renderPlayerList();
       }
+    } else {
       toolbar = this.renderToolbar("Create Your Player");
       content = this.renderCreateNewPlayer();
     }
