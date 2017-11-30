@@ -15,9 +15,12 @@ import {
   Theme,
   PermanentDrawer,
   PermanentDrawerContent,
+  Icon,
   List,
   ListItem,
   ListItemText,
+  ListItemStartDetail,
+  ListItemEndDetail,
 } from 'rmwc';
 import './CounterApp.css';
 // import 'material-components-web/dist/material-components-web.css'
@@ -33,23 +36,32 @@ export class LeftNavigationBar extends React.Component {
   render() {
 
     return (
-        <PermanentDrawer theme={['secondary-dark-bg', 'text-secondary-on-dark']}>
+        <PermanentDrawer theme={['primary-dark-bg']} style={{width: "170px"}}>
         	<PermanentDrawerContent>
-        		<List>
+        		<List theme={['text-primary-on-dark']}>
         			<ListItem>
         				<ListItemText>Dashboard</ListItemText>
+                <ListItemEndDetail>
+                  <Icon>home</Icon>
+                </ListItemEndDetail>
         			</ListItem>
         			<ListItem>
         				<ListItemText>Players</ListItemText>
+                <ListItemEndDetail>
+                  <Icon>group</Icon>
+                </ListItemEndDetail>
         			</ListItem>
-              <ListItem>
-                <ListItemText>DEBUG LINKS BELOW - </ListItemText>
-              </ListItem>
               <ListItem onClick={() => this.props.dispatch(OrganizationActions.gotoOrganizationSelect())}>
                 <ListItemText>Organizations</ListItemText>
+                <ListItemEndDetail>
+                  <Icon>location_city</Icon>
+                </ListItemEndDetail>
               </ListItem>
               <ListItem onClick={() => this.props.dispatch(GameActions.gotoGameSelect())}>
                 <ListItemText>Games</ListItemText>
+                <ListItemEndDetail>
+                  <Icon>extension</Icon>
+                </ListItemEndDetail>
               </ListItem>
         		</List>
         	</PermanentDrawerContent>

@@ -1,7 +1,8 @@
-$mdc-theme-primary: #03a9f4;
-$mdc-theme-secondary: #4dd0e1;
+// $mdc-theme-primary: #03a9f4;
+// $mdc-theme-secondary: #4dd0e1;
 // $mdc-theme-background: #fff; // White
-
+$mdc-theme-primary: #212121;
+$mdc-theme-secondary: #29b6f6;
 .content {
     display: flex;
     flex: 1 1 auto;
@@ -32,6 +33,13 @@ main {
   // float: left;
   height: 100vh;
   min-height: 100%;
+}
+
+.card-fab-center {
+  &.mdc-card__media {
+    justify-content: center;
+    align-items: center;
+  }
 }
 @import "material-components-web/material-components-web.scss";
 

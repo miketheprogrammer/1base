@@ -43,7 +43,6 @@ class Players extends Component {
     const players = this.props.players;
     return (
       <main class="xmdc-theme--secondary-dark-bg" style={{marginTop: "16px"}}>
-
         <Toolbar class="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
           <ToolbarRow>
             <ToolbarSection alignStart>

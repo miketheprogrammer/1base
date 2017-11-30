@@ -1,16 +1,18 @@
 import React from 'react';
-import { Ripple,
-         Card,
-         CardMedia,
-         CardPrimary,
-         CardTitle,
-         CardSubtitle,
-         CardSupportingText,
-         CardActions,
-         CardAction,
-         Grid,
-         GridCell,
-       } from 'rmwc';
+import {
+  Ripple,
+  Card,
+  CardMedia,
+  CardPrimary,
+  CardTitle,
+  CardSubtitle,
+  CardSupportingText,
+  CardActions,
+  CardAction,
+  Grid,
+  GridCell,
+} from 'rmwc';
+
 const PlayerList = ({players}) => {
     const renderCard = (player) => {
       return (
