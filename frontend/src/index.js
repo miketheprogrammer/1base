@@ -205,7 +205,8 @@ class SmartRouterContainer extends React.Component {
             <Switch>
                 <Route exact path="/login" component={Login}/>
                 <PrivateRoute exact path="/registeruser" component={RegisterUser}/>
-                <PrivateRoute path="/players" component={Players}/>
+                <PrivateRoute exact path="/players" component={Players}/>
+                <PrivateRoute exact path="/players/:id" component={Players}/>
                 <PrivateRoute exact path="/games" component={Games}/>
                 <PrivateRoute exact path="/organizations" component={Organizations}/>
                 <PrivateRoute exact path="/" component={Organizations}/>

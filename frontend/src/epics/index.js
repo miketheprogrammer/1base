@@ -95,10 +95,10 @@ export const fetchPlayers = action$ =>
         return {type: FETCH_PLAYERS, payload: {game_id: localStorage.getItem('1base.game_id')}}
       });
 
-export const selectPlayer = action$ =>
+  export const selectPlayer = action$ =>
         action$
           .filter(action => action.type === SELECT_PLAYER)
-          .map((action) => {return push({url: `/players/${action.payload._id}`, pathname:`/players/${action.payload._id}`}) });
+          .map((action) => { return {type: PLAYER_SELECTED, payload: action.payload}; })
 
 
 // AUTHENTICATION EPICS
