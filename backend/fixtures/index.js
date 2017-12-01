@@ -62,30 +62,30 @@ const MakeItem = (game, cb) => {
     item.tags = tags;
     item.meta = {
       price: faker.commerce.price()
-    }
+    };
     console.log('Making Item', item);
     item.save(cb);
     return item;
 };
 
 const MakeNItems = (n, game, cb) => {
-  let items = []
+  let items = [];
 
   _cb = (err, doc) => {
       n -= 1;
-      console.log('we have ', n)
+      console.log('we have ', n);
       if (!err && doc) items.push((new Item(doc)));
       if (n <= 0) {
         return cb(null, items);
       }
 
 
-  }
+  };
   for (var i = 0; i < n; i += 1) {
     MakeItem(game, _cb);
   }
   return items;
-}
+};
 
 const MakeCharacter = (game, player, npc, items) => {
   let character = new Character();
@@ -105,6 +105,8 @@ const MakePlayer = (game, organization, cb) => {
   player.organization = organization._id;
   player.externalId = uuid.v4();
   player.username = faker.internet.email();
+  player.firstname= faker.name.firstName();
+  player.lastname= faker.name.lastName();
   MakeNItems(10, game, (err, characterItems) => {
     let character = MakeCharacter(game, player, false, characterItems);
     player.characters = [character._id];

@@ -32,10 +32,16 @@ const PlayerInfo = ({player}) => {
   <List>
 	   <ListItem ripple>
 		     <ListItemStartDetail>
-			        <Icon>mood</Icon>
+			        <Icon>account_circle</Icon>
 		     </ListItemStartDetail>
 		       <ListItemText>{player.username}</ListItemText>
 	  </ListItem>
+    <ListItem ripple>
+        <ListItemStartDetail>
+             <Icon>info_outline</Icon>
+        </ListItemStartDetail>
+          <ListItemText>{player.firstname} {player.lastname}</ListItemText>
+   </ListItem>
 </List>
     );
 };

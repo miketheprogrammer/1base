@@ -176,7 +176,7 @@ const Player = exports.Player = new Schema({
     type: String,
   },
   lastname: {
-    types: String,
+    type: String,
   },
   password: {
     type: String,

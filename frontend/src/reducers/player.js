@@ -5,7 +5,8 @@ import {
   CANCEL_CREATE_NEW_PLAYER,
   NEW_PLAYER_SAVED,
   SELECT_PLAYER,
-  PLAYER_SELECTED
+  PLAYER_SELECTED,
+  PLAYERLIST_LOADED
 } from '../constants/ActionTypes';
 
 export default function players(state = {players:[]}, action = {}) {
@@ -23,6 +24,8 @@ export default function players(state = {players:[]}, action = {}) {
       return {...state, creating: false}
     case PLAYER_SELECTED:
       return {...state, selection: action.payload._id}
+    case PLAYERLIST_LOADED:
+      return {...state, selection: undefined}
     default:
       return state;
   }

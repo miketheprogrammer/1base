@@ -118,7 +118,7 @@ class PrivateRouteContainer extends React.Component {
   }
 
   wait() {
-    return (<div></div>)
+    return (<div>asdasdasd</div>)
   }
 
   renderOne() {
@@ -130,12 +130,6 @@ class PrivateRouteContainer extends React.Component {
       component: Component,
       ...props
     } = this.props
-    console.log({
-      authenticated,
-      authenticating,
-      organizationSelected,
-      ...props
-    })
     if (authenticating) {
       return (
         <Route
@@ -145,6 +139,11 @@ class PrivateRouteContainer extends React.Component {
       )
     }
     if (authenticated) {
+      console.log(
+      "authenticated:", authenticated,
+      "organization selected:", organizationSelected,
+      "am I true?", window.location.pathname !== '/' && window.location.pathname != '/organizations'
+     )
       if (window.location.pathname !== '/' && window.location.pathname != '/organizations' && !organizationSelected) {
         return this.redirectToOrganizationSelect(props);
       }

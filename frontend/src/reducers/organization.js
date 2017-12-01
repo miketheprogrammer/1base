@@ -7,11 +7,14 @@ import {
   CREATE_NEW_ORGANIZATION,
   CANCEL_CREATE_NEW_ORGANIZATION,
   NEW_ORGANIZATION_SAVED,
+  USER_LOGGEDIN
 } from '../constants/ActionTypes';
 
 export default function organization(state = {players:[]}, action = {}) {
   console.log('Org Actions', action.type, action.payload)
   switch (action.type) {
+    case USER_LOGGEDIN:
+      return {...state, selected: undefined}
     case '@@redux/INIT':
       return {...state, selected: window.localStorage.getItem('1base.organization_id')}
     case ORGANIZATIONS_FETCHED:

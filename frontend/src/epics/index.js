@@ -43,7 +43,8 @@ import {
   NEW_PLAYER_SAVED,
   SAVE_NEW_PLAYER,
   SELECT_PLAYER,
-  PLAYER_SELECTED
+  PLAYER_SELECTED,
+  PLAYERLIST_LOADED
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 import { push } from 'react-router-redux';
@@ -98,8 +99,7 @@ export const fetchPlayers = action$ =>
   export const selectPlayer = action$ =>
         action$
           .filter(action => action.type === SELECT_PLAYER)
-          .map((action) => { return {type: PLAYER_SELECTED, payload: action.payload}; })
-
+          .map((action) => {return push({url: `/players/${action.payload._id}`, pathname:`/players/${action.payload._id}`}) });
 
 // AUTHENTICATION EPICS
 export const checkUserAuthenticated = action$ =>
@@ -200,9 +200,14 @@ export const gotoOrganizationSelect = action$ =>
 export const setPlayerIdIfUrlId = action$ =>
   action$
     .filter(action => action.type === '@@router/LOCATION_CHANGE')
-    .filter(action => action.payload.pathname.search('/players/') > -1)
+    .filter(action => action.payload.pathname.search('/players') > -1)
     .map((action) => {
+      const playerIdPath= action.payload.pathname.split('/players/')[1]
+      if(playerIdPath){
       return {type: PLAYER_SELECTED, payload: {_id: action.payload.pathname.split('/players/')[1]}}
+    }else{
+      return {type:PLAYERLIST_LOADED}
+    }
     });
 
 export const setOrganizationIdIfUrlId = action$ =>
