@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@amcharts/amcharts3-react": "^3.0.3",
+    "amcharts": "^3.14.5",
     "anime": "^0.1.2",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",

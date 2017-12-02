@@ -10,5 +10,18 @@ exports.ExpressResponseTimes = [
       'host',
       'request_path'
     ]
+  },
+  {
+    measurement: 'logins',
+    fields: {
+      count: Influx.FieldType.INTEGER,
+    },
+    tags: [
+      'organization',
+      'game',
+      'user',
+      'type',
+      'date',
+    ]
   }
 ]

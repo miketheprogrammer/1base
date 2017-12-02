@@ -9,11 +9,13 @@ const schemas     = require('./schemas');
 const middleware  = require('./middleware');
 const bodyParser  = require('body-parser');
 const md5         = require('md5');
+const metrics     = require('./lib/metrics');
 var cookieSession = require('cookie-session')
 
-// Boiler plate setup of databases
 const influx = new Influx.InfluxDB({
   host: 'localhost',
+  database: 'express_response_db',
+  schema: schemas.influx.ExpressResponseTimes
 });
 
 mongoose.connect('mongodb://localhost/1base');
@@ -25,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Top-Level Middleware
-app.use(middleware.influxExpressResponseTimes);
+app.use(middleware.influxExpressResponseTimes(influx));
 
 app.use(cookieSession({
   name: 'stuff',
@@ -49,11 +51,50 @@ app.use('/api/login', routes.login);
 app.use('/api/players', routes.players);
 app.use('/api/organizations', routes.organizations)
 app.use('/api/games', routes.games)
-app.use('/api/whoami', (req, res) => {
+
+
+app.get('/api/whoami', (req, res) => {
   if (req.session.loggedIn) {
+    metrics.trackLogin(influx)('user', req.query.organization, req.query.game, req.query.user || req.session.id)
     return res.status(200).send({result: true});
   }
   return res.status(401).send({result: false});
+})
+
+app.get('/api/metrics', (req, res) => {
+  let game = req.query.game;
+  let organization = req.query.organization;
+  let user = req.query.user;
+  let type = req.query.type || 'user';
+  let userQuery = '',
+      organizationQuery = '',
+      gameQuery = '';
+
+  if (user) userQuery = `AND "user" = '${user}'`
+  if (organization) organizationQuery = `AND "organization" = '${organization}'`
+  if (game) gameQuery = `AND "game" = '${game}'`
+  queryString = `
+    SELECT sum("count")
+      FROM "logins"
+      WHERE (
+        "type" = '${type}'
+          ${organizationQuery}
+          ${gameQuery}
+          ${userQuery})
+        AND time >= now() - 1d
+      GROUP BY time(1d)`
+  // console.log(queryString)
+  let query = influx.query(queryString)
+  query
+  .catch((err) => {
+    return res.status(200).send([{err: err.message}]);
+  })
+  .then((rows => {
+    rows = rows || []
+    if(rows.length > 1)
+      return res.status(200).send(rows[rows.length - 1]);
+    return res.status(200).send(rows);
+  }))
 })
 
 // ServerStarted observable

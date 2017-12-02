@@ -4,6 +4,10 @@ import Rx from 'rxjs';
 import PlayerInfo from '../components/PlayerInfo';
 import PlayerList from '../components/PlayerList';
 import PlayerCreate from '../components/PlayerCreate';
+import RequestTimesChart from '../components/charts/RequestTimesChart';
+import ChartCard from '../components/ChartCard';
+import SingleStat from '../components/charts/SingleStat';
+import HoverElevation from '../components/HoverElevation';
 import * as PlayerActions from '../actions/PlayerActions';
 import {
   Button,
@@ -14,7 +18,10 @@ import {
   ToolbarMenuIcon,
   ToolbarTitle,
   ToolbarIcon,
-  Theme
+  Theme,
+  GridList,
+  Grid,
+  GridCell,
 } from 'rmwc';
 
 class Players extends Component {
@@ -116,7 +123,14 @@ class Players extends Component {
   }
 
   render () {
-    const {players, creating, dispatch, selection} = this.props;
+    const {
+      players,
+      creating,
+      dispatch,
+      selection,
+      selectedGame,
+      selectedOrganization
+    } = this.props;
     let toolbar, content;
     console.log('Player Props', this.props)
     if (!creating) {
@@ -133,6 +147,35 @@ class Players extends Component {
     }
     return (
       <main style={{marginTop: "16px"}}>
+      <Grid>
+      <GridCell desktop="4">
+      <HoverElevation elevation={10}>
+        <SingleStat
+          name={"Player Logins"}
+          measurement={"logins"}
+          type={"player"}
+          refreshRate={5}
+          value={0}
+          game={selectedGame}
+          organization={selectedOrganization}/>
+      </HoverElevation>
+      </GridCell>
+      <GridCell desktop="4">
+        <HoverElevation elevation={10}>
+          <RequestTimesChart/>
+        </HoverElevation>
+      </GridCell>
+      <GridCell desktop="4">
+      <HoverElevation elevation={10}>
+        <RequestTimesChart/>
+      </HoverElevation>
+      </GridCell>
+      <GridCell desktop="4">
+      <HoverElevation elevation={10}>
+        <RequestTimesChart/>
+      </HoverElevation>
+      </GridCell>
+      </Grid>
         {toolbar}
         {content}
       </main>

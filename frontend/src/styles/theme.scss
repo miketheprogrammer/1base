@@ -35,6 +35,33 @@ main {
   min-height: 100%;
 }
 
+// SingleStat
+.center-align {
+  justify-content: center;
+  align-items: center;
+}
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: grid;
+  height: 100%;
+}
+.flex-item {
+  // width: 100%;
+  // height: 100%;
+  // margin: 5px;
+  // color: white;
+  font-weight: bold;
+  font-size: 4em;
+  // text-align: center;
+  align-items: center;
+}
+.hover-tile {
+  width: 100%;
+  height: 100%;
+}
+
 // if using cards with fab
 .card-fab-center {
   &.mdc-card__media {

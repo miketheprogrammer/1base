@@ -3,15 +3,8 @@ var Rx          = require('@reactivex/rxjs');
 var os          = require('os')
 var schemas     = require('../schemas').influx;
 
-const influx = new Influx.InfluxDB({
-  host: 'localhost',
-  database: 'express_response_db',
-  schema: schemas.ExpressResponseTimes
-})
-
-module.exports = (req, res, next) => {
+module.exports = (influx) => (req, res, next) => {
   const start = Date.now();
-
   res.on('finish', () => {
     const duration = Date.now() - start
     console.log(`Request to ${req.path} took ${duration}ms`);
