@@ -28,7 +28,7 @@ class SingleStat extends Component {
       .interval(1000 * refreshRate)
       .takeUntil(this.destroy$)
       .mergeMap(action =>
-        Request.get('/metrics', action.payload)
+        Request.get(`/metrics?${query}`, action.payload)
         .map((result) => {
           return result.sum;
         })

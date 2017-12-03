@@ -151,9 +151,9 @@ class Players extends Component {
       <GridCell desktop="4">
       <HoverElevation elevation={10}>
         <SingleStat
-          name={"Player Logins"}
+          name={"User Logins"}
           measurement={"logins"}
-          type={"player"}
+          type={"user"}
           refreshRate={5}
           value={0}
           game={selectedGame}
