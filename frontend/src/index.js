@@ -38,6 +38,7 @@ import RegisterUser from './containers/RegisterUser';
 import Players from './containers/Players';
 import Organizations from './containers/Organizations';
 import Games from './containers/Games';
+import Dashboard from './containers/Dashboard';
 import './styles/theme.scss'
 import {
   Grid,
@@ -208,6 +209,7 @@ class SmartRouterContainer extends React.Component {
                 <PrivateRoute exact path="/players/:id" component={Players}/>
                 <PrivateRoute exact path="/games" component={Games}/>
                 <PrivateRoute exact path="/organizations" component={Organizations}/>
+                <PrivateRoute exact path="/dashboard" component={Dashboard}/>
                 <PrivateRoute exact path="/" component={Organizations}/>
              {/*<Route component={Home}/>*/}
             </Switch>

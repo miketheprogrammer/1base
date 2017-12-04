@@ -147,35 +147,6 @@ class Players extends Component {
     }
     return (
       <main style={{marginTop: "16px"}}>
-      <Grid>
-      <GridCell desktop="4">
-      <HoverElevation elevation={10}>
-        <SingleStat
-          name={"User Logins"}
-          measurement={"logins"}
-          type={"user"}
-          refreshRate={5}
-          value={0}
-          game={selectedGame}
-          organization={selectedOrganization}/>
-      </HoverElevation>
-      </GridCell>
-      <GridCell desktop="4">
-        <HoverElevation elevation={10}>
-          <RequestTimesChart/>
-        </HoverElevation>
-      </GridCell>
-      <GridCell desktop="4">
-      <HoverElevation elevation={10}>
-        <RequestTimesChart/>
-      </HoverElevation>
-      </GridCell>
-      <GridCell desktop="4">
-      <HoverElevation elevation={10}>
-        <RequestTimesChart/>
-      </HoverElevation>
-      </GridCell>
-      </Grid>
         {toolbar}
         {content}
       </main>

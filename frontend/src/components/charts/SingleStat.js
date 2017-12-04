@@ -16,26 +16,37 @@ class SingleStat extends Component {
     };
   }
 
+  makeRequest() {
+    const {name, measurement, organization, game, type, user} = this.props;
+    let query = `organization=${organization}&game=${game}&type=${type}`
+    return Request.get(`/metrics?${query}`)
+    .map((result) => {
+      return result.sum;
+    })
+  }
+
+  handleRequest(request$) {
+    request$.subscribe((value) => {
+      this.setState({value})
+    });
+  }
   componentDidMount() {
     /*
     ALERT : We should think of passing in the
     interval function from the parent. That
     way we can maintain synced graphs
     */
-    const {refreshRate, name, measurement, organization, game, type, user} = this.props;
-    let query = `organization=${organization}&game=${game}&type=${type}`
-    Rx.Observable
-      .interval(1000 * refreshRate)
+    const {refreshRate, interval$} = this.props;
+    // Make an instant request
+    this.handleRequest(this.makeRequest());
+    // then refresh at interval
+    // let interval$ = Rx.Observable
+      // .interval(1000 * refreshRate)
+    let update$ = interval$
       .takeUntil(this.destroy$)
-      .mergeMap(action =>
-        Request.get(`/metrics?${query}`, action.payload)
-        .map((result) => {
-          return result.sum;
-        })
-      )
-      .subscribe((value) => {
-        this.setState({value})
-      });
+      .mergeMap(() => this.makeRequest());
+    this.handleRequest(update$)
+
   }
 
   componentWillUnmount() {
