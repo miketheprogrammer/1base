@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { push } from 'react-router-redux';
 import * as OrganizationActions from '../actions/OrganizationActions';
 import * as GameActions from '../actions/GameActions';
 
@@ -34,18 +35,18 @@ export class LeftNavigationBar extends React.Component {
     };
   }
   render() {
-
+    const {dispatch} = this.props;
     return (
         <PermanentDrawer theme={['primary-dark-bg']} style={{width: "170px"}}>
         	<PermanentDrawerContent>
         		<List theme={['text-primary-on-dark']}>
-        			<ListItem>
+        			<ListItem onClick={() => dispatch(push({pathname: '/dashboard'}))}>
         				<ListItemText>Dashboard</ListItemText>
                 <ListItemEndDetail>
                   <Icon>home</Icon>
                 </ListItemEndDetail>
         			</ListItem>
-        			<ListItem>
+        			<ListItem onClick={() => dispatch(push({pathname: '/players'}))}>
         				<ListItemText>Players</ListItemText>
                 <ListItemEndDetail>
                   <Icon>group</Icon>
