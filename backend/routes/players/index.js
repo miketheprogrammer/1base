@@ -8,9 +8,11 @@ const PlayerStatisticsRouter = require('./statistics');
 mongoose.connect('mongodb://localhost/1base');
 
 const Player = mongoose.model('Player', schemas.Player);
+const Character = mongoose.model('Character', schemas.Character);
 
 app.use('/inventory', PlayerInventoryRouter);
 app.use('/statistics', PlayerStatisticsRouter);
+
 
 app.get('/', (req, res, next) => {
   const organization = req.query.organization;
@@ -27,7 +29,14 @@ app.get('/', (req, res, next) => {
   if (game) query.game = game;
   if (organization) query.organization = organization;
 
-
+  if (req.query.search) {
+    let search = new RegExp(req.query.search, 'i');
+    query['$or'] = [
+      {username: search},
+      {firstname: search},
+      {lastname: search}
+    ]
+  }
   console.log(query)
   Player
     .find(query)

@@ -8,6 +8,7 @@ import {
   CREATE_NEW_GAME,
   CANCEL_CREATE_NEW_GAME,
   NEW_GAME_SAVED,
+  USER_LOGGEDOUT,
 } from '../constants/ActionTypes';
 
 export default function game(state = {players:[]}, action = {}) {
@@ -33,6 +34,8 @@ export default function game(state = {players:[]}, action = {}) {
       return {...state, creating: false}
     case NEW_GAME_SAVED:
       return {...state, creating: false}
+    case USER_LOGGEDOUT:
+      return {}
     default:
       return state;
   }

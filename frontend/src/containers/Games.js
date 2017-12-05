@@ -17,7 +17,7 @@ import {
   Theme
 } from 'rmwc';
 
-class CounterApp extends Component {
+class Game extends Component {
   constructor(props){
     super(props);
     this.setState({});
@@ -95,4 +95,4 @@ export default connect(state => ({
   games: state.game.games || [],
   organization_id: state.organization.selected,
   creating: Boolean(state.game.creating),
-}))(CounterApp);
+}))(Game);

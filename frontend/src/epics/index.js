@@ -44,7 +44,18 @@ import {
   SAVE_NEW_PLAYER,
   SELECT_PLAYER,
   PLAYER_SELECTED,
-  PLAYERLIST_LOADED
+  PLAYERLIST_LOADED,
+  SEARCH_PLAYERS,
+  CREATE_NEW_ITEM,
+  CREATING_NEW_ITEM,
+  NEW_ITEM_SAVED,
+  SAVE_NEW_ITEM,
+  SELECT_ITEM,
+  ITEM_SELECTED,
+  ITEM_LIST_LOADED,
+  SEARCH_ITEMS,
+  ITEMS_FETCHED,
+  FETCH_ITEMS,
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 import { push } from 'react-router-redux';
@@ -59,6 +70,11 @@ action$
     .map((result) => { return {type: USER_REGISTERED, payload: result}; })
   );
 
+export const onUserRegistered = action$ =>
+action$
+  .filter(action => action.type === USER_REGISTERED)
+  .map(() => push({pathname: '/login'}));
+
 export const loginUser = action$ =>
 action$
   .filter(action => action.type === LOGIN_USER)
@@ -67,11 +83,31 @@ action$
     .map((result) => { return {type: USER_LOGGEDIN, payload: result}; })
 );
 
+// export const userLoggedIn = action$ =>
+//   action$
+//     .filter(action => action.type === USER_LOGGEDIN)
+//     .map((action) => { return {type: USER_AUTHENTICATED}; });
+
 export const userLoggedIn = action$ =>
   action$
     .filter(action => action.type === USER_LOGGEDIN)
-    .map((action) => { return {type: USER_AUTHENTICATED}; });
+    .map(() => push({pathname: '/organizations'}));
 
+export const logOutUser = action$ =>
+  action$
+    .filter(action => action.type === LOGOUT_USER)
+    .map((action) => {
+      localStorage.clear();
+      return action;
+    })
+    .mergeMap(action =>
+      Request.get('/logout')
+        .map((result) => { return {type: USER_LOGGEDOUT}; })
+      )
+export const onUserLoggedOut = action$ =>
+  action$
+    .filter(action => action.type === USER_LOGGEDOUT)
+    .map((action) => { return push({pathname: '/login'}) });
 // PLAYER EPICS
 export const fetchPlayers = action$ =>
   action$
@@ -81,25 +117,75 @@ export const fetchPlayers = action$ =>
         .map((result)=>{return {type: PLAYERS_FETCHED, payload: result};})
       );
 
-  export const saveNewPlayer = action$ =>
-    action$
-      .filter(action => action.type === SAVE_NEW_PLAYER)
-      .mergeMap(action =>
-        Request.post('/players', action.payload)
-        .map((result) => { return {type: NEW_PLAYER_SAVED, payload: result}; })
-    );
+export const searchPlayers = action$ =>
+  action$
+    .filter(action => action.type === SEARCH_PLAYERS)
+    .mergeMap(action =>
+      Request.get(`/players?game=${localStorage.getItem('1base.game_id')}&search=${action.payload.searchFilter}`)
+        .map((result)=>{return {type: PLAYERS_FETCHED, payload: result};})
+      );
 
-  export const fetchPlayersOnNewPlayerSave = action$ =>
-    action$
-      .filter(action => action.type === NEW_PLAYER_SAVED)
-      .map((result) => {
-        return {type: FETCH_PLAYERS, payload: {game_id: localStorage.getItem('1base.game_id')}}
-      });
 
-  export const selectPlayer = action$ =>
-        action$
-          .filter(action => action.type === SELECT_PLAYER)
-          .map((action) => {return push({url: `/players/${action.payload._id}`, pathname:`/players/${action.payload._id}`}) });
+export const saveNewPlayer = action$ =>
+  action$
+    .filter(action => action.type === SAVE_NEW_PLAYER)
+    .mergeMap(action =>
+      Request.post('/players', action.payload)
+      .map((result) => { return {type: NEW_PLAYER_SAVED, payload: result}; })
+  );
+
+export const fetchPlayersOnNewPlayerSave = action$ =>
+  action$
+    .filter(action => action.type === NEW_PLAYER_SAVED)
+    .map((result) => {
+      return {type: FETCH_PLAYERS, payload: {game_id: localStorage.getItem('1base.game_id')}}
+    });
+
+export const selectPlayer = action$ =>
+  action$
+    .filter(action => action.type === SELECT_PLAYER)
+    .map((action) => {return push({url: `/players/${action.payload._id}`, pathname:`/players/${action.payload._id}`}) });
+
+// Item EPICS
+export const fetchItems = action$ =>
+  action$
+    .filter(action => action.type === FETCH_ITEMS)
+    .mergeMap(action =>
+      Request.get('/items?game='+localStorage.getItem('1base.game_id'))
+        .map((result)=>{return {type: ITEMS_FETCHED, payload: result};})
+      );
+
+export const searchItems = action$ =>
+  action$
+    .filter(action => action.type === SEARCH_ITEMS)
+    .mergeMap(action =>
+      Request.get(`/items?game=${localStorage.getItem('1base.game_id')}&search=${action.payload.searchFilter}`)
+        .map((result)=>{return {type: ITEMS_FETCHED, payload: result};})
+      );
+
+
+export const saveNewItem = action$ =>
+  action$
+    .filter(action => action.type === SAVE_NEW_ITEM)
+    .mergeMap(action => {
+      let body = action.payload;
+      body.game = body.game || localStorage.getItem('1base.game_id');
+      return Request.post('/items', body)
+      .map((result) => { return {type: NEW_ITEM_SAVED, payload: result}; })
+    });
+
+export const fetchItemsOnNewItemSave = action$ =>
+  action$
+    .filter(action => action.type === NEW_ITEM_SAVED)
+    .map((result) => {
+      return {type: FETCH_ITEMS, payload: {game_id: localStorage.getItem('1base.game_id')}}
+    });
+
+export const selectItem = action$ =>
+  action$
+    .filter(action => action.type === SELECT_ITEM)
+    .map((action) => {return push({url: `/items/${action.payload._id}`, pathname:`/items/${action.payload._id}`}) });
+
 
 // AUTHENTICATION EPICS
 export const checkUserAuthenticated = action$ =>
@@ -210,6 +296,19 @@ export const setPlayerIdIfUrlId = action$ =>
     }
     });
 
+export const setItemIdIfUrlId = action$ =>
+  action$
+    .filter(action => action.type === '@@router/LOCATION_CHANGE')
+    .filter(action => action.payload.pathname.search('/items') > -1)
+    .map((action) => {
+      const itemIdPath= action.payload.pathname.split('/items/')[1]
+      if(itemIdPath){
+      return {type: ITEM_SELECTED, payload: {_id: action.payload.pathname.split('/items/')[1]}}
+    }else{
+      return {type:ITEM_LIST_LOADED}
+    }
+    });
+
 export const setOrganizationIdIfUrlId = action$ =>
   action$
     .filter(action => action.type === '@@router/LOCATION_CHANGE')
@@ -270,6 +369,15 @@ export const rootEpic = combineEpics(
   saveNewPlayer,
   fetchPlayersOnNewPlayerSave,
   selectPlayer,
-  setPlayerIdIfUrlId
-
+  setPlayerIdIfUrlId,
+  onUserRegistered,
+  logOutUser,
+  onUserLoggedOut,
+  searchPlayers,
+  setItemIdIfUrlId,
+  fetchItems,
+  searchItems,
+  saveNewItem,
+  fetchItemsOnNewItemSave,
+  selectItem,
 );

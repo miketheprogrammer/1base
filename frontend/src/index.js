@@ -34,11 +34,12 @@ import registerServiceWorker from './registerServiceWorker';
 import Navbar from './containers/Navbar';
 import LeftNavbar from './containers/LeftNavbar';
 import Login from './containers/Login';
-import RegisterUser from './containers/RegisterUser';
+import Register from './containers/Register';
 import Players from './containers/Players';
 import Organizations from './containers/Organizations';
 import Games from './containers/Games';
 import Dashboard from './containers/Dashboard';
+import Items from './containers/Items';
 import './styles/theme.scss'
 import {
   Grid,
@@ -169,14 +170,17 @@ class PrivateRouteContainer extends React.Component {
     return this.renderOne();
   }
 }
-const PrivateRoute = connect(state => ({
-  authenticated: Boolean(state.user.authenticated),
-  authenticating: state.user.authenticating === undefined
-                    ? true
-                    : state.user.authenticating,
-  organizationSelected: state.organization.selected || false,
-  gameSelected: state.game.selected || false,
-}))(PrivateRouteContainer)
+const PrivateRoute = connect(state => {
+  console.log('Private Route State');
+  return ({
+    authenticated: Boolean(state.user.authenticated),
+    authenticating: state.user.authenticating === undefined
+                      ? true
+                      : state.user.authenticating,
+    organizationSelected: state.organization.selected || false,
+    gameSelected: state.game.selected || false,
+  })
+})(PrivateRouteContainer)
 
 class SmartRouterContainer extends React.Component {
   constructor(props) {
@@ -204,12 +208,14 @@ class SmartRouterContainer extends React.Component {
             })()}
             <Switch>
                 <Route exact path="/login" component={Login}/>
-                <PrivateRoute exact path="/registeruser" component={RegisterUser}/>
+                <Route exact path="/register" component={Register}/>
                 <PrivateRoute exact path="/players" component={Players}/>
                 <PrivateRoute exact path="/players/:id" component={Players}/>
                 <PrivateRoute exact path="/games" component={Games}/>
                 <PrivateRoute exact path="/organizations" component={Organizations}/>
                 <PrivateRoute exact path="/dashboard" component={Dashboard}/>
+                <PrivateRoute exact path="/items" component={Items}/>
+                <PrivateRoute exact path="/items/:id" component={Items}/>
                 <PrivateRoute exact path="/" component={Organizations}/>
              {/*<Route component={Home}/>*/}
             </Switch>

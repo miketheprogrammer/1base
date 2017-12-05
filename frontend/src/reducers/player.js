@@ -6,7 +6,9 @@ import {
   NEW_PLAYER_SAVED,
   SELECT_PLAYER,
   PLAYER_SELECTED,
-  PLAYERLIST_LOADED
+  PLAYERLIST_LOADED,
+  USER_LOGGEDOUT,
+  SEARCH_PLAYERS,
 } from '../constants/ActionTypes';
 
 export default function players(state = {players:[]}, action = {}) {
@@ -26,6 +28,10 @@ export default function players(state = {players:[]}, action = {}) {
       return {...state, selection: action.payload._id}
     case PLAYERLIST_LOADED:
       return {...state, selection: undefined}
+    case SEARCH_PLAYERS:
+      return {...state, searchFilter: action.payload.searchFilter}
+    case USER_LOGGEDOUT:
+      return {}
     default:
       return state;
   }

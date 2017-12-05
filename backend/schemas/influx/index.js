@@ -1,5 +1,5 @@
 var Influx = require('influx');
-exports.ExpressResponseTimes = [
+exports.internalStats = [
   {
     measurement: 'response_times',
     fields: {
@@ -23,5 +23,44 @@ exports.ExpressResponseTimes = [
       'type',
       'date',
     ]
-  }
+  },
+  {
+    measurement: 'registrations',
+    fields: {
+      count: Influx.FieldType.INTEGER,
+    },
+    tags: [
+      'organization',
+      'game',
+      'user',
+      'type',
+      'date',
+    ]
+  },
+  {
+    measurement: 'profile_updates',
+    fields: {
+      count: Influx.FieldType.INTEGER,
+    },
+    tags: [
+      'organization',
+      'game',
+      'user',
+      'type',
+      'date',
+    ]
+  },
+  {
+    measurement: 'daily_active',
+    fields: {
+      count: Influx.FieldType.INTEGER,
+    },
+    tags: [
+      'organization',
+      'game',
+      'user',
+      'type',
+      'date',
+    ]
+  },
 ]

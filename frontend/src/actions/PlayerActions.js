@@ -3,13 +3,21 @@ import {
   CREATE_NEW_PLAYER,
   CANCEL_CREATE_NEW_PLAYER,
   SAVE_NEW_PLAYER,
-  SELECT_PLAYER
+  SELECT_PLAYER,
+  SEARCH_PLAYERS,
 } from '../constants/ActionTypes';
 
 export function fetchPlayers(payload) {
   return {
     type: FETCH_PLAYERS,
     payload
+  }
+}
+
+export function searchPlayers(searchFilter) {
+  return {
+    type: SEARCH_PLAYERS,
+    payload: {searchFilter}
   }
 }
 

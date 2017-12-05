@@ -52,6 +52,12 @@ export class LeftNavigationBar extends React.Component {
                   <Icon>group</Icon>
                 </ListItemEndDetail>
         			</ListItem>
+              <ListItem onClick={() => dispatch(push({pathname: '/items'}))}>
+        				<ListItemText>Items</ListItemText>
+                <ListItemEndDetail>
+                  <Icon>group</Icon>
+                </ListItemEndDetail>
+        			</ListItem>
               <ListItem onClick={() => this.props.dispatch(OrganizationActions.gotoOrganizationSelect())}>
                 <ListItemText>Organizations</ListItemText>
                 <ListItemEndDetail>
