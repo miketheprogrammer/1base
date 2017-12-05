@@ -7,7 +7,8 @@ import {
   CREATE_NEW_ORGANIZATION,
   CANCEL_CREATE_NEW_ORGANIZATION,
   NEW_ORGANIZATION_SAVED,
-  USER_LOGGEDIN
+  USER_LOGGEDIN,
+  USER_LOGGEDOUT
 } from '../constants/ActionTypes';
 
 export default function organization(state = {players:[]}, action = {}) {
@@ -32,6 +33,8 @@ export default function organization(state = {players:[]}, action = {}) {
       return {...state, creating: false}
     case NEW_ORGANIZATION_SAVED:
       return {...state, creating: false}
+    case USER_LOGGEDOUT:
+      return {}
     default:
       return state;
   }

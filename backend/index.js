@@ -15,7 +15,7 @@ var cookieSession = require('cookie-session')
 const influx = new Influx.InfluxDB({
   host: 'localhost',
   database: 'express_response_db',
-  schema: schemas.influx.ExpressResponseTimes
+  schema: schemas.influx.internalStats
 });
 
 mongoose.connect('mongodb://localhost/1base');
@@ -35,22 +35,23 @@ app.use(cookieSession({
 
   // Cookie Options
   maxAge: 2 * 24 * 60 * 60 * 1000 // 24 hours
-}))
+}));
 
 app.get('/session', (req, res) => {
   res.status(200).send(req.session);
-})
-app.get('/logout', (req, res) => {
+});
+app.get('/api/logout', (req, res) => {
   req.session = null
   res.status(200).send()
-})
+});
 // Routes using sub routers
 app.use('/api/counter/', routes.counter);
 app.use('/api/register/', routes.register);
 app.use('/api/login', routes.login);
 app.use('/api/players', routes.players);
-app.use('/api/organizations', routes.organizations)
-app.use('/api/games', routes.games)
+app.use('/api/organizations', routes.organizations);
+app.use('/api/games', routes.games);
+app.use('/api/items', routes.items);
 
 
 app.get('/api/whoami', (req, res) => {

@@ -5,3 +5,4 @@ exports.characters = require('./characters');
 exports.login = require('./login');
 exports.organizations = require('./organizations');
 exports.games = require('./games');
+exports.items = require('./items');

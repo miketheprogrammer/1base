@@ -12,6 +12,8 @@ import * as PlayerActions from '../actions/PlayerActions';
 import {
   Button,
   Fab,
+  TextField,
+  TextFieldIcon,
   Toolbar,
   ToolbarRow,
   ToolbarSection,
@@ -33,16 +35,16 @@ class Players extends Component {
   componentDidMount() {
     if (this.props.dispatch)
       this.props.dispatch(PlayerActions.fetchPlayers({game_id: this.props.selectedGame}));
-    Rx.Observable
-      .interval(1000 * 10)
-      .takeUntil(this.destroy$)
-      .subscribe(() => {
-        if (this.props.dispatch) {
-         this.props.dispatch(PlayerActions.fetchPlayers({game_id: this.props.selectedGame}));
-       } else {
-         console.warn('we dont have dispatch');
-       }
-      });
+    // Rx.Observable
+    //   .interval(1000 * 10)
+    //   .takeUntil(this.destroy$)
+    //   .subscribe(() => {
+    //     if (this.props.dispatch) {
+    //      this.props.dispatch(PlayerActions.fetchPlayers({game_id: this.props.selectedGame}));
+    //    } else {
+    //      console.warn('we dont have dispatch');
+    //    }
+    //   });
   }
   componentWillUnmount() {
     this.destroy$.next(null);
@@ -74,8 +76,12 @@ class Players extends Component {
       </ToolbarSection>
     )
   }
-  renderToolbar(title, includeActionButtons) {
+  search(searchFilter) {
     const {dispatch} = this.props;
+    dispatch(PlayerActions.searchPlayers(searchFilter))
+  }
+  renderToolbar(title, includeActionButtons) {
+    const {dispatch, searchFilter} = this.props;
     let actionButtons;
     if (includeActionButtons)
       actionButtons = this.renderToolbarActionButtons()
@@ -85,6 +91,9 @@ class Players extends Component {
           <ToolbarSection alignStart>
             <ToolbarTitle>{title}</ToolbarTitle>
           </ToolbarSection>
+          <ToolbarSection alignEnd>
+            <TextField withLeadingIcon={<TextFieldIcon use="search"/>}  label="search" onChange={(e) => this.search(e.target.value)} value={searchFilter}/>
+          </ToolbarSection>
           {actionButtons}
         </ToolbarRow>
       </Toolbar>
@@ -93,10 +102,12 @@ class Players extends Component {
   renderPlayerList() {
     const {players, dispatch} = this.props;
     return (
-      <PlayerList
-        players={players}
-        onPlayerClick={(playerId)=>dispatch(PlayerActions.selectPlayer(playerId))}
-      />
+      <section>
+        <PlayerList
+          players={players}
+          onPlayerClick={(playerId)=>dispatch(PlayerActions.selectPlayer(playerId))}
+        />
+      </section>
     )
   }
 
@@ -161,6 +172,7 @@ const mapStateToProps = state => {
     selectedOrganization: state.organization.selected,
     creating: state.player.creating,
     selection: state.player.selection,
+    searchFilter: state.player.searchFilter,
   };
 };
 

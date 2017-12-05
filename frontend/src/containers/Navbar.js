@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import {logoutUser} from '../actions/UserActions'
 import {
   Button,
   Toolbar,
@@ -31,6 +32,7 @@ export class NavigationBar extends React.Component {
     });
   }
   render() {
+    const {dispatch} = this.props;
     return (
       <div>
         <Toolbar theme={['primary-dark-bg', 'text-primary-on-dark']} fixed>
@@ -38,6 +40,9 @@ export class NavigationBar extends React.Component {
             <ToolbarSection alignStart>
               <ToolbarIcon use="cloud"/>
               <ToolbarTitle>1Base</ToolbarTitle>
+            </ToolbarSection>
+            <ToolbarSection alignEnd>
+              <ToolbarTitle onClick={() => dispatch(logoutUser())}>logout</ToolbarTitle>
             </ToolbarSection>
           </ToolbarRow>
         </Toolbar>
