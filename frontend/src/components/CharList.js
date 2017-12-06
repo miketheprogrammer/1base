@@ -23,7 +23,7 @@ const CharacterList = ({characters, onCharacterClick}) => {
         	}} onClick={(evt)=> onCharacterClick(character.name)}>
         	</CardMedia>
         	<CardPrimary>
-        		<CardTitle large><p>{character._id}</p></CardTitle>
+        		<CardTitle large><p>{character.name}</p></CardTitle>
         	</CardPrimary>
         	<CardSupportingText>
         	</CardSupportingText>
@@ -37,7 +37,7 @@ const CharacterList = ({characters, onCharacterClick}) => {
       <Grid>
       {
         characters.map((character) =>
-          <GridCell span="3" phone="1" tablet="2" desktop="3" key={character._.id}>{renderCard(character)}</GridCell>
+          <GridCell span="3" phone="1" tablet="2" desktop="3" key={character._id}>{renderCard(character)}</GridCell>
         )
       }
       </Grid>

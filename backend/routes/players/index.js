@@ -35,9 +35,8 @@ app.get('/', (req, res, next) => {
       {username: search},
       {firstname: search},
       {lastname: search}
-    ]
+    ];
   }
-  console.log(query)
   Player
     .find(query)
     .populate('organization')
@@ -49,19 +48,19 @@ app.get('/', (req, res, next) => {
       return res.status(200).send({result: players, code: 200});
     }, (err) => {
       if (err) {
-        return res.status(500).send({error: err, code: 500})
+        return res.status(500).send({error: err, code: 500});
       }
-    })
-})
+    });
+});
 
 app.get('/:playerId', (req, res, next) => {
   const _id = req.params.playerId;
   Player.findOne({_id}, (err, player) => {
     if (err) {
-      return res.status(500).send({error: err, code: 500})
+      return res.status(500).send({error: err, code: 500});
     }
     if (!player) {
-      return res.status(404).send({result: null, code: 404})
+      return res.status(404).send({result: null, code: 404});
     }
     return res.status(200).send({result: player, code: 200});
   });
@@ -72,7 +71,7 @@ app.post('/', (req, res, next) => {
   player = new Player(req.body);
   player.save((err, doc, numAffected) => {
     if (err) {
-      return res.status(500).send({error: err, code: 500})
+      return res.status(500).send({error: err, code: 500});
     }
     if (numAffected <= 0) {
       // check this maybe its not 409
@@ -80,7 +79,7 @@ app.post('/', (req, res, next) => {
     }
     return res.status(201).send({result: doc._id});
 
-  })
+  });
 });
 
 app.put('/:playerId', (req, res, next) => {
@@ -88,10 +87,10 @@ app.put('/:playerId', (req, res, next) => {
 
   Player.findOne({_id}, (err, player) => {
     if (err) {
-      return res.status(500).send({error: err, code: 500})
+      return res.status(500).send({error: err, code: 500});
     }
     if (!player) {
-      return res.status(404).send({result: null, code: 404})
+      return res.status(404).send({result: null, code: 404});
     }
 
     player = new Player(player);
@@ -100,7 +99,7 @@ app.put('/:playerId', (req, res, next) => {
     }
     player.save((err, doc, numAffected) => {
       if (err) {
-        return res.status(500).send({error: err, code: 500})
+        return res.status(500).send({error: err, code: 500});
       }
       if (numAffected <= 0) {
         // check this maybe its not 409
@@ -110,18 +109,18 @@ app.put('/:playerId', (req, res, next) => {
 
     });
 
-  })
-})
+  });
+});
 
 app.delete('/:playerId', (req, res, next) => {
   const _id = req.params.playerId;
 
   Player.findOneAndRemove({_id}, (err) => {
     if (err) {
-      return res.status(500).send({error: err, code: 500})
+      return res.status(500).send({error: err, code: 500});
     }
     return res.status(201).send({result: true});
-  })
-})
+  });
+});
 
 module.exports = app;
