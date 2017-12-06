@@ -1,4 +1,5 @@
 import React from 'react';
+import CharacterList from './CharList'
 import {
   Ripple,
   Card,
@@ -29,6 +30,7 @@ import {
 const PlayerInfo = ({player}) => {
   console.log('viewing', player);
     return(
+  <section>
   <List>
 	   <ListItem ripple>
 		     <ListItemStartDetail>
@@ -43,6 +45,8 @@ const PlayerInfo = ({player}) => {
           <ListItemText>{player.firstname} {player.lastname}</ListItemText>
    </ListItem>
 </List>
+<CharacterList characters={player.characters} onCharacterClick={()=>{}}/>
+</section>
     );
 };
 

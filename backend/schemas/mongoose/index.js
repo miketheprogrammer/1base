@@ -137,7 +137,6 @@ const Character = exports.Character = new Schema({
   player: {
     type: ObjectId,
     index: true,
-    sparse: true,
     ref: "Player",
     required: true,
   },
@@ -159,7 +158,7 @@ const Character = exports.Character = new Schema({
 Character.index({"name": "text"}, {name: "Character Full Text Search Index"});
 Character.index({"game": 1, "player": 1, "name":1},
                 {unique: true, sparse: true});
-Character.index({"game": 1, "name":1, "npc": 1},
+Character.index({"game": 1, "name": 1, "npc": 1},
                 {unique: true, sparse: true});
 
 
@@ -188,9 +187,6 @@ const Player = exports.Player = new Schema({
   externalId: {
     type: String,
   },
-  characters: [
-    { type: String, ref: "Character"}
-  ],
   inventory: [
     { type: String, ref: "Item"}
   ],
