@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import Rx from 'rxjs';
+import CharacterInfo from '../components/CharInfo'
 import PlayerInfo from '../components/PlayerInfo';
 import PlayerList from '../components/PlayerList';
 import PlayerCreate from '../components/PlayerCreate';
@@ -8,7 +9,8 @@ import RequestTimesChart from '../components/charts/RequestTimesChart';
 import ChartCard from '../components/ChartCard';
 import SingleStat from '../components/charts/SingleStat';
 import HoverElevation from '../components/HoverElevation';
-import * as PlayerActions from '../actions/PlayerActions';
+import * as PlayerActions from '../actions/PlayerActions'
+import * as CharacterActions from '../actions/CharacterActions';
 import {
   Button,
   Fab,
@@ -119,7 +121,22 @@ class Players extends Component {
     }
     return (
       <PlayerInfo
-        player={player}/>
+        player={player}
+        onCharacterClick={(characterId)=>dispatch(CharacterActions.selectCharacter(characterId))}/>
+    )
+  }
+
+  renderViewCharacter(){
+    const {players, dispatch, selection, selectedCharacter}=this.props;
+    const player = players.filter((player)=> player._id===selection)[0]
+    const characters= player.characters
+    const character = characters.filter((character)=> character._id===selectedCharacter)[0]
+    if (!character) {
+      return (<div>Character not found</div>)
+    }
+    return (
+      <CharacterInfo
+        character={character}/>
     )
   }
 
@@ -130,12 +147,16 @@ class Players extends Component {
       dispatch,
       selection,
       selectedGame,
-      selectedOrganization
+      selectedOrganization,
+      selectedCharacter,
     } = this.props;
     let toolbar, content;
     console.log('Player Props', this.props)
     if (!creating) {
-      if(selection){
+      if(selectedCharacter){
+        toolbar= this.renderToolbar("Player View")
+        content = this.renderViewCharacter();
+      }else if(selection){
         toolbar= this.renderToolbar("Player View")
         content = this.renderViewPlayer();
       } else {
@@ -163,6 +184,7 @@ const mapStateToProps = state => {
     creating: state.player.creating,
     selection: state.player.selection,
     searchFilter: state.player.searchFilter,
+    selectedCharacter: state.player.selectedCharacter
   };
 };
 

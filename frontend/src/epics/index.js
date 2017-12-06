@@ -56,6 +56,8 @@ import {
   SEARCH_ITEMS,
   ITEMS_FETCHED,
   FETCH_ITEMS,
+  SELECT_CHARACTER,
+  CHARACTER_SELECTED,
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 import { push } from 'react-router-redux';
@@ -145,6 +147,12 @@ export const selectPlayer = action$ =>
   action$
     .filter(action => action.type === SELECT_PLAYER)
     .map((action) => {return push({url: `/players/${action.payload._id}`, pathname:`/players/${action.payload._id}`}) });
+
+//Character EPICS
+export const selectCharacter = action$ =>
+  action$
+    .filter(action => action.type === SELECT_CHARACTER)
+    .map((action) => {return push({url: `/characters/${action.payload._id}`, pathname:`/characters/${action.payload._id}`}) });
 
 // Item EPICS
 export const fetchItems = action$ =>
@@ -380,4 +388,5 @@ export const rootEpic = combineEpics(
   saveNewItem,
   fetchItemsOnNewItemSave,
   selectItem,
+  selectCharacter
 );

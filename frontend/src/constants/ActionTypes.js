@@ -16,7 +16,7 @@ export const USER_LOGGEDOUT = 'USER_LOGGEDOUT';
 export const FETCH_PLAYERS = 'FETCH_PLAYERS';
 export const PLAYERS_FETCHED = 'PLAYERS_FETCHED';
 export const SEARCH_PLAYERS= 'SEARCH_PLAYERS'
-             // should dispatch PLAYERS_FETCHED on search result
+        // should dispatch PLAYERS_FETCHED on search result
 export const CREATE_NEW_PLAYER = 'CREATE_NEW_PLAYER'
 export const CREATING_NEW_PLAYER = 'CREATING_NEW_PLAYER'
 export const SAVE_NEW_PLAYER = 'SAVE_NEW_PLAYER'
@@ -51,6 +51,9 @@ export const CREATING_NEW_GAME = 'CREATING_NEW_GAME'
 export const SAVE_NEW_GAME = 'SAVE_NEW_GAME'
 export const NEW_GAME_SAVED = 'NEW_GAME_SAVED'
 export const CANCEL_CREATE_NEW_GAME = 'CANCEL_CREATE_NEW_GAME'
+// Characters
+export const SELECT_CHARACTER = 'SELECT_CHARACTER'
+export const CHARACTER_SELECTED = 'CHARACTER_SELECTED'
 // ITEMS
 export const FETCH_ITEMS = 'FETCH_ITEMS';
 export const ITEMS_FETCHED = 'ITEMS_FETCHED';

@@ -20,7 +20,7 @@ const CharacterList = ({characters, onCharacterClick}) => {
         	<CardMedia style={{
         		backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
         		height: '12.313rem',
-        	}} onClick={(evt)=> onCharacterClick(character.name)}>
+        	}} onClick={(evt)=> onCharacterClick(character._id)}>
         	</CardMedia>
         	<CardPrimary>
         		<CardTitle large><p>{character.name}</p></CardTitle>
