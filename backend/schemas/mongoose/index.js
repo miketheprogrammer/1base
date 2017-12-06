@@ -112,10 +112,7 @@ const Item = exports.Item = new Schema({
   },
   type: {
     type: String,
-    required: true,
-  },
-  subType: {
-    type: String,
+    // maybe add Enum here?
     required: true,
   },
   tags: [Tag],
@@ -129,7 +126,6 @@ const Item = exports.Item = new Schema({
 
 Item.index({"name": "text", tags: "text", externalId: "text"}, {name: "Items Full Text Search Index"});
 Item.index({game: 1, slug: 1});
-Item.index({type: 1, subType: 1});
 
 
 const Character = exports.Character = new Schema({
@@ -195,13 +191,12 @@ const Player = exports.Player = new Schema({
     { type: String, ref: "Item"}
   ],
 });
-
-Player.index({"firstname": "text", "lastname": "text", "username": "text"}, {name: "Player Full Text Search Index"});
+Player.index({"name": "text"}, {name: "Player Full Text Search Index"});
 Player.index({"username": 1, "game": 1},
              {unique: true});
 Player.index({"externalId": 1, "game": 1},
-             {sparse: true});
-//partialFilterExpression: {externalId: {$ne: null, $exists: true}}}
+             {unique: true, sparse: true});
+
 
 mongoose.connect('mongodb://localhost/1base');
 let _ = mongoose.model('Counter', Counter);

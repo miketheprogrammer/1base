@@ -109,7 +109,6 @@ const MakePlayer = (game, organization, cb) => {
   player.lastname= faker.name.lastName();
   MakeNItems(10, game, (err, characterItems) => {
     let character = MakeCharacter(game, player, false, characterItems);
-    player.characters = [character._id];
     MakeNItems(10, game, (err, playerItems) => {
       player.inventory = playerItems.map((item) => item._id);
       player.save(console.log);

@@ -10,7 +10,7 @@ const middleware  = require('./middleware');
 const bodyParser  = require('body-parser');
 const md5         = require('md5');
 const metrics     = require('./lib/metrics');
-var cookieSession = require('cookie-session')
+var cookieSession = require('cookie-session');
 
 const influx = new Influx.InfluxDB({
   host: 'localhost',
@@ -41,8 +41,8 @@ app.get('/session', (req, res) => {
   res.status(200).send(req.session);
 });
 app.get('/api/logout', (req, res) => {
-  req.session = null
-  res.status(200).send()
+  req.session = null;
+  res.status(200).send();
 });
 // Routes using sub routers
 app.use('/api/counter/', routes.counter);
@@ -52,15 +52,15 @@ app.use('/api/players', routes.players);
 app.use('/api/organizations', routes.organizations);
 app.use('/api/games', routes.games);
 app.use('/api/items', routes.items);
-
+app.use('/api/characters', routes.characters);
 
 app.get('/api/whoami', (req, res) => {
   if (req.session.loggedIn) {
-    metrics.trackLogin(influx)('user', req.query.organization, req.query.game, req.query.user || req.session.id)
+    metrics.trackLogin(influx)('user', req.query.organization, req.query.game, req.query.user || req.session.id);
     return res.status(200).send({result: true});
   }
   return res.status(401).send({result: false});
-})
+});
 
 app.get('/api/metrics', (req, res) => {
   let game = req.query.game;
@@ -71,9 +71,9 @@ app.get('/api/metrics', (req, res) => {
       organizationQuery = '',
       gameQuery = '';
 
-  if (user) userQuery = `AND "user" = '${user}'`
-  if (organization) organizationQuery = `AND "organization" = '${organization}'`
-  if (game) gameQuery = `AND "game" = '${game}'`
+  if (user) userQuery = `AND "user" = '${user}'`;
+  if (organization) organizationQuery = `AND "organization" = '${organization}'`;
+  if (game) gameQuery = `AND "game" = '${game}'`;
   queryString = `
     SELECT sum("count")
       FROM "logins"
@@ -83,20 +83,20 @@ app.get('/api/metrics', (req, res) => {
           ${gameQuery}
           ${userQuery})
         AND time >= now() - 1d
-      GROUP BY time(1d)`
+      GROUP BY time(1d)`;
   // console.log(queryString)
-  let query = influx.query(queryString)
+  let query = influx.query(queryString);
   query
   .catch((err) => {
     return res.status(200).send([{err: err.message}]);
   })
   .then((rows => {
-    rows = rows || []
+    rows = rows || [];
     if(rows.length > 1)
       return res.status(200).send(rows[rows.length - 1]);
     return res.status(200).send(rows);
-  }))
-})
+  }));
+});
 
 // ServerStarted observable
 let serverStarted$ = new Rx.Subject();

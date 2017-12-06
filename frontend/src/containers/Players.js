@@ -35,16 +35,6 @@ class Players extends Component {
   componentDidMount() {
     if (this.props.dispatch)
       this.props.dispatch(PlayerActions.fetchPlayers({game_id: this.props.selectedGame}));
-    // Rx.Observable
-    //   .interval(1000 * 10)
-    //   .takeUntil(this.destroy$)
-    //   .subscribe(() => {
-    //     if (this.props.dispatch) {
-    //      this.props.dispatch(PlayerActions.fetchPlayers({game_id: this.props.selectedGame}));
-    //    } else {
-    //      console.warn('we dont have dispatch');
-    //    }
-    //   });
   }
   componentWillUnmount() {
     this.destroy$.next(null);
