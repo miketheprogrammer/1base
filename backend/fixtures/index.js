@@ -23,7 +23,7 @@ const MakeUser = (admin) => {
   user.firstname = faker.name.firstName();
   user.lastname = faker.name.lastName();
   user.admin = !!admin;
-  let password = faker.internet.password();
+  let password = "testpassword";
   user.password = md5(password);
   user.save(console.log);
   return [user, password];
