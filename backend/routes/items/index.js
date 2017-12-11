@@ -25,7 +25,21 @@ app.get('/', (req, res, next) => {
     }
     items = items || []
     return res.status(200).send({result: items, code: 200});
-  })
+  });
+})
+
+app.get('/:id', (req, res, next) => {
+  let query = {game: req.query.game, _id: req.query.id};
+  Item
+    .findOne(query)
+    .exec()
+    .then((item) => {
+      return res.status(200).send({result: item, code: 200});
+    })
+    .catch((err) => {
+      return res.status(500).send({error: err.message, code: 500})
+    })
+
 })
 
 app.post('/', (req, res, next) => {

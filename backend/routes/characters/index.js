@@ -13,24 +13,38 @@ app.use('/inventory', CharacterInventoryRouter);
 app.use('/statistics', CharacterStatisticsRouter);
 
 app.get('/', (req, res, next) => {
-  let query = {$and:[]};
-  query.$and.push({ game: req.query.game ? req.query.game : undefined});
-  // also ensure game belongs to authenticated user
-  if (!(req.query.game)) {
-    return res.status(403).send({error: "Forbidden from accessing unfiltered data", code: 403});
+  const game = req.query.game;
+
+  if (!game) {
+    return res.status(403).send({error: "You are not allowed to execute broad queries.", code: 403});
   }
-  if(req.query.player){
-    query.$and.push({player: req.query.player});
+
+  let query = {game}
+
+  if (req.query.ids) {
+    query._id = {
+      $in: req.query.ids.split(',')
+    }
   }
+
+  if (req.query.search) {
+    let search = new RegExp(req.query.search, 'i');
+    query['$or'] = [
+      {name: search},
+      {player: search}
+    ]
+  }
+
   Character
     .find(query)
+    .populate('inventory')
     .exec()
     .then((characters) => {
       return res.status(200).send({result: characters, code: 200});
     })
-    .catch((err)=>{
-      return res.status(500).send({error: err, code: 500});
-    });
+    .catch((err) => {
+      return res.status(500).send({error: err.message, code: 500});
+    })
 });
 
 app.get('/:characterId', (req, res, next) => {

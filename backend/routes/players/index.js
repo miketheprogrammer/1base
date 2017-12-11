@@ -9,6 +9,7 @@ mongoose.connect('mongodb://localhost/1base');
 
 const Player = mongoose.model('Player', schemas.Player);
 const Character = mongoose.model('Character', schemas.Character);
+const Item = mongoose.model('Item', schemas.Item);
 
 app.use('/inventory', PlayerInventoryRouter);
 app.use('/statistics', PlayerStatisticsRouter);
@@ -41,7 +42,13 @@ app.get('/', (req, res, next) => {
     .find(query)
     .populate('organization')
     .populate('inventory')
-    .populate('characters')
+    // .populate({
+    //   path: 'characters',
+    //   populate: {
+    //     path: 'inventory',
+    //     model: 'Item'
+    //   }
+    // })
     .populate('game')
     .exec()
     .then((players) => {
