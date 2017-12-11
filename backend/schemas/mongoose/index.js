@@ -198,6 +198,7 @@ Player.index({"externalId": 1, "game": 1},
              {unique: true, sparse: true});
 
 
+// Initiate models so that we make indexes.
 mongoose.connect('mongodb://localhost/1base');
 let _ = mongoose.model('Counter', Counter);
 _ = mongoose.model('User', User);
