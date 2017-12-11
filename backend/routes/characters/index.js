@@ -27,6 +27,10 @@ app.get('/', (req, res, next) => {
     }
   }
 
+  if (req.query.player) {
+    query.player = req.query.player
+  }
+
   if (req.query.search) {
     let search = new RegExp(req.query.search, 'i');
     query['$or'] = [
