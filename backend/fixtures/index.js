@@ -107,8 +107,10 @@ const MakePlayer = (game, organization, cb) => {
   player.username = faker.internet.email();
   player.firstname= faker.name.firstName();
   player.lastname= faker.name.lastName();
+  player.characters = [];
   MakeNItems(10, game, (err, characterItems) => {
     let character = MakeCharacter(game, player, false, characterItems);
+    player.characters.push(character._id);
     MakeNItems(10, game, (err, playerItems) => {
       player.inventory = playerItems.map((item) => item._id);
       player.save(console.log);
@@ -148,7 +150,8 @@ setTimeout(function () {
     console.log('username:password');
     users.forEach((user) => {
       console.log(user[0].username +':'+user[1]);
-    })
+    });
+    process.exit(0);
   }, 5000);
 
 }, 5000);
