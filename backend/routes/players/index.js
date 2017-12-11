@@ -42,13 +42,14 @@ app.get('/', (req, res, next) => {
     .find(query)
     .populate('organization')
     .populate('inventory')
-    // .populate({
-    //   path: 'characters',
-    //   populate: {
-    //     path: 'inventory',
-    //     model: 'Item'
-    //   }
-    // })
+    .populate('characters')
+    .populate({
+      path: 'characters',
+      populate: {
+        path: 'inventory',
+        model: 'Item'
+      }
+    })
     .populate('game')
     .exec()
     .then((players) => {
