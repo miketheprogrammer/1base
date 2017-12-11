@@ -144,7 +144,11 @@ setTimeout(function () {
     MakePlayer(game, organization, console.log);
   }
   setTimeout(function () {
-    console.log(users);
+    console.log('\n\n\n');
+    console.log('username:password');
+    users.forEach((user) => {
+      console.log(user[0].username +':'+user[1]);
+    })
   }, 5000);
 
 }, 5000);
