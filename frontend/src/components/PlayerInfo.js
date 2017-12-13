@@ -1,5 +1,6 @@
-import React from 'react';
-import CharacterList from './CharList'
+import React, {Component} from 'react';
+import CharacterList from './CharacterList'
+import ItemList from './ItemList'
 import {
   Ripple,
   Card,
@@ -27,8 +28,15 @@ import {
   Icon
 } from 'rmwc';
 
-const PlayerInfo = ({player}) => {
-  console.log('viewing', player);
+class PlayerInfo extends Component {
+  constructor (props){
+    super(props)
+    this.state={
+      switchTab:true
+    }
+  }
+
+  render(){
     return(
   <section>
   <List>
@@ -36,18 +44,39 @@ const PlayerInfo = ({player}) => {
 		     <ListItemStartDetail>
 			        <Icon>account_circle</Icon>
 		     </ListItemStartDetail>
-		       <ListItemText>{player.username}</ListItemText>
+		       <ListItemText>{this.props.player.username}</ListItemText>
 	  </ListItem>
     <ListItem ripple>
         <ListItemStartDetail>
              <Icon>info_outline</Icon>
         </ListItemStartDetail>
-          <ListItemText>{player.firstname} {player.lastname}</ListItemText>
+          <ListItemText>{this.props.player.firstname} {this.props.player.lastname}</ListItemText>
    </ListItem>
 </List>
-<CharacterList characters={player.characters} onCharacterClick={()=>{}}/>
+<List>
+  <ListItemText onClick={
+    (evt)=>{
+    this.setState({switchTab:true})
+    }
+  }
+  > Characters</ListItemText>
+  <ListItemText onClick={
+    (evt)=>{
+    this.setState({switchTab:false})
+    }
+  }>Items</ListItemText>
+</List>
+
+{
+  this.state.switchTab
+ ?
+ <CharacterList characters={this.props.player.characters} onCharacterClick={this.props.onCharacterClick}/>
+:
+<ItemList items={this.props.player.inventory}/>
+}
 </section>
     );
 };
+}
 
 export default PlayerInfo;
