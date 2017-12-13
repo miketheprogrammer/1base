@@ -1,15 +1,14 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import Rx from 'rxjs';
-import PlayerInfo from '../components/PlayerInfo';
-import PlayerList from '../components/PlayerList';
-import PlayerCreate from '../components/PlayerCreate';
+import CharacterInfo from '../components/CharacterInfo';
+import CharacterList from '../components/CharacterList';
+// import CharacterCreate from '../components/CharacterCreate';
 import RequestTimesChart from '../components/charts/RequestTimesChart';
 import ChartCard from '../components/ChartCard';
 import SingleStat from '../components/charts/SingleStat';
 import HoverElevation from '../components/HoverElevation';
-import * as PlayerActions from '../actions/PlayerActions';
-import * as CharacterActions from '../actions/CharacterActions'
+import * as CharacterActions from '../actions/CharacterActions';
 import {
   Button,
   Fab,
@@ -27,24 +26,14 @@ import {
   GridCell,
 } from 'rmwc';
 
-class Players extends Component {
-
-  constructor (props) {
-    super(props);
-    this.destroy$ = new Rx.Subject();
+class Characters extends Component {
+  constructor (props){
+    super(props)
   }
+
   componentDidMount() {
     if (this.props.dispatch)
-      this.props.dispatch(PlayerActions.fetchPlayers({game_id: this.props.selectedGame}));
-  }
-  componentWillUnmount() {
-    this.destroy$.next(null);
-  }
-
-  createPlayer(values) {
-    values.organization = this.props.selectedOrganization;
-    values.game = this.props.selectedGame;
-    this.props.dispatch(PlayerActions.saveNewPlayer(values));
+      this.props.dispatch(CharacterActions.fetchCharacters({game_id: this.props.selectedGame}));
   }
 
   renderToolbarActionButtons() {
@@ -62,7 +51,7 @@ class Players extends Component {
           marginRight: "10px",
         }}
         raised
-        onClick={() => {dispatch(PlayerActions.createNewPlayer())}}
+        onClick={() => {dispatch(CharacterActions.createNewCharacter())}}
       >New</Button>
       </ToolbarSection>
     )
@@ -70,7 +59,7 @@ class Players extends Component {
 
   search(searchFilter) {
     const {dispatch} = this.props;
-    dispatch(PlayerActions.searchPlayers(searchFilter))
+    dispatch(CharacterActions.searchCharacters(searchFilter))
   }
 
   renderToolbar(title, includeActionButtons) {
@@ -93,86 +82,86 @@ class Players extends Component {
     )
   }
 
-  renderPlayerList() {
-    const {players, dispatch} = this.props;
+  renderCharactersList() {
+    const {characters, dispatch} = this.props;
     return (
       <section>
-        <PlayerList
-          players={players}
-          onPlayerClick={(playerId)=>dispatch(PlayerActions.selectPlayer(playerId))}
+        <CharacterList
+          characters={characters}
+          onCharacterClick={(characterId)=>dispatch(CharacterActions.selectCharacter(characterId))}
         />
       </section>
     )
   }
 
-  renderCreateNewPlayer() {
-    const {players, dispatch} = this.props;
+  // renderCreateNewCharacter() {
+  //   const {characters, dispatch} = this.props;
+  //   return (
+  //     <CharacterCreate
+  //       onCreate={(values) => this.createCharacter(values)}
+  //       onCancel={() => {dispatch(CharacterActions.cancelCreateNewCharacter())}}
+  //     />
+  //   )
+  // }
+  renderViewCharacter(){
+    const {characters, dispatch, selectedCharacter}=this.props;
+    console.log("selected cahr!!!!!!!!!!!!!!!!!", selectedCharacter)
+    console.log("I am an array,", characters)
+    const character = characters.filter((character)=> character._id===selectedCharacter)[0]
+    console.log('character is here', character)
+
+    if (!character) {
+      return (<div>Character is missing for some reason from the data</div>)
+    }else{
     return (
-      <PlayerCreate
-        onCreate={(values) => this.createPlayer(values)}
-        onCancel={() => {dispatch(PlayerActions.cancelCreateNewPlayer())}}
-      />
+      <CharacterInfo
+        character={character}/>
     )
   }
-
-  renderViewPlayer(){
-    const {players, dispatch, selection}=this.props;
-    const player = players.filter((player)=> player._id===selection)[0]
-    if (!player) {
-      return (<div>Player is missing for some reason from the data</div>)
-    }
-    return (
-      <PlayerInfo
-        player={player}
-        onCharacterClick={(characterId)=>dispatch(CharacterActions.selectCharacter(characterId))}
-      />
-
-    )
   }
-
   render () {
     const {
-      players,
+      characters,
       creating,
       dispatch,
-      selection,
+      selectedCharacter,
       selectedGame,
       selectedOrganization
     } = this.props;
+    console.log("selectedCharacter", selectedCharacter);
+
     let toolbar, content;
-    console.log('Player Props', this.props)
     if (!creating) {
-      if(selection){
-        toolbar= this.renderToolbar("Player View")
-        content = this.renderViewPlayer();
+      if(selectedCharacter){
+        toolbar= this.renderToolbar("Character View")
+        content = this.renderViewCharacter();
       } else {
-        toolbar = this.renderToolbar("View and Manage your Players", true);
-        content = this.renderPlayerList();
+        toolbar = this.renderToolbar("View and Manage your Characters", true);
+        content = this.renderCharactersList();
       }
     } else {
-      toolbar = this.renderToolbar("Create Your Player");
-      content = this.renderCreateNewPlayer();
+      // toolbar = this.renderToolbar("Create Your Player");
+      // content = this.renderCreateNewPlayer();
     }
     return (
       <main style={{marginTop: "16px"}}>
         {toolbar}
         {content}
       </main>
-  );
+    );
   }
 }
 
 const mapStateToProps = state => {
   return {
+    characters: state.character.characters || [],
     players: state.player.players || [],
     selectedGame: state.game.selected,
     selectedOrganization: state.organization.selected,
     creating: state.player.creating,
-    selection: state.player.selection,
+    selectedCharacter: state.character.selectedCharacter,
     searchFilter: state.player.searchFilter,
   };
 };
 
-
-
-export default connect(mapStateToProps)(Players);
+export default connect(mapStateToProps)(Characters);

@@ -4,3 +4,4 @@ export {default as player} from './player';
 export {default as organization} from './organization';
 export {default as game} from './game';
 export {default as item} from './item';
+export {default as character} from './character';

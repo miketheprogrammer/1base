@@ -56,6 +56,17 @@ import {
   SEARCH_ITEMS,
   ITEMS_FETCHED,
   FETCH_ITEMS,
+  FETCH_CHARACTERS,
+  CHARACTERS_FETCHED,
+  SEARCH_CHARACTERS,
+  CREATE_NEW_CHARACTER,
+  CREATING_NEW_CHARACTER,
+  SAVE_NEW_CHARACTER,
+  NEW_CHARACTER_SAVED,
+  CANCEL_CREATE_NEW_CHARACTER,
+  SELECT_CHARACTER,
+  CHARACTER_SELECTED,
+  CHARACTERLIST_LOADED,
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
 import { push } from 'react-router-redux';
@@ -145,6 +156,44 @@ export const selectPlayer = action$ =>
   action$
     .filter(action => action.type === SELECT_PLAYER)
     .map((action) => {return push({url: `/players/${action.payload._id}`, pathname:`/players/${action.payload._id}`}) });
+
+//Character EPICS
+export const fetchCharacters = action$ =>
+  action$
+    .filter(action => action.type === FETCH_CHARACTERS)
+    .mergeMap(action =>
+      Request.get('/characters?game='+action.payload.game_id)
+        .map((result)=>{return {type: CHARACTERS_FETCHED, payload: result};})
+      );
+
+export const searchCharacters = action$ =>
+  action$
+    .filter(action => action.type === SEARCH_CHARACTERS)
+    .mergeMap(action =>
+      Request.get(`/characters?game=${localStorage.getItem('1base.game_id')}&search=${action.payload.searchFilter}`)
+        .map((result)=>{return {type: CHARACTERS_FETCHED, payload: result};})
+      );
+
+
+export const saveNewCharacter = action$ =>
+  action$
+    .filter(action => action.type === SAVE_NEW_CHARACTER)
+    .mergeMap(action =>
+      Request.post('/characters', action.payload)
+      .map((result) => { return {type: NEW_CHARACTER_SAVED, payload: result}; })
+  );
+
+export const fetchCharactersOnNewCharacterSave = action$ =>
+  action$
+    .filter(action => action.type === NEW_CHARACTER_SAVED)
+    .map((result) => {
+      return {type: FETCH_CHARACTERS, payload: {game_id: localStorage.getItem('1base.game_id')}}
+    });
+
+export const selectCharacter = action$ =>
+  action$
+    .filter(action => action.type === SELECT_CHARACTER)
+    .map((action) => {return push({url: `/characters/${action.payload._id}`, pathname:`/characters/${action.payload._id}`}) });
 
 // Item EPICS
 export const fetchItems = action$ =>
@@ -283,6 +332,20 @@ export const gotoOrganizationSelect = action$ =>
 
 // ROUTER EPICS
 
+export const setCharacterIdIfUrlId = action$ =>
+  action$
+  .filter(action => action.type === '@@router/LOCATION_CHANGE')
+  .filter(action => action.payload.pathname.search('/characters') > -1)
+  .map((action) => {
+    const characterIdPath= action.payload.pathname.split('/characters/')[1]
+    if(characterIdPath){
+      console.log("ROUTE WORKING MUFFUCKA", characterIdPath)
+    return {type: CHARACTER_SELECTED, payload: {_id: action.payload.pathname.split('/characters/')[1]}}
+  }else{
+    return {type:CHARACTERLIST_LOADED}
+  }
+  });
+
 export const setPlayerIdIfUrlId = action$ =>
   action$
     .filter(action => action.type === '@@router/LOCATION_CHANGE')
@@ -380,4 +443,10 @@ export const rootEpic = combineEpics(
   saveNewItem,
   fetchItemsOnNewItemSave,
   selectItem,
+  setCharacterIdIfUrlId,
+  fetchCharacters,
+  fetchCharactersOnNewCharacterSave,
+  selectCharacter,
+  saveNewCharacter,
+  searchCharacters
 );

@@ -1,4 +1,5 @@
 import React from 'react';
+import ItemList from './ItemList'
 import {
   Ripple,
   Card,
@@ -26,24 +27,24 @@ import {
   Icon
 } from 'rmwc';
 
-const PlayerInfo = ({player}) => {
-  console.log('viewing', player);
+const CharacterInfo = ({character}) => {
     return(
+      <section>
   <List>
-	   <ListItem ripple>
-		     <ListItemStartDetail>
-			        <Icon>account_circle</Icon>
-		     </ListItemStartDetail>
-		       <ListItemText>{player.username}</ListItemText>
-	  </ListItem>
     <ListItem ripple>
         <ListItemStartDetail>
              <Icon>info_outline</Icon>
         </ListItemStartDetail>
-          <ListItemText>{player.firstname} {player.lastname}</ListItemText>
+          <ListItemText>{character.name}</ListItemText>
    </ListItem>
 </List>
+<ItemList
+  items={character.inventory}
+  onSelected={null}
+  onCreateNew={null}
+/>
+</section>
     );
 };
 
-export default PlayerInfo;
+export default CharacterInfo;

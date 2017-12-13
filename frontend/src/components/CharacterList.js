@@ -13,14 +13,18 @@ import {
   GridCell,
 } from 'rmwc';
 
-const CharacterList = ({characters, onCharacterClick}) => {
-    const renderCard = (character) => {
+class CharacterList extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+
+  renderCard(character){
       return (
         <Card>
         	<CardMedia style={{
         		backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
         		height: '12.313rem',
-        	}} onClick={(evt)=> onCharacterClick(character.name)}>
+        	}} onClick={(evt)=> this.props.onCharacterClick(character._id)}>
         	</CardMedia>
         	<CardPrimary>
         		<CardTitle large><p>{character.name}</p></CardTitle>
@@ -33,15 +37,18 @@ const CharacterList = ({characters, onCharacterClick}) => {
         </Card>
       )
     }
+
+    render(){
     return(
       <Grid>
       {
-        characters.map((character) =>
-          <GridCell span="3" phone="1" tablet="2" desktop="3" key={character._id}>{renderCard(character)}</GridCell>
+        this.props.characters.map((character) =>
+          <GridCell span="3" phone="1" tablet="2" desktop="3" key={character._id}>{this.renderCard(character)}</GridCell>
         )
       }
       </Grid>
     );
+  }
 };
 
 export default CharacterList;
