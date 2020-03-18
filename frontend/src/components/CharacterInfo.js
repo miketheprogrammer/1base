@@ -1,28 +1,9 @@
 import React from 'react';
 import ItemList from './ItemList'
 import {
-  Ripple,
-  Card,
-  CardMedia,
-  CardPrimary,
-  CardTitle,
-  CardSubtitle,
-  CardSupportingText,
-  CardActions,
-  CardAction,
-  Elevation,
-  Grid,
-  GridCell,
-  GridList,
-  GridTile,
-  GridTilePrimary,
-  GridTilePrimaryContent,
-  GridTileSecondary,
-  GridTileTitle,
-  Fab,
   List,
   ListItem,
-  ListItemStartDetail,
+  ListItemGraphic,
   ListItemText,
   Icon
 } from 'rmwc';
@@ -32,9 +13,9 @@ const CharacterInfo = ({character}) => {
       <section>
   <List>
     <ListItem ripple>
-        <ListItemStartDetail>
+        <ListItemGraphic>
              <Icon>info_outline</Icon>
-        </ListItemStartDetail>
+        </ListItemGraphic>
           <ListItemText>{character.name}</ListItemText>
    </ListItem>
 </List>

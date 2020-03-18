@@ -1,4 +1,4 @@
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 import Request from '../../api/json/api-json'
 const subjects = {
   incrementCounterSubject: new Rx.Subject(),

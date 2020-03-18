@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 import PlayerInfo from '../components/PlayerInfo';
 import PlayerList from '../components/PlayerList';
 import PlayerCreate from '../components/PlayerCreate';

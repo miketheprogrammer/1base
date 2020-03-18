@@ -1,36 +1,62 @@
 import React from 'react';
 import {
-  Ripple,
   Card,
   CardMedia,
-  CardPrimary,
+  CardPrimaryAction,
   CardTitle,
-  CardSubtitle,
   CardSupportingText,
   CardActions,
+  CardActionButton,
+  CardActionButtons,
+  CardActionIcon,
+  CardActionIcons,
   CardAction,
   Grid,
   GridCell,
+  Typography,
 } from 'rmwc';
 
 const PlayerList = ({players, onPlayerClick}) => {
     const renderCard = (player) => {
       return (
-        <Card>
-        	<CardMedia style={{
-        		backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
-        		height: '12.313rem',
-        	}} onClick={(evt)=> onPlayerClick(player._id)}>
-        	</CardMedia>
-        	<CardPrimary>
-        		<CardTitle large><p>{player.username.toLowerCase()}</p></CardTitle>
-        		<CardSubtitle>{((player.firstname || '') + ' ' + (player.lastname || '') ).trim() || 'firstname lastname'}</CardSubtitle>
-        	</CardPrimary>
-        	<CardSupportingText>
-        	</CardSupportingText>
-        	<CardActions>
-        		<CardAction>Edit</CardAction>
-        	</CardActions>
+        <Card style={{ width: '21rem' }}>
+          <CardPrimaryAction>
+            <CardMedia
+              sixteenByNine
+              style={{
+                backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
+                height: '12.313rem',
+              }}
+              onClick={(evt)=> onPlayerClick(player._id)}
+            />
+            <div style={{ padding: '0 1rem 1rem 1rem' }}>
+              <Typography use="headline6" tag="h2">
+                {player.username.toLowerCase()}
+              </Typography>
+              <Typography
+                use="subtitle2"
+                tag="h3"
+                theme="textSecondaryOnBackground"
+                style={{ marginTop: '-1rem' }}
+              >
+                {((player.firstname || '') + ' ' + (player.lastname || '') ).trim() || 'firstname lastname'}
+              </Typography>
+              <Typography
+                use="body1"
+                tag="div"
+                theme="textSecondaryOnBackground"
+              >
+                {((player.firstname || '') + ' ' + (player.lastname || '') ).trim() || 'firstname lastname'}
+              </Typography>
+            </div>
+          </CardPrimaryAction>
+          <CardActions>
+            <CardActionButtons>
+              <CardActionButton>Edit</CardActionButton>
+            </CardActionButtons>
+            <CardActionIcons>
+            </CardActionIcons>
+          </CardActions>
         </Card>
       )
     }

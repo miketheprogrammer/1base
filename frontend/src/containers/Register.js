@@ -53,33 +53,33 @@ class Register extends Component {
         </GridCell>
         <GridCell span="4" desktop="4">
           <FormField>
-            <TextField withLeadingIcon={<TextFieldIcon use="person"/>}  label="username" name="username" onChange={(e) => this.handleChange(e)} value={this.state.username} />
+            <TextField icon={<TextFieldIcon use="person"/>}  label="username" name="username" onChange={(e) => this.handleChange(e)} value={this.state.username} />
           </FormField>
         </GridCell>
         <GridCell span="0" desktop="8">
         </GridCell>
         <GridCell span="4" desktop="4">
           <FormField>
-            <TextField withLeadingIcon={<TextFieldIcon use="person"/>}  label="password" name="password" onChange={(e) => this.handleChange(e)} value={this.state.password} />
+            <TextField icon={<TextFieldIcon use="person"/>}  label="password" name="password" onChange={(e) => this.handleChange(e)} value={this.state.password} />
           </FormField>
         </GridCell>
         <GridCell span="0" desktop="8">
         </GridCell>
         <GridCell span="4" desktop="4">
           <FormField>
-            <TextField withLeadingIcon={<TextFieldIcon use="person"/>}  label="firstname" name="firstname" onChange={(e) => this.handleChange(e)} value={this.state.firstname} />
+            <TextField icon={<TextFieldIcon use="person"/>}  label="firstname" name="firstname" onChange={(e) => this.handleChange(e)} value={this.state.firstname} />
           </FormField>
         </GridCell><GridCell span="0" desktop="8">
         </GridCell>
         <GridCell span="4" desktop="4">
           <FormField>
-            <TextField withLeadingIcon={<TextFieldIcon use="person"/>}  label="lastname" name="lastname" onChange={(e) => this.handleChange(e)} value={this.state.lastname} />
+            <TextField icon={<TextFieldIcon use="person"/>}  label="lastname" name="lastname" onChange={(e) => this.handleChange(e)} value={this.state.lastname} />
           </FormField>
         </GridCell>
         <GridCell span="0" desktop="8">
         </GridCell>
       	<GridCell span="4" desktop="4">
-          <Button theme={['secondary-light-background', 'text-secondary-on-light']} raised onClick={(e) => this.handleSubmit(e)}>login</Button>
+          <Button theme={['secondaryLightBackground', 'textSecondaryOnLight']} raised onClick={(e) => this.handleSubmit(e)}>login</Button>
         </GridCell>
       </Grid>
     </form>

@@ -10,8 +10,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootEpic } from '../epics';
 // We should think of refactoring apply middleware to be an argument of createStore
 
-const epicMiddleware = createEpicMiddleware(rootEpic);
+const epicMiddleware = createEpicMiddleware();
 const createStoreWithMiddleware = applyMiddleware(thunk, epicMiddleware)(createStore);
+epicMiddleware.run(rootEpic);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 

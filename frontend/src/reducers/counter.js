@@ -1,4 +1,4 @@
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 import { INCREMENT_COUNTER, DECREMENT_COUNTER, COUNTER_REFRESHED } from '../constants/ActionTypes';
 
 export default function counter(state = 0, action = {}) {

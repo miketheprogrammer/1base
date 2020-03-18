@@ -1,4 +1,4 @@
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 import isPlainObject from './isPlainObject';
 
 export default function createStore(reducer, initState) {

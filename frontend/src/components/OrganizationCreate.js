@@ -1,17 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
 import {
-  Ripple,
   Button,
-  Card,
-  CardMedia,
-  CardPrimary,
-  CardTitle,
-  CardSubtitle,
-  CardSupportingText,
-  CardActions,
-  CardAction,
-  Fab,
   FormField,
   Grid,
   GridCell,
@@ -45,8 +35,8 @@ class OrganizationCreate extends React.Component {
         <GridCell tablet="5" desktop="5">
         </GridCell>
         <GridCell className="create-page-actions" tablet="5" desktop="7">
-          <Button theme={['secondary-dark-bg', 'text-secondary-on-light']} raised onClick={() => onCreate(this.state)}>create</Button>
-          <Button theme={['primary-dark-bg', 'text-primary-on-primary']} raised onClick={() => onCancel()}>cancel</Button>
+          <Button theme={['secondaryDarkBg', 'textSecondaryOnLight']} raised onClick={() => onCreate(this.state)}>create</Button>
+          <Button theme={['primaryDarkBg', 'textPrimaryOnPrimary']} raised onClick={() => onCancel()}>cancel</Button>
         </GridCell>
       </Grid>
     )

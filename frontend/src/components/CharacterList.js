@@ -1,16 +1,19 @@
 import React from 'react';
 import {
-  Ripple,
   Card,
   CardMedia,
-  CardPrimary,
+  CardPrimaryAction,
   CardTitle,
-  CardSubtitle,
   CardSupportingText,
   CardActions,
+  CardActionButton,
+  CardActionButtons,
+  CardActionIcon,
+  CardActionIcons,
   CardAction,
   Grid,
   GridCell,
+  Typography,
 } from 'rmwc';
 
 class CharacterList extends React.Component {
@@ -20,20 +23,47 @@ class CharacterList extends React.Component {
 
   renderCard(character){
       return (
-        <Card>
-        	<CardMedia style={{
-        		backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
-        		height: '12.313rem',
-        	}} onClick={(evt)=> this.props.onCharacterClick(character._id)}>
-        	</CardMedia>
-        	<CardPrimary>
-        		<CardTitle large><p>{character.name}</p></CardTitle>
-        	</CardPrimary>
-        	<CardSupportingText>
-        	</CardSupportingText>
-        	<CardActions>
-        		<CardAction>Edit</CardAction>
-        	</CardActions>
+        <Card style={{ width: '21rem' }}>
+          <CardPrimaryAction>
+            <CardMedia
+              sixteenByNine
+              style={{
+                backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
+        		    height: '12.313rem',
+              }}
+              onClick={(evt)=> this.props.onCharacterClick(character._id)}
+            />
+            <div style={{ padding: '0 1rem 1rem 1rem' }}>
+              <Typography use="headline6" tag="h2">
+                {character.name}
+              </Typography>
+              <Typography
+                use="subtitle2"
+                tag="h3"
+                theme="textSecondaryOnBackground"
+                style={{ marginTop: '-1rem' }}
+              >
+                
+              </Typography>
+              <Typography
+                use="body1"
+                tag="div"
+                theme="textSecondaryOnBackground"
+              >
+                
+              </Typography>
+            </div>
+          </CardPrimaryAction>
+          <CardActions>
+            <CardActionButtons>
+            </CardActionButtons>
+            <CardActionButton>Edit</CardActionButton>
+            <CardActionIcons>
+              <CardActionIcon onIcon="favorite" icon="favorite_border" />
+              <CardActionIcon icon="share" />
+              <CardActionIcon icon="more_vert" />
+            </CardActionIcons>
+          </CardActions>
         </Card>
       )
     }

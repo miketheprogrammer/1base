@@ -1,7 +1,7 @@
 const express     = require('express');
 const app         = express();
 const mongoose    = require('mongoose');
-const Rx          = require('@reactivex/rxjs');
+const Rx          = require('rxjs');
 const Influx      = require('influx');
 const os          = require('os');
 const routes      = require('./routes');
@@ -17,6 +17,7 @@ const influx = new Influx.InfluxDB({
   database: 'express_response_db',
   schema: schemas.influx.internalStats
 });
+
 
 mongoose.connect('mongodb://localhost/1base');
 
@@ -114,6 +115,7 @@ influx.getDatabaseNames()
   })
   .catch(err => {
     console.error(`Error creating Influx database!`);
+    console.error(err);
   });
 
 // server has started callback

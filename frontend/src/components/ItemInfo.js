@@ -1,27 +1,8 @@
 import React from 'react';
 import {
-  Ripple,
-  Card,
-  CardMedia,
-  CardPrimary,
-  CardTitle,
-  CardSubtitle,
-  CardSupportingText,
-  CardActions,
-  CardAction,
-  Elevation,
-  Grid,
-  GridCell,
-  GridList,
-  GridTile,
-  GridTilePrimary,
-  GridTilePrimaryContent,
-  GridTileSecondary,
-  GridTileTitle,
-  Fab,
   List,
   ListItem,
-  ListItemStartDetail,
+  ListItemGraphic,
   ListItemText,
   Icon
 } from 'rmwc';
@@ -30,27 +11,27 @@ const ItemInfo = ({item}) => {
     return(
   <List>
 	   <ListItem ripple>
-		     <ListItemStartDetail>
+		     <ListItemGraphic>
 			        <Icon>account_circle</Icon>
-		     </ListItemStartDetail>
+		     </ListItemGraphic>
 		       <ListItemText>{item._id}</ListItemText>
 	  </ListItem>
     <ListItem ripple>
-        <ListItemStartDetail>
+        <ListItemGraphic>
              <Icon>info_outline</Icon>
-        </ListItemStartDetail>
+        </ListItemGraphic>
           <ListItemText>{item.name}</ListItemText>
    </ListItem>
     <ListItem ripple>
-        <ListItemStartDetail>
+        <ListItemGraphic>
              <Icon>info_outline</Icon>
-        </ListItemStartDetail>
+        </ListItemGraphic>
           <ListItemText>{item.type}</ListItemText>
    </ListItem>
    <ListItem ripple>
-       <ListItemStartDetail>
+       <ListItemGraphic>
             <Icon>info_outline</Icon>
-       </ListItemStartDetail>
+       </ListItemGraphic>
          <ListItemText>{item.subType}</ListItemText>
   </ListItem>
 </List>

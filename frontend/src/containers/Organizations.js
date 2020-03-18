@@ -1,4 +1,4 @@
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import OrganizationList from '../components/OrganizationList';

@@ -10,7 +10,6 @@ import thunk from 'redux-thunk';
 import { connect, Provider } from 'react-redux'
 import * as reducers from './reducers';
 import { createEpicMiddleware } from 'redux-observable';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootEpic } from './epics';
 import {
   BrowserRouter,
@@ -22,12 +21,14 @@ import {
   routerReducer,
   routerMiddleware,
   push,
-} from 'react-router-redux'
+  connectRouter,
+} from 'connected-react-router'
 
 import createHistory from 'history/createBrowserHistory'
 import { Redirect } from 'react-router-dom'
 
-import './index.css';
+import './index.scss';
+import './styles/theme.scss'
 import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 // import NavBar from './components/navbar/navbar';
@@ -41,18 +42,21 @@ import Games from './containers/Games';
 import Dashboard from './containers/Dashboard';
 import Characters from './containers/Characters'
 import Items from './containers/Items';
-import './styles/theme.scss'
 import {
   Grid,
   GridCell,
 } from 'rmwc';
-
-
+import logger from 'redux-logger'
+import { composeWithDevTools } from 'redux-devtools-extension';
 const history = createHistory()
-const epicMiddleware = createEpicMiddleware(rootEpic);
-const createStoreWithMiddleware = applyMiddleware(thunk, epicMiddleware, routerMiddleware(history))(createStore);
-const reducer = combineReducers(reducers);
+const epicMiddleware = createEpicMiddleware();
+const createStoreWithMiddleware = applyMiddleware(epicMiddleware, thunk, logger, routerMiddleware(history))(createStore);
+const reducer = combineReducers({
+  ...reducers,
+  router: connectRouter(history),
+});
 const store = createStoreWithMiddleware(reducer);
+epicMiddleware.run(rootEpic);
 
 
 class PrivateRouteContainer extends React.Component {
@@ -200,7 +204,7 @@ class SmartRouterContainer extends React.Component {
 
     return (
       <ConnectedRouter history={history}>
-        <body>
+        <div>
           <Route path="/" component={Navbar}/>
           <div class="content mdc-toolbar-fixed-adjust" style={{marginTop: "48px"}}>
             {(() => {
@@ -223,7 +227,7 @@ class SmartRouterContainer extends React.Component {
              {/*<Route component={Home}/>*/}
             </Switch>
           </div>
-        </body>
+        </div>
       </ConnectedRouter>
     )
   }

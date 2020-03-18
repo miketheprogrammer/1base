@@ -1,4 +1,4 @@
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 
 const API_URL = 'http://localhost:3000/api';
 const HEADERS = {

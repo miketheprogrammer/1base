@@ -11,11 +11,19 @@ import {
   ToolbarMenuIcon,
   ToolbarTitle,
   ToolbarIcon,
-  Theme } from 'rmwc';
+  Theme,
+  TopAppBar,
+  TopAppBarActionItem,
+  TopAppBarFixedAdjust,
+  TopAppBarSection,
+  TopAppBarTitle,
+  TopAppBarRow,
+} from 'rmwc';
 import './CounterApp.css';
 import './Navbar.scss';
 // import 'material-components-web/dist/material-components-web.css'
 import logo from '../logo.svg';
+import '@material/toolbar/dist/mdc.toolbar.css';
 
 export class NavigationBar extends React.Component {
   constructor(props) {
@@ -34,19 +42,34 @@ export class NavigationBar extends React.Component {
   render() {
     const {dispatch} = this.props;
     return (
-      <div>
-        <Toolbar theme={['primary-dark-bg', 'text-primary-on-dark']} fixed>
-          <ToolbarRow>
-            <ToolbarSection alignStart>
-              <ToolbarIcon use="cloud"/>
-              <ToolbarTitle>1Base</ToolbarTitle>
-            </ToolbarSection>
-            <ToolbarSection alignEnd>
-              <ToolbarTitle onClick={() => dispatch(logoutUser())}>logout</ToolbarTitle>
-            </ToolbarSection>
-          </ToolbarRow>
-        </Toolbar>
-      </div>
+      <>
+        <TopAppBar fixed>
+          <TopAppBarRow>
+            <TopAppBarSection alignStart>
+              <TopAppBarActionItem icon="cloud" />
+              <TopAppBarTitle>1Base</TopAppBarTitle>
+            </TopAppBarSection>
+            <TopAppBarSection alignEnd>
+              <TopAppBarActionItem icon="star" />
+              <TopAppBarActionItem icon="mood" />
+            </TopAppBarSection>
+          </TopAppBarRow>
+        </TopAppBar>
+        <TopAppBarFixedAdjust />
+      </>
+      // <div>
+      //   <Toolbar theme={['primaryBg', 'textPrimaryOnDark']} fixed>
+      //     <ToolbarRow>
+      //       <ToolbarSection alignStart>
+      //         <ToolbarIcon use="cloud"/>
+      //         <ToolbarTitle>1Base</ToolbarTitle>
+      //       </ToolbarSection>
+      //       <ToolbarSection alignEnd>
+      //         <ToolbarTitle onClick={() => dispatch(logoutUser())}>logout</ToolbarTitle>
+      //       </ToolbarSection>
+      //     </ToolbarRow>
+      //   </Toolbar>
+      // </div>
     )
     // return (
     //   <div>

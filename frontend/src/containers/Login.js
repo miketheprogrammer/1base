@@ -58,7 +58,7 @@ class Login extends Component {
         <GridCell span="0" desktop="5">
         </GridCell>
       	<GridCell span="4" desktop="7">
-          <Button theme={['secondary-light-background', 'text-secondary-on-light']} raised onClick={(e) => this.handleSubmit(e)}>login</Button>
+          <Button theme={['secondaryLightBackground', 'textSecondaryOnLight']} raised onClick={(e) => this.handleSubmit(e)}>login</Button>
         </GridCell>
       </Grid>
     )

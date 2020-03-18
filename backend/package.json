@@ -9,19 +9,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@reactivex/rxjs": "^5.5.2",
-    "body-parser": "^1.18.2",
-    "cookie-session": "^2.0.0-beta.3",
-    "eventstore": "^1.12.8",
-    "express": "^4.16.2",
+    "@reactivex/rxjs": "^6.5.4",
+    "body-parser": "^1.19.0",
+    "cookie-session": "^2.0.0-rc.1",
+    "eventstore": "^1.15.2",
+    "express": "^4.17.1",
     "faker": "^4.1.0",
-    "helmet": "^3.9.0",
-    "influx": "^5.0.0-alpha.4",
-    "lodash": "^4.17.4",
+    "helmet": "^3.21.3",
+    "influx": "^5.5.1",
+    "lodash": "^4.17.15",
     "md5": "^2.2.1",
-    "mocha": "^4.0.1",
-    "mongodb": "^2.2.33",
-    "mongoose": "^4.13.0",
-    "uuid": "^3.1.0"
+    "mocha": "^7.1.1",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.5",
+    "rxjs": "^6.5.4",
+    "uuid": "^7.0.2"
   }
 }

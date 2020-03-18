@@ -1,5 +1,5 @@
 var Influx      = require('influx');
-var Rx          = require('@reactivex/rxjs');
+var Rx          = require('rxjs');
 var os          = require('os')
 var schemas     = require('../schemas').influx;
 

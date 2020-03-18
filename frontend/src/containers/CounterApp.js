@@ -1,4 +1,4 @@
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 import React, { Component } from 'react';
 // import { bindActionCreators } from '../lib/rx-redux';
 import { bindActionCreators } from 'redux';

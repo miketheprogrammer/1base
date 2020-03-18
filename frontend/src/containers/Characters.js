@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 import CharacterInfo from '../components/CharacterInfo';
 import CharacterList from '../components/CharacterList';
 // import CharacterCreate from '../components/CharacterCreate';

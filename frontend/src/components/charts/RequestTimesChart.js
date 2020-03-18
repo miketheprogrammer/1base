@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 var AmCharts = require("@amcharts/amcharts3-react");
 
 class RequestTimesChart extends Component {

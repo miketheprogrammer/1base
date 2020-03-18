@@ -1,4 +1,5 @@
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
+import * as x from 'rxjs-compat';
 import { Observable } from 'rxjs/Observable';
 import { combineEpics } from 'redux-observable';
 import {
@@ -69,7 +70,7 @@ import {
   CHARACTERLIST_LOADED,
 } from '../constants/ActionTypes';
 import Request from '../api/json/api-json';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 const localStorage = window.localStorage;
 
 // USER EPICS
@@ -335,12 +336,12 @@ export const gotoOrganizationSelect = action$ =>
 export const setCharacterIdIfUrlId = action$ =>
   action$
   .filter(action => action.type === '@@router/LOCATION_CHANGE')
-  .filter(action => action.payload.pathname.search('/characters') > -1)
+  .filter(action => action.payload.location.pathname.search('/characters') > -1)
   .map((action) => {
-    const characterIdPath= action.payload.pathname.split('/characters/')[1]
+    const characterIdPath= action.payload.location.pathname.split('/characters/')[1]
     if(characterIdPath){
       console.log("ROUTE WORKING MUFFUCKA", characterIdPath)
-    return {type: CHARACTER_SELECTED, payload: {_id: action.payload.pathname.split('/characters/')[1]}}
+    return {type: CHARACTER_SELECTED, payload: {_id: action.payload.location.pathname.split('/characters/')[1]}}
   }else{
     return {type:CHARACTERLIST_LOADED}
   }
@@ -349,11 +350,11 @@ export const setCharacterIdIfUrlId = action$ =>
 export const setPlayerIdIfUrlId = action$ =>
   action$
     .filter(action => action.type === '@@router/LOCATION_CHANGE')
-    .filter(action => action.payload.pathname.search('/players') > -1)
+    .filter(action => action.payload.location.pathname.search('/players') > -1)
     .map((action) => {
-      const playerIdPath= action.payload.pathname.split('/players/')[1]
+      const playerIdPath= action.payload.location.pathname.split('/players/')[1]
       if(playerIdPath){
-      return {type: PLAYER_SELECTED, payload: {_id: action.payload.pathname.split('/players/')[1]}}
+      return {type: PLAYER_SELECTED, payload: {_id: action.payload.location.pathname.split('/players/')[1]}}
     }else{
       return {type:PLAYERLIST_LOADED}
     }
@@ -362,11 +363,11 @@ export const setPlayerIdIfUrlId = action$ =>
 export const setItemIdIfUrlId = action$ =>
   action$
     .filter(action => action.type === '@@router/LOCATION_CHANGE')
-    .filter(action => action.payload.pathname.search('/items') > -1)
+    .filter(action => action.payload.location.pathname.search('/items') > -1)
     .map((action) => {
-      const itemIdPath= action.payload.pathname.split('/items/')[1]
+      const itemIdPath= action.payload.location.pathname.split('/items/')[1]
       if(itemIdPath){
-      return {type: ITEM_SELECTED, payload: {_id: action.payload.pathname.split('/items/')[1]}}
+      return {type: ITEM_SELECTED, payload: {_id: action.payload.location.pathname.split('/items/')[1]}}
     }else{
       return {type:ITEM_LIST_LOADED}
     }
@@ -375,23 +376,27 @@ export const setItemIdIfUrlId = action$ =>
 export const setOrganizationIdIfUrlId = action$ =>
   action$
     .filter(action => action.type === '@@router/LOCATION_CHANGE')
-    .filter(action => action.payload.pathname.search('/organizations/') > -1)
+    .filter(action => {
+      console.log('wtf', action);
+      return true;
+    })
+    .filter(action => action.payload.location.pathname.search('/organizations/') > -1)
     .map((action) => {
-      return {type: SELECT_ORGANIZATION, payload: {_id: action.payload.pathname.split('/organizations/')[1]}}
+      return {type: SELECT_ORGANIZATION, payload: {_id: action.payload.location.pathname.split('/organizations/')[1]}}
     });
 
 export const setGameIdIfUrlId = action$ =>
   action$
     .filter(action => action.type === '@@router/LOCATION_CHANGE')
-    .filter(action => action.payload.pathname.search('/games/') > -1)
+    .filter(action => action.payload.location.pathname.search('/games/') > -1)
     .map((action) => {
-      return {type: SELECT_GAME, payload: {_id: action.payload.pathname.split('/games/')[1]}}
+      return {type: SELECT_GAME, payload: {_id: action.payload.location.pathname.split('/games/')[1]}}
     });
 
 export const clearStateOnOrganizationsPageLoad = action$ =>
     action$
       .filter(action => action.type === '@@router/LOCATION_CHANGE')
-      .filter(action => action.payload.pathname.search('/organizations') > -1)
+      .filter(action => action.payload.location.pathname.search('/organizations') > -1)
       .map((action) => {
         localStorage.removeItem('1base.organization_id');
         localStorage.removeItem('1base.game_id');
@@ -401,12 +406,20 @@ export const clearStateOnOrganizationsPageLoad = action$ =>
 export const clearStateOnGamesPageLoad = action$ =>
     action$
       .filter(action => action.type === '@@router/LOCATION_CHANGE')
-      .filter(action => action.payload.pathname.search('/games') > -1)
+      .filter(action => action.payload.location.pathname.search('/games') > -1)
       .map((action) => {
         localStorage.removeItem('1base.game_id');
         return {type: 'NOOP'}
       });
 
+export const logger = action$ =>
+    action$
+      .filter(action => action.type === '@@router/LOCATION_CHANGE')
+      .filter(action => action.payload.location.pathname.search('/games') > -1)
+      .map((action) => {
+        localStorage.removeItem('1base.game_id');
+        return {type: 'NOOP'}
+      });
 // COMBINE EPICS
 export const rootEpic = combineEpics(
   registerUser,
@@ -448,5 +461,6 @@ export const rootEpic = combineEpics(
   fetchCharactersOnNewCharacterSave,
   selectCharacter,
   saveNewCharacter,
-  searchCharacters
+  searchCharacters,
+  
 );

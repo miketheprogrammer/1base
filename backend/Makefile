@@ -16,7 +16,7 @@ update:
 deploy:
 	echo "deploy"
 
-run-local: mongo
+run-local: mongo influx grafana
 	node index
 
 watch-local: mongo influx grafana

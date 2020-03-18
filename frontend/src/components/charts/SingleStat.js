@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 import Request from '../../api/json/api-json';
 /*
 .mergeMap(action =>

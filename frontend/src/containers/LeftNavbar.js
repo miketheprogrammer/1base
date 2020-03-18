@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import * as OrganizationActions from '../actions/OrganizationActions';
 import * as GameActions from '../actions/GameActions';
 
@@ -14,14 +14,14 @@ import {
   ToolbarMenuIcon,
   ToolbarTitle,
   Theme,
-  PermanentDrawer,
-  PermanentDrawerContent,
+  Drawer,
+  DrawerContent,
   Icon,
   List,
   ListItem,
   ListItemText,
-  ListItemStartDetail,
-  ListItemEndDetail,
+  ListItemGraphic,
+  ListItemMeta,
 } from 'rmwc';
 import './CounterApp.css';
 // import 'material-components-web/dist/material-components-web.css'
@@ -37,42 +37,42 @@ export class LeftNavigationBar extends React.Component {
   render() {
     const {dispatch} = this.props;
     return (
-        <PermanentDrawer theme={['primary-dark-bg']} style={{width: "170px"}}>
-        	<PermanentDrawerContent>
+        <Drawer theme={['primary-dark-bg']} style={{width: "170px"}}>
+        	<DrawerContent>
         		<List theme={['text-primary-on-dark']}>
         			<ListItem onClick={() => dispatch(push({pathname: '/dashboard'}))}>
         				<ListItemText>Dashboard</ListItemText>
-                <ListItemEndDetail>
+                <ListItemMeta>
                   <Icon>home</Icon>
-                </ListItemEndDetail>
+                </ListItemMeta>
         			</ListItem>
         			<ListItem onClick={() => dispatch(push({pathname: '/players'}))}>
         				<ListItemText>Players</ListItemText>
-                <ListItemEndDetail>
+                <ListItemMeta>
                   <Icon>group</Icon>
-                </ListItemEndDetail>
+                </ListItemMeta>
         			</ListItem>
               <ListItem onClick={() => dispatch(push({pathname: '/items'}))}>
         				<ListItemText>Items</ListItemText>
-                <ListItemEndDetail>
+                <ListItemMeta>
                   <Icon>group</Icon>
-                </ListItemEndDetail>
+                </ListItemMeta>
         			</ListItem>
               <ListItem onClick={() => this.props.dispatch(OrganizationActions.gotoOrganizationSelect())}>
                 <ListItemText>Organizations</ListItemText>
-                <ListItemEndDetail>
+                <ListItemMeta>
                   <Icon>location_city</Icon>
-                </ListItemEndDetail>
+                </ListItemMeta>
               </ListItem>
               <ListItem onClick={() => this.props.dispatch(GameActions.gotoGameSelect())}>
                 <ListItemText>Games</ListItemText>
-                <ListItemEndDetail>
+                <ListItemMeta>
                   <Icon>extension</Icon>
-                </ListItemEndDetail>
+                </ListItemMeta>
               </ListItem>
         		</List>
-        	</PermanentDrawerContent>
-        </PermanentDrawer>
+        	</DrawerContent>
+        </Drawer>
 
     )
     // return (
