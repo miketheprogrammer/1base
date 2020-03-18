@@ -37,7 +37,7 @@ export class LeftNavigationBar extends React.Component {
   render() {
     const {dispatch} = this.props;
     return (
-        <Drawer theme={['primary-dark-bg']} style={{width: "170px"}}>
+        <Drawer theme={['primary-dark-bg']}>
         	<DrawerContent>
         		<List theme={['text-primary-on-dark']}>
         			<ListItem onClick={() => dispatch(push({pathname: '/dashboard'}))}>

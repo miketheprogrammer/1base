@@ -206,7 +206,7 @@ class SmartRouterContainer extends React.Component {
       <ConnectedRouter history={history}>
         <div>
           <Route path="/" component={Navbar}/>
-          <div class="content mdc-toolbar-fixed-adjust" style={{marginTop: "48px"}}>
+          <div class="content" style={{marginTop: "48px"}}>
             {(() => {
               if (gameSelected && organizationSelected)
                 return (<PrivateRoute path="/" component={LeftNavbar}/>)
