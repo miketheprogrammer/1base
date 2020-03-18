@@ -27,7 +27,9 @@ watch: watch-local
 
 mongo:
 	docker rm -f mongo | true
-	docker run -p 27017:27017 --name mongo -d mongo
+	docker run -p 27017:27017 \
+		-v ${PWD}/.mongo/data/db:/data/db \
+		--name mongo -d mongo
 
 influx:
 	docker rm -f influx | true

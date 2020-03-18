@@ -57,7 +57,7 @@ app.use('/api/characters', routes.characters);
 
 app.get('/api/whoami', (req, res) => {
   if (req.session.loggedIn) {
-    metrics.trackLogin(influx)('user', req.query.organization, req.query.game, req.query.user || req.session.id);
+    // metrics.trackLogin(influx)('user', req.query.organization, req.query.game, req.query.user || req.session.id);
     return res.status(200).send({result: true});
   }
   return res.status(401).send({result: false});
