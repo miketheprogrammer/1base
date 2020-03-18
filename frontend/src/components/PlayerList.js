@@ -19,7 +19,7 @@ import {
 const PlayerList = ({players, onPlayerClick}) => {
     const renderCard = (player) => {
       return (
-        <Card style={{ width: '21rem' }}>
+        <Card>
           <CardPrimaryAction>
             <CardMedia
               sixteenByNine
