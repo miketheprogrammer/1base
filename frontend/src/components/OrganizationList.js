@@ -96,7 +96,7 @@ class OrganizationCard extends React.Component {
             </GridTilePrimaryContent>
           </GridTilePrimary>
           <GridTileSecondary>
-            <GridTileTitle large><p>{organization.name}</p></GridTileTitle>
+            <GridTileTitle><p>{organization.name}</p></GridTileTitle>
           </GridTileSecondary>
 
         </GridTile>
@@ -113,10 +113,10 @@ class OrganizationList extends React.Component {
     const {organizations, onSelected, onCreateNew} = this.props;
     return(
       <GridList>
-        <CreateNewCard onCreateNew={onCreateNew}/>
+        <CreateNewCard key="create-new" onCreateNew={onCreateNew}/>
         {
           organizations.map((organization) =>
-              <OrganizationCard organization={organization} onSelected={onSelected}/>
+              <OrganizationCard key={organization._id} organization={organization} onSelected={onSelected}/>
           )
         }
       </GridList>

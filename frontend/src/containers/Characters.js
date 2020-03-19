@@ -69,7 +69,7 @@ class Characters extends Component {
     if (includeActionButtons)
       actionButtons = this.renderToolbarActionButtons()
     return (
-      <Toolbar class="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
+      <Toolbar className="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
         <ToolbarRow>
           <ToolbarSection alignStart>
             <ToolbarTitle>{title}</ToolbarTitle>

@@ -24,7 +24,7 @@ import {
   connectRouter,
 } from 'connected-react-router'
 
-import createHistory from 'history/createBrowserHistory'
+import {createBrowserHistory} from 'history'
 import { Redirect } from 'react-router-dom'
 
 import './index.scss';
@@ -48,7 +48,7 @@ import {
 } from 'rmwc';
 import logger from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension';
-const history = createHistory()
+const history = createBrowserHistory()
 const epicMiddleware = createEpicMiddleware();
 const createStoreWithMiddleware = applyMiddleware(epicMiddleware, thunk, logger, routerMiddleware(history))(createStore);
 const reducer = combineReducers({
@@ -203,7 +203,7 @@ class SmartRouterContainer extends React.Component {
       <ConnectedRouter history={history}>
         <div>
           <Route path="/" component={Navbar}/>
-          <div class="content" style={{marginTop: "48px"}}>
+          <div className="content" style={{marginTop: "48px"}}>
             {(() => {
               if (gameSelected && organizationSelected)
                 return (<PrivateRoute path="/" component={LeftNavbar}/>)
