@@ -32,6 +32,7 @@ class Characters extends Component {
   }
 
   componentDidMount() {
+    console.log('characters component did mount');
     if (this.props.dispatch)
       this.props.dispatch(CharacterActions.fetchCharacters({game_id: this.props.selectedGame}));
   }

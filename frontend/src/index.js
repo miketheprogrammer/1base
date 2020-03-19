@@ -151,15 +151,12 @@ class PrivateRouteContainer extends React.Component {
       "organization selected:", organizationSelected,
       "am I true?", window.location.pathname !== '/' && window.location.pathname != '/organizations'
      )
-      if (window.location.pathname !== '/' && window.location.pathname != '/organizations' && !organizationSelected) {
-        return this.redirectToOrganizationSelect(props);
+     
+      if (!organizationSelected && window.location.pathname.search('/games') > 0) {
+        // return this.redirectToOrganizationSelect(props)
       }
-
-      if (!organizationSelected && window.location.pathname !== '/organizations') {
-        return this.redirectToOrganizationSelect(props)
-      }
-      if (!gameSelected && ['/games', '/organizations'].indexOf(window.location.pathname) === -1) {
-        return this.redirectToGameSelect(props)
+      if (!gameSelected && window.location.pathname.search('games') > 0) {
+        // return this.redirectToGameSelect(props)
       }
       return (
         <Route
@@ -214,15 +211,15 @@ class SmartRouterContainer extends React.Component {
             <Switch>
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/register" component={Register}/>
-                <PrivateRoute exact path="/players" component={Players}/>
-                <PrivateRoute exact path="/players/:id" component={Players}/>
-                <PrivateRoute exact path="/characters" component={Characters}/>
-                <PrivateRoute exact path="/characters/:id" component={Characters}/>
-                <PrivateRoute exact path="/games" component={Games}/>
+                <PrivateRoute exact path="/organization/:org_id/game/:game_id/players" component={Players}/>
+                <PrivateRoute exact path="/organization/:org_id/game/:game_id/players/:id" component={Players}/>
+                <PrivateRoute exact path="/organization/:org_id/game/:game_id/player/:id/characters" component={Characters}/>
+                <PrivateRoute exact path="/organization/:org_id/game/:game_id/player/:id/characters/:id" component={Characters}/>
+                <PrivateRoute exact path="/organization/:org_id/games" component={Games}/>
                 <PrivateRoute exact path="/organizations" component={Organizations}/>
                 <PrivateRoute exact path="/dashboard" component={Dashboard}/>
-                <PrivateRoute exact path="/items" component={Items}/>
-                <PrivateRoute exact path="/items/:id" component={Items}/>
+                <PrivateRoute exact path="/organization/:org_id/game/:game_id/character/:character_id/items" component={Items}/>
+                <PrivateRoute exact path="/organization/:org_id/game/:game_id/character/:character_id/items/:id" component={Items}/>
                 <PrivateRoute exact path="/" component={Organizations}/>
              {/*<Route component={Home}/>*/}
             </Switch>

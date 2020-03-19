@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import * as Rx from 'rxjs';
+import { push } from 'connected-react-router';
 import PlayerInfo from '../components/PlayerInfo';
 import PlayerList from '../components/PlayerList';
 import PlayerCreate from '../components/PlayerCreate';
@@ -26,6 +27,7 @@ import {
   Grid,
   GridCell,
 } from 'rmwc';
+import { gameSelected } from '../actions/GameActions';
 
 class Players extends Component {
 
@@ -94,12 +96,15 @@ class Players extends Component {
   }
 
   renderPlayerList() {
-    const {players, dispatch} = this.props;
+    const {selectedGame, selectedOrganization, players, dispatch} = this.props;
     return (
       <section>
         <PlayerList
           players={players}
-          onPlayerClick={(playerId)=>dispatch(PlayerActions.selectPlayer(playerId))}
+          onPlayerClick={(playerId)=> {
+            dispatch(PlayerActions.selectPlayer(playerId));
+            dispatch(push({url: `/organization/${selectedOrganization}/game/${selectedGame}/players/${playerId}`, pathname:`/organization/${selectedOrganization}/game/${selectedGame}/players/${playerId}`}));
+          }}
         />
       </section>
     )
@@ -116,7 +121,7 @@ class Players extends Component {
   }
 
   renderViewPlayer(){
-    const {players, dispatch, selection}=this.props;
+    const { selectedGame, selectedOrganization, players, dispatch, selection}=this.props;
     const player = players.filter((player)=> player._id===selection)[0]
     if (!player) {
       return (<div>Player is missing for some reason from the data</div>)
@@ -124,7 +129,10 @@ class Players extends Component {
     return (
       <PlayerInfo
         player={player}
-        onCharacterClick={(characterId)=>dispatch(CharacterActions.selectCharacter(characterId))}
+        onCharacterClick={(characterId)=> {
+          dispatch(CharacterActions.selectCharacter(characterId))
+          dispatch(push({url: `/organization/${selectedOrganization}/game/${selectedGame}/player/${selection}/characters/${characterId}`, pathname: `/organization/${selectedOrganization}/game/${selectedGame}/player/${selection}/characters/${characterId}`}))
+        }}
       />
 
     )

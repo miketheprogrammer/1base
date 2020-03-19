@@ -1,5 +1,8 @@
 $mdc-theme-primary: #03a9f4;
 $mdc-theme-secondary: #4dd0e1;
+
+@import "material-components-web/material-components-web.scss";
+
 // $mdc-theme-background: #fff; // White
 // $mdc-theme-primary: #212121;
 // $mdc-theme-secondary: #29b6f6;
@@ -9,8 +12,6 @@ $mdc-theme-secondary: #4dd0e1;
 //   // $on-primary: #442b2d,
 //   // $on-secondary: #442b2d,
 // );
-@import "material-components-web/material-components-web.scss";
-
 // @use "@material/button/mdc-button";
 // @use "@material/card/mdc-card";
 // @use "@material/checkbox/mdc-checkbox";

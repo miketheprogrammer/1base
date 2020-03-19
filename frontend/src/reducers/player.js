@@ -12,7 +12,6 @@ import {
 } from '../constants/ActionTypes';
 
 export default function players(state = {players:[]}, action = {}) {
-  console.log('Player State', state);
   switch (action.type) {
     case PLAYERS_FETCHED:
       return {...state, players: action.payload.result, fetchingPlayers:false}

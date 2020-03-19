@@ -1,6 +1,7 @@
 import * as Rx from 'rxjs';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import GameList from '../components/GameList';
 import GameCreate from '../components/GameCreate';
 import * as GameActions from '../actions/GameActions';
@@ -48,12 +49,13 @@ class Game extends Component {
   }
 
   renderGameList() {
-    const { games, dispatch } = this.props;
+    const { organization_id, games, dispatch } = this.props;
     return (
       <GameList
         games={games}
         onSelected={(_id) => {
-          dispatch(GameActions.selectGame({_id}))
+          dispatch(GameActions.selectGame({_id}));
+          dispatch(push({url: `/organization/${organization_id}/game/${_id}/players`, pathname:`/organization/${organization_id}/game/${_id}/players`}));
         }}
         onCreateNew={() => {
           dispatch(GameActions.createNewGame())

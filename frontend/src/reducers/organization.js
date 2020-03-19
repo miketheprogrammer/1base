@@ -12,7 +12,6 @@ import {
 } from '../constants/ActionTypes';
 
 export default function organization(state = {players:[]}, action = {}) {
-  console.log('Org Actions', action.type, action.payload, state);
   switch (action.type) {
     case USER_LOGGEDIN:
       return {...state, selected: undefined}

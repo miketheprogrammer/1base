@@ -156,7 +156,7 @@ export const fetchPlayersOnNewPlayerSave = action$ =>
 export const selectPlayer = action$ =>
   action$
     .filter(action => action.type === SELECT_PLAYER)
-    .map((action) => {return push({url: `/players/${action.payload._id}`, pathname:`/players/${action.payload._id}`}) });
+    .map((action) => { return {type: 'NOOP'};});
 
 //Character EPICS
 export const fetchCharacters = action$ =>
@@ -194,7 +194,7 @@ export const fetchCharactersOnNewCharacterSave = action$ =>
 export const selectCharacter = action$ =>
   action$
     .filter(action => action.type === SELECT_CHARACTER)
-    .map((action) => {return push({url: `/characters/${action.payload._id}`, pathname:`/characters/${action.payload._id}`}) });
+    .map((action) => { return { type: 'NOOP' } });
 
 // Item EPICS
 export const fetchItems = action$ =>
@@ -263,7 +263,7 @@ export const selectOrganization = action$ =>
 export const organizationSelected = action$ =>
   action$
     .filter(action => action.type === ORGANIZATION_SELECTED)
-    .map((action) => {localStorage.setItem('1base.organization_id', action.payload._id); return push({url: '/games', pathname:'/games'}) });
+    .map((action) => {localStorage.setItem('1base.organization_id', action.payload._id); return {type: 'NOOP'}; });
 
 export const saveNewOrganization = action$ =>
   action$
@@ -299,7 +299,7 @@ export const gameSelected = action$ =>
     .filter(action => action.type === GAME_SELECTED)
     .map((action) => {
       localStorage.setItem('1base.game_id', action.payload._id);
-      return push({url: '/players', pathname:'/players'})
+      return {type: 'NOOP'};
     });
 
 export const saveNewGame = action$ =>
@@ -317,7 +317,7 @@ export const fetchGamesOnNewGameSave = action$ =>
       return {type: FETCH_GAMES, payload: {organization_id: localStorage.getItem('1base.organization_id')}}
     });
 // NAVIGATION EPICS
-export const gotoGameSelect = action$ =>
+export const gotoGameSelect = (action$) =>
   action$
     .filter(action => action.type === GOTO_GAME_SELECT)
     .map((action) => {
@@ -376,10 +376,6 @@ export const setItemIdIfUrlId = action$ =>
 export const setOrganizationIdIfUrlId = action$ =>
   action$
     .filter(action => action.type === '@@router/LOCATION_CHANGE')
-    .filter(action => {
-      console.log('wtf', action);
-      return true;
-    })
     .filter(action => action.payload.location.pathname.search('/organizations/') > -1)
     .map((action) => {
       return {type: SELECT_ORGANIZATION, payload: {_id: action.payload.location.pathname.split('/organizations/')[1]}}

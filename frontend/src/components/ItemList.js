@@ -32,12 +32,11 @@ class CreateNewCard extends React.Component {
             // backgroundImage: 'url(https://material-ui.com/static/logo.png)',
             height: '12.313rem',
           }}>
-            <GridTilePrimaryContent>
-              <img
-                style={{
-                  height: "80%"
-                }}
-                src="https://material-ui.com/static/logo.png"/>
+            <GridTilePrimaryContent
+              style={{
+                height: "80%"
+              }}
+              src="https://material-ui.com/static/logo.png">
             </GridTilePrimaryContent>
           </GridTilePrimary>
           <GridTileSecondary style={{

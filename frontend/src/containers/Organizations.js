@@ -1,6 +1,7 @@
 import * as Rx from 'rxjs';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import OrganizationList from '../components/OrganizationList';
 import OrganizationCreate from '../components/OrganizationCreate';
 import * as OrganizationActions from '../actions/OrganizationActions';
@@ -18,7 +19,7 @@ import {
   Fab,
 } from 'rmwc';
 
-class CounterApp extends Component {
+class Organizations extends Component {
   constructor(props){
     super(props);
     this.state = {};
@@ -56,6 +57,7 @@ class CounterApp extends Component {
         organizations={organizations}
         onSelected={(_id) => {
           dispatch(OrganizationActions.selectOrganization({_id}));
+          dispatch(push({url: `/organization/${_id}/games`, pathname:`/organization/${_id}/games`}));
         }}
         onCreateNew={() => {
           // this.setState({creatingNewOrganization: true});
@@ -98,4 +100,4 @@ class CounterApp extends Component {
 export default connect(state => ({
   organizations: state.organization.organizations || [],
   creating: Boolean(state.organization.creating),
-}))(CounterApp);
+}))(Organizations);

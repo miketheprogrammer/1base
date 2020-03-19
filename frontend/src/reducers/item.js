@@ -12,7 +12,6 @@ import {
 } from '../constants/ActionTypes';
 
 export default function items(state = {items:[]}, action = {}) {
-  console.log('Item State', state);
   switch (action.type) {
     case ITEMS_FETCHED:
       return {...state, items: action.payload.result, fetchingItems:false}
