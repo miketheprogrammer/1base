@@ -1,6 +1,7 @@
 import * as Rx from 'rxjs';
-import React, { Component } from 'react';
+import React, { Component, useCallback, useEffect, useMemo, } from 'react';
 import { connect } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { push } from 'connected-react-router';
 import OrganizationList from '../components/OrganizationList';
 import OrganizationCreate from '../components/OrganizationCreate';
@@ -18,86 +19,93 @@ import {
   Theme,
   Fab,
 } from 'rmwc';
+import {
+  selectOrganizationCreateActive,
+  selectOrganizations,
+} from '../selectors/organization.selectors';
 
-class Organizations extends Component {
-  constructor(props){
-    super(props);
-    this.state = {};
-    this.destroy$ = new Rx.Subject();
+export default () => {
+  /*
+  Redux dispatch hook
+  */
+  const dispatch = useDispatch();
+
+  /*
+  Selector Hooks, preferred pattern here is to use useMemo if props are being passed in
+  these use useMemo for now as examples of how to achieve it.
+  */
+  const creating = useSelector(
+    useMemo(() => selectOrganizationCreateActive),
+  );
+  const organizations = useSelector(
+    useMemo(() => selectOrganizations),
+  );
+
+  /*
+  React useEffect hook.
+  The empty array passed into it forces it to only run on ComponentDidMount
+  */
+  useEffect(() => {
+    dispatch(OrganizationActions.fetchOrganizations());
+  }, [] /* ComponentDidMount */);
+
+  /*
+  Callback hooks to be passed to subcomponents,
+  more than likely these use Redux hooks like dispatch = useDispatch()
+  */
+  const onSelected = useCallback(
+    (_id) => {
+      dispatch(OrganizationActions.selectOrganization({_id}));
+      dispatch(push({url: `/organization/${_id}/games`, pathname:`/organization/${_id}/games`}));
+    }, 
+    [dispatch],
+  );
+  const onCreateNew = useCallback(
+    () => {
+      dispatch(OrganizationActions.createNewOrganization())
+    },
+    [dispatch],
+  );
+  const onCreate = useCallback(
+    (values) => dispatch(OrganizationActions.saveNewOrganization(values)),
+    [dispatch]
+  );
+  const onCancel = useCallback(
+    () => {dispatch(OrganizationActions.cancelCreateNewOrganization())},
+    [dispatch],
+  );
+
+  /*
+  Render code
+  this should come after all hooks are established especially if render code is conditional.
+  */
+
+  if (!organizations) {
+    return (<></>);
   }
 
-  componentDidMount() {
-    if (this.props.dispatch)
-      this.props.dispatch(OrganizationActions.fetchOrganizations());
-  }
-  componentWillUnmount() {
-    this.destroy$.next(null);
-  }
-
-  createOrganization(values) {
-    this.props.dispatch(OrganizationActions.saveNewOrganization(values));
-  }
-
-  renderToolbar(title) {
-    return (
-      <Toolbar class="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
-        <ToolbarRow>
-          <ToolbarSection alignStart>
-            <ToolbarTitle>{title}</ToolbarTitle>
-          </ToolbarSection>
-        </ToolbarRow>
-      </Toolbar>
-    )
-  }
-
-  renderOrganizationList() {
-    const { organizations, dispatch } = this.props;
-    return (
+  let toolbar, content;
+  if (!creating) {
+    // toolbar = this.renderToolbar("Your Organizations");
+    content = (
       <OrganizationList
         organizations={organizations}
-        onSelected={(_id) => {
-          dispatch(OrganizationActions.selectOrganization({_id}));
-          dispatch(push({url: `/organization/${_id}/games`, pathname:`/organization/${_id}/games`}));
-        }}
-        onCreateNew={() => {
-          // this.setState({creatingNewOrganization: true});
-          // console.log(this.state);
-          this.props.dispatch(OrganizationActions.createNewOrganization())
-        }}/>
+        onSelected={onSelected}
+        onCreateNew={onCreateNew}/>
     )
-  }
-
-  renderCreateNewOrganization() {
-    const { organizations, dispatch } = this.props;
-    return (
+  } else {
+    // toolbar = this.renderToolbar("Create Your Organization");
+    content = (
       <OrganizationCreate
-        onCreate={(values) => this.createOrganization(values)}
-        onCancel={() => {dispatch(OrganizationActions.cancelCreateNewOrganization())}}
+        onCreate={onCreate}
+        onCancel={onCancel}
       />
     )
   }
-
-  render() {
-    const { organizations, creating, dispatch } = this.props;
-    let toolbar, content;
-    if (!creating) {
-      toolbar = this.renderToolbar("Your Organizations");
-      content = this.renderOrganizationList();
-    } else {
-      toolbar = this.renderToolbar("Create Your Organization");
-      content = this.renderCreateNewOrganization();
-    }
-    return (
-      <main style={{marginTop: "12px"}}>
-        {toolbar}
-        {content}
-      </main>
-    )
-
-  }
-
+  return (
+    <main style={{marginTop: "12px"}}>
+      {toolbar}
+      {content}
+    </main>
+  )
 }
-export default connect(state => ({
-  organizations: state.organization.organizations || [],
-  creating: Boolean(state.organization.creating),
-}))(Organizations);
