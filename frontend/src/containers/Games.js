@@ -24,6 +24,10 @@ import {
   selectGameCreateActive,
   selectGames,
 } from '../selectors/game.selectors';
+import {
+  selectOrganizationIdParameter,
+} from '../selectors/router.selectors';
+import * as OrganizationActions from '../actions/OrganizationActions';
 
 export default () => {
   const dispatch = useDispatch();
@@ -40,11 +44,27 @@ export default () => {
     useMemo(() => selectSelectedOrganizationId),
   );
 
-  console.log('lala', organizationId);
-
   useEffect(() => {
-    dispatch(GameActions.fetchGames({organizationId}));
-  }, []);
+    if (organizationId) {
+      dispatch(GameActions.fetchGames({organizationId}));
+    }
+  }, [organizationId]);
+
+  /*
+  Parse organization id from url
+  should refactor this into a router.selectors.js file
+  */
+  
+  const routeOrgId = useSelector(selectOrganizationIdParameter);
+  useEffect(() => {
+    /*
+    Restore state from url, i.e. hard refresh on page, or bookmarked page
+    */
+    if (!organizationId){
+      dispatch(OrganizationActions.fetchOrganizations());
+      dispatch(OrganizationActions.selectOrganization({_id: routeOrgId}));
+    }
+  }, [organizationId]);
 
   const onSelected = useCallback(
     (_id) => {

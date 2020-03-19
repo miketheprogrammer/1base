@@ -22,6 +22,8 @@ import {
 } from '../selectors/organization.selectors';
 
 export default () => {
+
+  console.log('wtf are orgs rendered');
   /*
   Redux dispatch hook
   */

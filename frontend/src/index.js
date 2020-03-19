@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useCallback, useEffect, useMemo, } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import ReactDOM from 'react-dom';
 // import 'bootstrap/dist/css/bootstrap.css';
 import {
@@ -43,6 +44,28 @@ import Dashboard from './containers/Dashboard';
 import Characters from './containers/Characters'
 import Items from './containers/Items';
 import {
+  selectOrganizations,
+  selectSelectedOrganizationId,
+} from './selectors/organization.selectors';
+import {
+  selectGames,
+  selectSelectedGameId,
+} from './selectors/game.selectors';
+import {
+  selectOrganizationIdParameter,
+  selectGameIdParameter,
+} from './selectors/router.selectors';
+import {
+  selectPlayers,
+  selectSelectedPlayerId,
+  selectPlayerCreateActive,
+  selectPlayerSearchFilter,
+} from '\./selectors/player.selectors';
+import {
+  selectUserAuthenticating,
+  selectUserAuthenticated,
+} from './selectors/user.selectors';
+import {
   Grid,
   GridCell,
 } from 'rmwc';
@@ -59,180 +82,197 @@ const store = createStoreWithMiddleware(reducer);
 epicMiddleware.run(rootEpic);
 
 
-class PrivateRouteContainer extends React.Component {
+const PrivateRoute = (props) => {
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    if (this.props.dispatch) {
-      console.log('mounting smart router and tetching user');
-      this.props.dispatch({type: 'CHECK_USER_AUTHENTICATED'});
-    }
-  }
+  const {
+    component: Component,
+  } = props
 
-  renderComponent(Component, props) {
-    return (
-      <Component {...props} />
-    )
-  }
-  redirectToLogin(props) {
-    return (
-      <Redirect to={{
-        pathname: '/login',
-        state: { from: props.location }
-      }} />
-    )
-  }
-
-  redirectToPlayers(props) {
-    return (
-      <Redirect to={{
-        pathname: '/players',
-        state: { from: props.location }
-      }} />
-    )
-  }
-
-  redirectToOrganizationSelect(props) {
-    return (
-      <Redirect to={{
-        pathname: '/organizations',
-        state: { from: props.location }
-      }} />
-    )
-  }
-
-  displayOrganizationSelect(props) {
-    return (
-      <Organizations {...props}/>
-    )
-  }
-
-  redirectToGameSelect(props) {
-    return (
-      <Redirect to={{
-        pathname: '/games',
-        state: { from: props.location }
-      }} />
-    )
-  }
-
-  redirectToOrganizationSelect(props) {
-    return (
-      <Redirect to={{
-        pathname: '/organizations',
-        state: { from: props.location }
-      }} />
-    )
-  }
-
-  wait() {
-    return (<div>asdasdasd</div>)
-  }
-
-  renderOne() {
-    const {
-      authenticated,
-      authenticating,
-      organizationSelected,
-      gameSelected,
-      component: Component,
-      ...props
-    } = this.props
-    if (authenticating) {
-      return (
-        <Route
-          {...props}
-          render={props => this.wait()}
-        />
-      )
-    }
-    if (authenticated) {
-      console.log(
-      "authenticated:", authenticated,
-      "organization selected:", organizationSelected,
-      "am I true?", window.location.pathname !== '/' && window.location.pathname != '/organizations'
-     )
-     
-      if (!organizationSelected && window.location.pathname.search('/games') > 0) {
-        // return this.redirectToOrganizationSelect(props)
-      }
-      if (!gameSelected && window.location.pathname.search('games') > 0) {
-        // return this.redirectToGameSelect(props)
-      }
-      return (
-        <Route
-          {...props}
-          render={props => this.renderComponent(Component, props)}
-        />
-      )
-    }
-    return this.redirectToLogin(props);
-  }
-
-  render() {
-    return this.renderOne();
-  }
-}
-const PrivateRoute = connect(state => {
-  console.log('Private Route State');
-  return ({
-    authenticated: Boolean(state.user.authenticated),
-    authenticating: state.user.authenticating === undefined
-                      ? true
-                      : state.user.authenticating,
-    organizationSelected: state.organization.selected || false,
-    gameSelected: state.game.selected || false,
+  const userAuthenticated = useSelector((state) => {
+    return state.user.authenticated;
   })
-})(PrivateRouteContainer)
 
-class SmartRouterContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.setState({});
-    this.fetched = false;
-  }
+  const userAuthenticating = useSelector((state) => {
+    return state.user.userAuthenticating
+  });
 
-  render() {
-    const {
-      gameSelected,
-      organizationSelected,
-      component: Component,
-      ...props
-    } = this.props
+  useEffect(() => {
+    dispatch({type: 'CHECK_USER_AUTHENTICATED'});
+  }, [userAuthenticated, userAuthenticating]);
 
+  const organizationId = useSelector(
+    useMemo(() => selectSelectedOrganizationId),
+  );
+
+  const gameId = useSelector(
+    useMemo(() => selectSelectedGameId),
+  )
+
+  console.log(
+    "authenticated:", userAuthenticated,
+    "authenticating:", userAuthenticating,
+    "organization selected:", organizationId,
+  );
+
+  console.log('private route props', props);
+
+  if (userAuthenticating) {
     return (
-      <ConnectedRouter history={history}>
-        <div>
-          <Route path="/" component={Navbar}/>
-          <div className="content" style={{marginTop: "48px"}}>
-            {(() => {
-              if (gameSelected && organizationSelected)
-                return (<PrivateRoute path="/" component={LeftNavbar}/>)
-            })()}
-            <Switch>
-                <Route exact path="/login" component={Login}/>
-                <Route exact path="/register" component={Register}/>
-                <PrivateRoute exact path="/organization/:org_id/game/:game_id/players" component={Players}/>
-                <PrivateRoute exact path="/organization/:org_id/game/:game_id/players/:id" component={Players}/>
-                <PrivateRoute exact path="/organization/:org_id/game/:game_id/player/:id/characters" component={Characters}/>
-                <PrivateRoute exact path="/organization/:org_id/game/:game_id/player/:id/characters/:id" component={Characters}/>
-                <PrivateRoute exact path="/organization/:org_id/games" component={Games}/>
-                <PrivateRoute exact path="/organizations" component={Organizations}/>
-                <PrivateRoute exact path="/dashboard" component={Dashboard}/>
-                <PrivateRoute exact path="/organization/:org_id/game/:game_id/character/:character_id/items" component={Items}/>
-                <PrivateRoute exact path="/organization/:org_id/game/:game_id/character/:character_id/items/:id" component={Items}/>
-                <PrivateRoute exact path="/" component={Organizations}/>
-             {/*<Route component={Home}/>*/}
-            </Switch>
-          </div>
-        </div>
-      </ConnectedRouter>
+      <Route
+        {...props}
+        render={props => this.wait()}
+      />
     )
   }
+  if (userAuthenticated) {
+   
+    if (!organizationId && window.location.pathname.search('/games') > 0) {
+      // return this.redirectToOrganizationSelect(props)
+    }
+    if (!gameId && window.location.pathname.search('games') > 0) {
+      // return this.redirectToGameSelect(props)
+    }
+    console.log('rendering route');
+    console.log((
+      <Route
+        {...props}
+        render={props => {
+          return (
+            <Component {...props} />
+          )
+        }}
+      />
+    ));
+    return (
+      <Route
+        {...props}
+        render={props => {
+          return (
+            <Component {...props} />
+          )
+        }}
+      />
+    )
+  }
+  return (<></>);
+  // return (
+  //   <Redirect to={{
+  //     pathname: '/login',
+  //     state: { from: props.location }
+  //   }} />
+  // );
 }
-const SmartRouter = connect((state) => ({
-  organizationSelected: state.organization.selected || false,
-  gameSelected: state.game.selected || false,
-}))(SmartRouterContainer)
+// class PrivateRoute extends React.Component {
+
+//   redirectToLogin(props) {
+//     return (
+//       <Redirect to={{
+//         pathname: '/login',
+//         state: { from: props.location }
+//       }} />
+//     )
+//   }
+
+//   redirectToPlayers(props) {
+//     return (
+//       <Redirect to={{
+//         pathname: '/players',
+//         state: { from: props.location }
+//       }} />
+//     )
+//   }
+
+//   redirectToOrganizationSelect(props) {
+//     return (
+//       <Redirect to={{
+//         pathname: '/organizations',
+//         state: { from: props.location }
+//       }} />
+//     )
+//   }
+
+//   displayOrganizationSelect(props) {
+//     return (
+//       <Organizations {...props}/>
+//     )
+//   }
+
+//   redirectToGameSelect(props) {
+//     return (
+//       <Redirect to={{
+//         pathname: '/games',
+//         state: { from: props.location }
+//       }} />
+//     )
+//   }
+
+//   redirectToOrganizationSelect(props) {
+//     return (
+//       <Redirect to={{
+//         pathname: '/organizations',
+//         state: { from: props.location }
+//       }} />
+//     )
+//   }
+
+//   wait() {
+//     return (<div>asdasdasd</div>)
+//   }
+
+//   renderOne() {
+    
+//     }
+//     return this.redirectToLogin(props);
+//   }
+
+//   render() {
+//     return this.renderOne();
+//   }
+// }
+
+const SmartRouter = (props) => {
+  const {
+    component: Component,
+  } = props
+
+  const organizationId = useSelector(
+    useMemo(() => selectSelectedOrganizationId),
+  );
+
+  const gameId = useSelector(
+    useMemo(() => selectSelectedGameId),
+  )
+
+  return (
+    <ConnectedRouter history={history}>
+      <div>
+        <Route path="/" component={Navbar}/>
+        <div className="content" style={{marginTop: "48px"}}>
+          {(() => {
+            if (gameId && organizationId)
+              return (<PrivateRoute path="/" component={LeftNavbar}/>)
+          })()}
+          <Switch>
+              <Route exact path="/login" component={Login}/>
+              <Route exact path="/register" component={Register}/>
+              <PrivateRoute exact path="/organization/:org_id/game/:game_id/players" component={Players}/>
+              <PrivateRoute exact path="/organization/:org_id/game/:game_id/players/:id" component={Players}/>
+              <PrivateRoute exact path="/organization/:org_id/game/:game_id/player/:id/characters" component={Characters}/>
+              <PrivateRoute exact path="/organization/:org_id/game/:game_id/player/:id/characters/:id" component={Characters}/>
+              <PrivateRoute exact path="/organization/:org_id/games" component={Games}/>
+              <PrivateRoute exact path="/organizations" component={Organizations}/>
+              <PrivateRoute exact path="/dashboard" component={Dashboard}/>
+              <PrivateRoute exact path="/organization/:org_id/game/:game_id/character/:character_id/items" component={Items}/>
+              <PrivateRoute exact path="/organization/:org_id/game/:game_id/character/:character_id/items/:id" component={Items}/>
+              <PrivateRoute exact path="/" component={Organizations}/>
+           {/*<Route component={Home}/>*/}
+          </Switch>
+        </div>
+      </div>
+    </ConnectedRouter>
+  )
+}
 
 ReactDOM.render((
   <Provider store={store}>

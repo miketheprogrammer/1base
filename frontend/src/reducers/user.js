@@ -10,7 +10,7 @@ import {
   AUTHENTICATION_FAILED
 } from '../constants/ActionTypes';
 
-export default function user(state = {}, action = {}) {
+export default function user(state = { authenticated: false, authenticating: false }, action = {}) {
   switch (action.type) {
     case CHECK_USER_AUTHENTICATED:
       return {...state, authenticating: true}
