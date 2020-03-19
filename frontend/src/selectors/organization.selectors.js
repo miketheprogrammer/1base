@@ -9,3 +9,8 @@ export const selectOrganizations = createSelector(
   selectOrgState,
   (state) => state.organizations,
 );
+
+export const selectSelectedOrganizationId = createSelector(
+  selectOrgState,
+  (state) => state.selected,
+)

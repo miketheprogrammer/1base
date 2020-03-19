@@ -1,13 +1,10 @@
-import * as Rx from 'rxjs';
-import React, { Component, useCallback, useEffect, useMemo, } from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { push } from 'connected-react-router';
 import OrganizationList from '../components/OrganizationList';
 import OrganizationCreate from '../components/OrganizationCreate';
 import * as OrganizationActions from '../actions/OrganizationActions';
 import './CounterApp.css';
-import logo from '../logo.svg';
 import {
   Button,
   Toolbar,
@@ -84,9 +81,24 @@ export default () => {
     return (<></>);
   }
 
+  let title;
+  if (creating) {
+    title = "Create a new Organization";
+  } else {
+    title = "Your Organizations";
+  }
+
   let toolbar, content;
+  toolbar = (
+    <Toolbar className="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
+      <ToolbarRow>
+        <ToolbarSection alignStart>
+          <ToolbarTitle>{title}</ToolbarTitle>
+        </ToolbarSection>
+      </ToolbarRow>
+    </Toolbar>
+  );
   if (!creating) {
-    // toolbar = this.renderToolbar("Your Organizations");
     content = (
       <OrganizationList
         organizations={organizations}

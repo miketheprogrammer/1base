@@ -1,6 +1,5 @@
-import * as Rx from 'rxjs';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { push } from 'connected-react-router';
 import GameList from '../components/GameList';
 import GameCreate from '../components/GameCreate';
@@ -18,83 +17,97 @@ import {
   Theme
 } from 'rmwc';
 
-class Game extends Component {
-  constructor(props){
-    super(props);
-    this.setState({});
-  }
-  componentDidMount() {
-    if (this.props.dispatch)
-      this.props.dispatch(GameActions.fetchGames({organization_id: this.props.organization_id}));
-  }
-  componentWillUnmount() {
+import {
+  selectSelectedOrganizationId,
+} from '../selectors/organization.selectors';
+import {
+  selectGameCreateActive,
+  selectGames,
+} from '../selectors/game.selectors';
+
+export default () => {
+  const dispatch = useDispatch();
+  
+  const creating = useSelector(
+    useMemo(() => selectGameCreateActive),
+  );
+
+  const games = useSelector(
+    useMemo(() => selectGames),
+  );
+
+  const organizationId = useSelector(
+    useMemo(() => selectSelectedOrganizationId),
+  );
+
+  console.log('lala', organizationId);
+
+  useEffect(() => {
+    dispatch(GameActions.fetchGames({organizationId}));
+  }, []);
+
+  const onSelected = useCallback(
+    (_id) => {
+      dispatch(GameActions.selectGame({_id}));
+      dispatch(push({url: `/organization/${organizationId}/game/${_id}/players`, pathname: `/organization/${organizationId}/game/${_id}/players`}));
+    }, 
+    [dispatch],
+  );
+  const onCreateNew = useCallback(
+    () => {
+      dispatch(GameActions.createNewGame())
+    },
+    [dispatch],
+  );
+  const onCreate = useCallback(
+    (values) => dispatch(GameActions.saveNewGame(values)),
+    [dispatch]
+  );
+  const onCancel = useCallback(
+    () => {dispatch(GameActions.cancelCreateNewGame())},
+    [dispatch],
+  );
+
+  if (!games) {
+    return (<></>);
   }
 
-  createGame(values) {
-    console.log('creating GAMEwith ', values, this.props);
-    values.organization = this.props.organization_id;
-    this.props.dispatch(GameActions.saveNewGame(values));
+  let title;
+  if (creating) {
+    title = "Create a new Game";
+  } else {
+    title = "Your Games";
   }
 
-  renderToolbar(title) {
-    return (
-      <Toolbar className="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
-        <ToolbarRow>
-          <ToolbarSection alignStart>
-            <ToolbarTitle>{title}</ToolbarTitle>
-          </ToolbarSection>
-        </ToolbarRow>
-      </Toolbar>
-    )
-  }
-
-  renderGameList() {
-    const { organization_id, games, dispatch } = this.props;
-    return (
+  let toolbar, content;
+  toolbar = (
+    <Toolbar className="toolbar-content" style={{ backgroundColor: '#fff' }} theme={['primary', 'text-secondary-on-background']}>
+      <ToolbarRow>
+        <ToolbarSection alignStart>
+          <ToolbarTitle>{title}</ToolbarTitle>
+        </ToolbarSection>
+      </ToolbarRow>
+    </Toolbar>
+  );
+  if (!creating) {
+    content = (
       <GameList
         games={games}
-        onSelected={(_id) => {
-          dispatch(GameActions.selectGame({_id}));
-          dispatch(push({url: `/organization/${organization_id}/game/${_id}/players`, pathname:`/organization/${organization_id}/game/${_id}/players`}));
-        }}
-        onCreateNew={() => {
-          dispatch(GameActions.createNewGame())
-        }}
-        />
+        onSelected={onSelected}
+        onCreateNew={onCreateNew}/>
     )
-  }
-
-  renderCreateNewGame() {
-    const { organizations, dispatch } = this.props;
-    return (
+  } else {
+    content = (
       <GameCreate
-        onCreate={(values) => this.createGame(values)}
-        onCancel={() => {dispatch(GameActions.cancelCreateNewGame())}}
+        onCreate={onCreate}
+        onCancel={onCancel}
       />
     )
   }
-  render() {
-    const { games, creating, dispatch } = this.props;
-    let toolbar, content;
-    if (!creating) {
-      toolbar = this.renderToolbar("Your Games");
-      content = this.renderGameList();
-    } else {
-      toolbar = this.renderToolbar("Create A New Game");
-      content = this.renderCreateNewGame()
-    }
-    return (
-      <main style={{marginTop: "12px"}}>
-        {toolbar}
-        {content}
-      </main>
-    )
-
-  }
-
+  return (
+    <main style={{marginTop: "12px"}}>
+      {toolbar}
+      {content}
+    </main>
+  )
 }
-export default connect(state => ({
-  games: state.game.games || [],
-  organization_id: state.organization.selected,
-  creating: Boolean(state.game.creating),
-}))(Game);

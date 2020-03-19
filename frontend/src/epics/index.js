@@ -285,7 +285,7 @@ export const fetchGames = action$ =>
 action$
   .filter(action => action.type === FETCH_GAMES)
   .mergeMap(action =>
-    Request.get('/games?organization=' + action.payload.organization_id)
+    Request.get('/games?organization=' + action.payload.organizationId)
     .map((result) => { return {type: GAMES_FETCHED, payload: result} })
 );
 
