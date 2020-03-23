@@ -1,7 +1,42 @@
 $mdc-theme-primary: #03a9f4;
 $mdc-theme-secondary: #4dd0e1;
 
+@use "@material/theme/mdc-theme" with (
+  // $primary: #fcb8ab,
+  // $secondary: #feeae6,
+  // $on-primary: #442b2d,
+  // $on-secondary: #442b2d,
+  $mdc-theme-primary: #03a9f4, // baseline purple, 500 tone
+  // $mdc-theme-on-primary: if(mdc-theme-contrast-tone($mdc-theme-primary) == "dark", #000, #fff) !default;
+
+  // The $mdc-theme-accent variable is DEPRECATED - it exists purely for backward compatibility.
+  // The $mdc-theme-secondary* variables should be used for all new projects.
+  // $mdc-theme-accent: #018786 !default; // baseline teal, 600 tone
+  $mdc-theme-secondary: #4dd0e1,
+  // $mdc-theme-on-secondary: if(mdc-theme-contrast-tone($mdc-theme-secondary) == "dark", #000, #fff) !default;
+  // $mdc-theme-background: #fff !default; // White
+
+  // $mdc-theme-surface: #fff !default;
+  // $mdc-theme-on-surface: if(mdc-theme-contrast-tone($mdc-theme-surface) == "dark", #000, #fff) !default;
+
+  // $mdc-theme-error: #b00020 !default;
+  // $mdc-theme-on-error: if(mdc-theme-contrast-tone($mdc-theme-error) == "dark", #000, #fff) !default;
+);
+// @use "@material/theme" with (
+//   $primary: #fcb8ab,
+//   $secondary: #feeae6,
+//   $on-primary: #442b2d,
+//   $on-secondary: #442b2d,
+// );
+// @use "@material/theme" with (
+//     $primary: #fcb8ab,
+//     $secondary: #feeae6,
+//     $on-primary: #442b2d,
+//     $on-secondary: #442b2d,
+//   );
+
 @import "material-components-web/material-components-web.scss";
+
 
 // $mdc-theme-background: #fff; // White
 // $mdc-theme-primary: #212121;
@@ -130,3 +165,9 @@ main {
 
 // need to import all individually for sass loader
 //
+
+.mdc-grid-tile__secondary {
+  padding: 0px 16px;
+  text-align: center;
+  
+}

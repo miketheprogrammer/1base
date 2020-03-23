@@ -21,7 +21,6 @@ import {
 } from 'rmwc';
 import './CounterApp.css';
 import './Navbar.scss';
-// import 'material-components-web/dist/material-components-web.css'
 import logo from '../logo.svg';
 import '@material/toolbar/dist/mdc.toolbar.css';
 

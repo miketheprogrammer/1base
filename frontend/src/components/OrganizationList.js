@@ -10,13 +10,11 @@ import {
   GridTileTitle,
   Fab,
 } from 'rmwc';
-import 'material-components-web/dist/material-components-web.min.css';
 
 const AddNewCard = ({onSelected}) => {
    return (
      <GridTile onClick={() => {onSelected()}}>
        <GridTilePrimary style={{
-         height: '12.313rem',
        }}>
          <GridTilePrimaryContent>
            <Fab>add</Fab>
@@ -49,7 +47,6 @@ class CreateNewCard extends React.Component {
         <GridTile onClick={() => {onCreateNew()}}>
           <GridTilePrimary className="card-fab-center" style={{
             // backgroundImage: 'url(https://material-ui.com/static/logo.png)',
-            height: '12.313rem',
           }}>
             <GridTilePrimaryContent 
               style={{
@@ -90,7 +87,6 @@ class OrganizationCard extends React.Component {
         <GridTile onClick={() => {onSelected(organization._id)}}>
         <GridTilePrimary style={{
           backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
-          height: '12.313rem',
         }}>
             <GridTilePrimaryContent >
             </GridTilePrimaryContent>

@@ -31,7 +31,6 @@ class CreateNewCard extends React.Component {
         <GridTile onClick={() => {onCreateNew()}}>
           <GridTilePrimary className="card-fab-center" style={{
             // backgroundImage: 'url(https://material-ui.com/static/logo.png)',
-            height: '12.313rem',
           }}>
             <GridTilePrimaryContent
               style={{
@@ -73,7 +72,6 @@ class GameCard extends React.Component {
         <GridTile onClick={() => {onSelected(game._id)}}>
         <GridTilePrimary style={{
           backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
-          height: '12.313rem',
         }}>
             <GridTilePrimaryContent >
             </GridTilePrimaryContent>

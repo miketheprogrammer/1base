@@ -24,7 +24,6 @@ import {
   ListItemMeta,
 } from 'rmwc';
 import './CounterApp.css';
-// import 'material-components-web/dist/material-components-web.css'
 import logo from '../logo.svg';
 
 export class LeftNavigationBar extends React.Component {

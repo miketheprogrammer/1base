@@ -25,7 +25,6 @@ const PlayerList = ({players, onPlayerClick}) => {
               sixteenByNine
               style={{
                 backgroundImage: 'url(https://material-components-web.appspot.com/images/16-9.jpg)',
-                height: '12.313rem',
               }}
               onClick={(evt)=> onPlayerClick(player._id)}
             />
